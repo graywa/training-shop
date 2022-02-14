@@ -14,19 +14,19 @@ const Goods = ({goodsType}) => {
         <div className="goods__title">{`${goodsType}'s`}</div>
         <ul className="goods-nav">
           <li className="goods-nav__link">
-            <Link to='#'>NEW ARRIVALS</Link>
+            <Link to='!#'>NEW ARRIVALS</Link>
           </li>
           <li className="goods-nav__link">
-            <Link to='#'>SPECIALS</Link>
+            <Link to='!#'>SPECIALS</Link>
           </li>
           <li className="goods-nav__link">
-            <Link to='#'>BESTSELLERS</Link>
+            <Link to='!#'>BESTSELLERS</Link>
           </li>
           <li className="goods-nav__link">
-            <Link to='#'>MOST VIEWED</Link>
+            <Link to='!#'>MOST VIEWED</Link>
           </li>
           <li className="goods-nav__link">
-            <Link to='#'>FEATURED PRODUCTS</Link>
+            <Link to='!#'>FEATURED PRODUCTS</Link>
           </li>
         </ul>
       </div>

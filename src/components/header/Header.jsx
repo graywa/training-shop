@@ -64,22 +64,22 @@ const Header = () => {
             </ul>
             <ul className="nav__btns">
               <li className="nav__btns__item">
-                <Link to='#'>
+                <Link to='!#'>
                   <img src={search} alt="search" />
                 </Link>
               </li>
               <li className="nav__btns__item">
-                <Link to='#'>
+                <Link to='!#'>
                   <img width={24} src={planet} alt="planet" />
                 </Link>
               </li>
               <li className="nav__btns__item">
-                <Link to='#'>
+                <Link to='!#'>
                   <img width={24} src={user} alt="user" />
                 </Link>
               </li>
               <li className="nav__btns__item">
-                <Link to='#'>
+                <Link to='!#'>
                   <img width={24} src={cart} alt="cart" />
                 </Link>
               </li>

@@ -17,7 +17,7 @@ const CategoryIntro = ({goodsType, id}) => {
               {id && <span>►</span>}
               {id && <span>Women's tracksuit Q109</span>}              
             </div>
-            <Link className="share-link" to='#'>
+            <Link className="share-link" to='!#'>
               <img width={15} src={share} alt="share" />
               <span>Share</span>
             </Link>              

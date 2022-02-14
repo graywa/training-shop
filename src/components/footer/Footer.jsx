@@ -45,12 +45,12 @@ const Footer = () => {
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Accessories
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Beauty
               </Link>
             </li>
@@ -58,22 +58,22 @@ const Footer = () => {
           <ul className="footer-nav__group">
             <li className="footer-nav__title">INFORMATION</li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 About Us
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Contact Us
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Blog
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 FAQs
               </Link>
             </li>
@@ -81,22 +81,22 @@ const Footer = () => {
           <ul className="footer-nav__group">
             <li className="footer-nav__title">USEFUL LINKS</li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Terms & Conditions
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Returns & Exchanges
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Shepping & Delivery
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='#' data-test-id={`footer-nav-link-#`}>
+              <Link to='!#' data-test-id={`footer-nav-link-#`}>
                 Privacy Policy
               </Link>
             </li>
@@ -129,30 +129,30 @@ const Footer = () => {
             <div className="footer-footer__content">
               <div className="footer-footer__text">Copyright © 2032 all rights reserved</div>
               <div className="footer-footer__services">
-                <a href="#">
+                <a href='!#'>
                   <img src={stripe} alt="" />
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={aes} alt="" />
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={paypal} alt="" />
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={visa} alt="" />
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={mastercard} alt="" />                  
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={discover} alt="" />                  
                 </a>
-                <a href="#">
+                <a href='!#'>
                   <img src={americanexpress} alt="" />                  
                 </a>
               </div>
               <div className="footer-footer__text">
-                <a href="#">Clevertec.ru/training</a> 
+                <a href='!#'>Clevertec.ru/training</a> 
               </div>
             </div>
             
