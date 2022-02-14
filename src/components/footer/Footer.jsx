@@ -35,12 +35,12 @@ const Footer = () => {
           <ul className="footer-nav__group">
             <li className="footer-nav__title">CATEGORIES</li>
             <li className="footer-nav__item">
-              <Link to='/men' data-test-id={`footer-nav-link-/men`}>
+              <Link to='/men' data-test-id={`footer-nav-link-men`}>
                 Men
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='/women' data-test-id={`footer-nav-link-/women`}>
+              <Link to='/women' data-test-id={`footer-nav-link-women`}>
                 Women
               </Link>
             </li>

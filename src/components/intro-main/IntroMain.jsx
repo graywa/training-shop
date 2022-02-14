@@ -13,7 +13,7 @@ const IntroMain = () => {
       <div className='intro__slider'>
         <img className='intro__banner-img' src={girl} alt="banner" />
         <img className='intro__arr-prev' width={40} src={arrPrev} alt="arr" />
-        <WhiteBlock path={'#'} subtitle={'baner'} title={'your title text'} />
+        <WhiteBlock path={'!#'} subtitle={'baner'} title={'your title text'} />
         <img className='intro__arr-next' width={40} src={arrNext} alt="arr" />
       </div>
     
@@ -27,7 +27,7 @@ const IntroMain = () => {
           </div>
         </div>
         <div className="intro__accessories">
-          <WhiteBlock path={'#'} title='accessories' />            
+          <WhiteBlock path={'!#'} title='accessories' />            
         </div>
       </div>
     </div>

@@ -7,14 +7,14 @@ const News = () => {
     <div className='news'>
       <div className="news__new-season">
         <WhiteBlock 
-          path='#' 
+          path='!#' 
           subtitle='new season'  
           title='lookbook collection'
         />
       </div>
       <div className="news__sale">
         <WhiteBlock 
-          path='#' 
+          path='!#' 
           subtitle='sale'  
           title='get up to'
           titleSpan='50% OFF'
