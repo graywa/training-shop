@@ -1,0 +1,11 @@
+.social-networks {
+  display: flex;
+  align-items: center;
+  a {
+    line-height: 10px;
+  }
+  img {
+    margin: 0 5px;
+    opacity: .8;
+  }
+}

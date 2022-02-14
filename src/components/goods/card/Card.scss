@@ -1,0 +1,49 @@
+.card {
+  flex-grow: 1;
+  transition: .2s linear;
+
+  &__photo {
+    position: relative;
+    max-width: 450px;
+    margin: 0 auto;
+    img {
+      width: 100%;
+    }
+  }
+  &__discount {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 9px;
+    background-color: #E91E63;
+    color: #fff;
+    font-size: 12px;
+  }
+
+  &__description {
+    max-width: 500px;
+    margin: 0 auto;
+    padding-top: 16px;    
+  }
+
+  &__title {
+    margin-bottom: 12px;
+  }
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+
+  &__price {
+    font-weight: 600;
+  }
+
+  &__rating {
+    display: inline-block;
+  }
+
+  &:hover {
+    opacity: .8;
+  }
+}

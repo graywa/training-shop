@@ -1,0 +1,44 @@
+.all-goods {
+  margin-bottom: 180px;
+}
+.filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 0;
+
+  a {
+    opacity: .6;
+    transition: .2s linear;
+  }  
+  a:hover {
+    opacity: 1;
+  }
+
+  &__block {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    font-size: 13px;
+    font-weight: 500;
+    
+    cursor: pointer;
+    span {
+      opacity: .6;
+      transition: .2s linear;
+      &:hover {
+        opacity: 1;
+      }
+    }       
+    
+    img {
+      opacity: .6;
+      cursor: pointer;
+      transition: .2s linear;
+      &:hover {
+        opacity: 1;
+      }
+    }   
+  }  
+}
