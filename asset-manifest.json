@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/training-shop/static/css/main.bcb5e949.css",
-    "main.js": "/training-shop/static/js/main.8e7e5ee5.js",
+    "main.css": "/training-shop/static/css/main.0e5395e8.css",
+    "main.js": "/training-shop/static/js/main.c6dd6716.js",
     "static/media/woman.png": "/training-shop/static/media/woman.4152b783e591f01bafb6.png",
     "static/media/girl.jpg": "/training-shop/static/media/girl.ba5d4eb3d9420781b5f8.jpg",
     "static/media/way.jpg": "/training-shop/static/media/way.5cad0183f33abe4f2f35.jpg",
@@ -9,7 +9,6 @@
     "static/media/big.jpg": "/training-shop/static/media/big.6b097a1dcd9c26ced50a.jpg",
     "static/media/wedding.jpg": "/training-shop/static/media/wedding.653a844b906171bd2ee2.jpg",
     "static/media/accessories.jpg": "/training-shop/static/media/accessories.ee7f09dd43e5a9912d95.jpg",
-    "static/media/pullover.jpg": "/training-shop/static/media/pullover.363e0e8c20844e94187f.jpg",
     "static/media/sale.jpg": "/training-shop/static/media/sale.6b1e286dc702ba60be57.jpg",
     "static/media/girl1.jpg": "/training-shop/static/media/girl1.7472a839b6c5d7ed227c.jpg",
     "static/media/recent.jpg": "/training-shop/static/media/recent.5f7ce6ec287630e86bf9.jpg",
@@ -17,22 +16,7 @@
     "static/media/new-season.jpg": "/training-shop/static/media/new-season.50c6caf0e00920727596.jpg",
     "static/media/girl2.jpg": "/training-shop/static/media/girl2.eb178076f9fffbe5ebf2.jpg",
     "static/media/girl4.jpg": "/training-shop/static/media/girl4.746180237ae3cebb8197.jpg",
-    "static/media/hat.jpg": "/training-shop/static/media/hat.8854617b0951c08b172e.jpg",
-    "static/media/jersey.jpg": "/training-shop/static/media/jersey.0b8f41098b08d3def626.jpg",
-    "static/media/cardigan.jpg": "/training-shop/static/media/cardigan.5b0ad8d7935ef1133892.jpg",
-    "static/media/blue-suit.jpg": "/training-shop/static/media/blue-suit.e5b8870686f6058dc55f.jpg",
-    "static/media/trousers.jpg": "/training-shop/static/media/trousers.2fa1c18acd4a55081abc.jpg",
-    "static/media/shirt.jpg": "/training-shop/static/media/shirt.1adad684fb3d3decf0cd.jpg",
-    "static/media/aquamarin-t-shirt.jpg": "/training-shop/static/media/aquamarin-t-shirt.c54238646312eaa8b3c6.jpg",
     "static/media/women.jpg": "/training-shop/static/media/women.2e28690d1ff57477ec5d.jpg",
-    "static/media/sport-pants.jpg": "/training-shop/static/media/sport-pants.277fc01846cae27e5868.jpg",
-    "static/media/black-pants.jpg": "/training-shop/static/media/black-pants.28f8cc871006491fbe6f.jpg",
-    "static/media/white-pants.jpg": "/training-shop/static/media/white-pants.1a05b311f7288c6c0662.jpg",
-    "static/media/hoodies.jpg": "/training-shop/static/media/hoodies.440528fcb0af0208533a.jpg",
-    "static/media/white-t-shirt.jpg": "/training-shop/static/media/white-t-shirt.47ad6cd3ba7fe24ef0b8.jpg",
-    "static/media/blue-pants.jpg": "/training-shop/static/media/blue-pants.472f7f51d3eb884d5a3f.jpg",
-    "static/media/sweater.jpg": "/training-shop/static/media/sweater.304a6854b9e470a023b3.jpg",
-    "static/media/white-suit.jpg": "/training-shop/static/media/white-suit.46d31ed37fb679717554.jpg",
     "static/media/men.jpg": "/training-shop/static/media/men.b6cd01c12e335cbef2a0.jpg",
     "static/media/logo.svg": "/training-shop/static/media/logo.458fe7e5089d3c2642be67e88faf7931.svg",
     "static/media/small1.png": "/training-shop/static/media/small1.71514e3c9c4503ac3ae7.png",
@@ -58,6 +42,8 @@
     "static/media/hanger.svg": "/training-shop/static/media/hanger.8c6e381cf87ccab40b6283fcd368f204.svg",
     "static/media/clock.svg": "/training-shop/static/media/clock.6f4045f5e1f4b793f54cef4ea177d159.svg",
     "static/media/twitter.svg": "/training-shop/static/media/twitter.62ef2af3f046bb8815888e0145a8aaf7.svg",
+    "static/media/star-full.svg": "/training-shop/static/media/star-full.f518883929b8ee18da46db7dac408204.svg",
+    "static/media/star.svg": "/training-shop/static/media/star.b48e3ced974e97493426d7ccbb0a8804.svg",
     "static/media/location-marker.svg": "/training-shop/static/media/location-marker.2cd79b1e73268f765870ac64da280c1b.svg",
     "static/media/phone.svg": "/training-shop/static/media/phone.8a238a4d6289705c1a5c734be4ee3f5d.svg",
     "static/media/heart.svg": "/training-shop/static/media/heart.0ba6100c862403c2cf50cff1ca4c14df.svg",
@@ -76,11 +62,11 @@
     "static/media/arr-prev.svg": "/training-shop/static/media/arr-prev.b1111ee19ab8cf8c97e9b83f54437075.svg",
     "static/media/arrow.svg": "/training-shop/static/media/arrow.1942795bfad331b4a402a03f79c0b437.svg",
     "static/media/view-list.svg": "/training-shop/static/media/view-list.f1d242843fc15f61cc5abf04d2079f81.svg",
-    "main.bcb5e949.css.map": "/training-shop/static/css/main.bcb5e949.css.map",
-    "main.8e7e5ee5.js.map": "/training-shop/static/js/main.8e7e5ee5.js.map"
+    "main.0e5395e8.css.map": "/training-shop/static/css/main.0e5395e8.css.map",
+    "main.c6dd6716.js.map": "/training-shop/static/js/main.c6dd6716.js.map"
   },
   "entrypoints": [
-    "static/css/main.bcb5e949.css",
-    "static/js/main.8e7e5ee5.js"
+    "static/css/main.0e5395e8.css",
+    "static/js/main.c6dd6716.js"
   ]
 }
