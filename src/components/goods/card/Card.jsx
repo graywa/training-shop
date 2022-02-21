@@ -1,24 +1,26 @@
 import React from 'react'
 import './Card.scss'
-import rating from '../assets/rating.svg'
+import ratingImg from '../assets/rating.svg'
 import { Link } from 'react-router-dom'
+import Rating from '../../rating/Rating'
 
-const Card = ({id, goodsType, imageSrc, title, price, discount}) => {
+const Card = ({name, price, images, rating, discount, id, category}) => {
   return (
     <Link 
       className='card' 
-      to={`/${goodsType}/${id}`} 
-      data-test-id={`clothes-card-${goodsType}`} 
+      to={`/${category}/${id}`} 
+      data-test-id={`clothes-card-${category}`} 
     >
       <div className="card__photo">
         {discount && <div className="card__discount">{discount}</div>}
-        <img src={imageSrc} alt="goods" />
+        <img src={`https://training.cleverland.by/shop${images[0]?.url}`} alt="goods" />
       </div>
       <div className="card__description">
-        <div className="card__title">{title}</div>
+        <div className="card__title">{name}</div>
         <div className="card__wrapper">
-          <div className="card__price">{price}</div>
-          <img className="card__rating" width={70} src={rating} alt='rating' />
+          <div className="card__price">{`$ ${price}`}</div>
+          <Rating rating={rating} />
+          
         </div>        
       </div>        
     </Link>

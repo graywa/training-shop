@@ -3,11 +3,11 @@
   align-items: start;
   margin: 32px 0 96px;
 
-  &__imgs {
+  &__imgs {    
+    max-height: 650px;
     display: flex;
     gap: 16px;
-    padding-bottom: 32px;
-    margin: 0 auto;
+    margin: 0 auto 32px ;
   }
 
   @media (max-width: 1200px) {
@@ -22,36 +22,42 @@
     display: flex;
     gap: 14px;
   }
+  .sm-arrows-up,
+  .sm-arrows-down {
+    cursor: pointer;
+  }
   @media (max-width: 630px) {
     display: none;
   }
 }
 
 .imgs-big {
-  position: relative;
-  
-  img:first-child {
-    @media (max-width: 600px) {
-      width: 100%;
-      object-fit: cover;
-    }    
-  }  
-  
+  position: relative;  
+  max-width: 450px;
+  width: 100%;
+
+  &__big {
+    max-width: 100%;
+  }
   
   &__arr-prev {
     position: absolute;
     top: 47%;
     left: 4%;
+    z-index: 5;
+    cursor: pointer;
   }
   &__arr-next {
     position: absolute;
     top: 47%;
     right: 4%;
+    z-index: 5;
+    cursor: pointer;
   }
 }
 
 .detail {
-  
+
   &__description {
     margin-left: 30px;
   }
@@ -88,12 +94,12 @@
     margin: 16px 0 12px;
     button {
       border: none;
-      width: 40px;
-      height: 40px;
+      padding: 10px 15px;
       background: #F8F8F8;
       text-align: center;
+      border: 2px solid rgba(73, 73, 73, 0);
       cursor: pointer;      
-      
+      transition: .2s linear;
       span {        
         opacity: .7;
         &:hover {
@@ -315,8 +321,8 @@
   }
 
   &__cards {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template: auto/repeat(auto-fit, minmax(255px, 1fr));
     gap: 30px;
   }
 }
@@ -330,5 +336,41 @@
   &__arr {
     display: flex;
     gap: 16px;
+    img {
+      cursor: pointer;
+    }
+  }
+}
+
+.swiper {
+  
+}
+
+.mainSwiper {
+  .swiper-slide {
+    
+  }
+  
+  img {  
+    object-fit: cover;  
+    width: 100%;
+    max-height: 650px;
+  }
+}
+
+.thumbsSwiper {
+  max-height: 600px;
+  
+  .swiper-slide {
+    cursor: pointer;
+    width: 100%;
+    opacity: .4;
+  }
+  .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+  img {
+    object-fit: cover;
+    max-height: 114px;
   }
 }

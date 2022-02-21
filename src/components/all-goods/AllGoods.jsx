@@ -5,12 +5,11 @@ import viewGrid from './assets/view-grid.svg'
 import viewList from './assets/view-list.svg'
 import arrow from './assets/arrow.svg'
 import { Link } from 'react-router-dom'
-import { menGoods } from '../goods/men-goods'
-import { womenGoods } from '../goods/women-goods'
+import { GOODS } from '../goods/goods'
 import Card from '../goods/card/Card'
 
 const AllGoods = ({goodsType}) => {
-  let goods = goodsType === 'men' ? menGoods : womenGoods
+  
 
   return (
     <div className="container">
@@ -32,7 +31,7 @@ const AllGoods = ({goodsType}) => {
 
         <div className="cards">
           {
-            goods.map(el => {
+            GOODS[goodsType].map(el => {
               return <Card key={el.id} {...el} />
             })          
           }

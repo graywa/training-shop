@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {menGoods} from './men-goods'
-import {womenGoods} from './women-goods'
+import {GOODS} from './goods.js'
 import Card from './card/Card'
 import './Goods.scss'
 
 const Goods = ({goodsType}) => {
-  let goods = goodsType === 'men' ? menGoods : womenGoods
 
   return (
     <div className='goods' data-test-id={`clothes-${goodsType}`}>
@@ -33,9 +31,11 @@ const Goods = ({goodsType}) => {
 
       <div className="cards">
         {
-          goods.map(el => {
-            return <Card key={el.id} {...el} />
-          })          
+          GOODS[goodsType]
+            .filter((el, ind) => ind < 8)
+            .map(el => {
+              return <Card key={el.id} {...el} />
+            })          
         }
       </div>
       <Link className='see-all' to={`/${goodsType}`}>SEE ALL</Link>

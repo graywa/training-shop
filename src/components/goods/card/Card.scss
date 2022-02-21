@@ -1,10 +1,11 @@
 .card {
   flex-grow: 1;
+  flex-shrink: 1;
   transition: .2s linear;
 
   &__photo {
     position: relative;
-    max-width: 450px;
+    
     margin: 0 auto;
     img {
       width: 100%;

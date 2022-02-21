@@ -40,8 +40,8 @@
   }
 }
 .cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template: auto/repeat(auto-fit, minmax(255px, 1fr));
   gap: 30px;
   margin-bottom: 48px;
 }

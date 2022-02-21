@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './CategoryIntro.scss'
 import share from './assets/share.svg'
-import rating from './assets/rating.svg'
+import ratingImg from './assets/rating.svg'
+import Rating from '../rating/Rating'
 
-const CategoryIntro = ({goodsType, id}) => {
+const CategoryIntro = ({goodsType, id, name, rating}) => {
   return (
     <div className="intro-bg">
       <div className="container">
@@ -15,7 +16,7 @@ const CategoryIntro = ({goodsType, id}) => {
               <span>►</span>
               <Link to={`/${goodsType}`}><span>{goodsType}</span></Link>
               {id && <span>►</span>}
-              {id && <span>Women's tracksuit Q109</span>}              
+              {id && <span>{name}</span>}              
             </div>
             <Link className="share-link" to='!#'>
               <img width={15} src={share} alt="share" />
@@ -23,12 +24,12 @@ const CategoryIntro = ({goodsType, id}) => {
             </Link>              
           </div>
           <div className="category-intro__title">
-            { id ? "Women's tracksuit Q109" : goodsType }
+            { id ? name : goodsType }
           </div>
 
           {id && <div className="product-info">
             <div className="product-rating">
-              <img src={rating} alt="rating" />
+              <Rating rating={rating} />
               <span>2 Reviews</span>
             </div>
             <div className="product-info__block">

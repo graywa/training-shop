@@ -7,13 +7,16 @@
     flex-direction: column;    
   }
   &__slider {
-    width: 100%;   
-    position: relative; 
+    max-width: 540px;   
+    width: 100%;
+    position: relative;
+    margin: 0 auto; 
 
     .white-block {
       position: absolute;
       top: 50%;
       left: 50%;
+      z-index: 5;
       transform: translate(-50%, -50%);
       &__title {
         font-size: 20px;
@@ -22,17 +25,25 @@
           font-size: 16px;
         }
       }
-  }   
+    }  
+    @media (max-width: 1150px) {
+      max-width: 680px;   
+      width: 100%;    
+    } 
   }
   &__arr-prev {
     position: absolute;
     top: 47%;
     left: 4%;
+    z-index: 5;
+    cursor: pointer;
   }  
   &__arr-next {
     position: absolute;
     top: 47%;
     right: 4%;
+    z-index: 5;
+    cursor: pointer;
   } 
   &__banner-img {
     width: 100%;
@@ -85,4 +96,8 @@
 
     }
   }
+}
+
+.swiper-button-disabled{
+  opacity: .3;
 }

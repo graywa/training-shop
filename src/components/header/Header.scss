@@ -41,7 +41,8 @@
   align-items: center;
   height: 100%;
     &__logo {
-      @media (max-width: 370px) {
+      padding: 14px 0;
+      @media (max-width: 460px) {
         img {
           width: 120px;
         }
@@ -64,16 +65,103 @@
     &__item_active {
       font-weight: 600;
     }
+    .btns {
+      display: flex;
+      gap: 27px;
+      @media (max-width: 460px) {
+        gap: 10px;
+      }
+    }
     &__btns {
       display: flex;
       align-items: center;
       gap: 27px;
-      @media (max-width: 400px) {
-        gap: 12px;
+      @media (max-width: 460px) {
+        gap: 10px;
       }
       &__item {        
       }
     }
+}
+
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 20;
+  width: 24px;
+  height: 24px; 
+  padding: 3px 0; 
+  cursor: pointer;
+  
+  span {
+    display: inline-block;
+    width: 100%;
+    height: 2px;
+    background: #121212;   
+
+    transition: .2s linear;
+  }
+
+  &.open {   
+    justify-content: center; 
+    span:nth-child(1) {
+      transform:translateY(1px) rotate(45deg);
+    }
+    span:nth-child(2) {
+      display: none;
+    }
+    span:nth-child(3) {
+      transform:translateY(-1px) rotate(-45deg);
+    }
+  }
+  @media (max-width: 1010px) {
+    display: flex;
+  }
+}
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #12121263;
+
+  transition: .2s linear;
+  .content {
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+    width: 100%;
+    transform: translateX(150%);
+    background: #fff;
+    padding: 100px 25px;
+    height: 100vh;
+    transition: .2s linear;
+  }
+  &.open {
+    visibility: visible;
+    opacity: 1;
+
+    .content {
+      transform: translateX(0);
+    }
+  }
+  & .nav__list {
+    display: inline-block;
+  }
+  & .nav__item {
+    font-size: 20px;
+    letter-spacing: 2px;
+    line-height: 1.5;
+
+  }
 }
 
 
