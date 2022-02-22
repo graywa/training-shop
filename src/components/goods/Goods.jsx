@@ -31,14 +31,16 @@ const Goods = ({goodsType}) => {
 
       <div className="cards">
         {
-          GOODS[goodsType]
-            .filter((el, ind) => ind < 8)
-            .map(el => {
-              return <Card key={el.id} {...el} />
-            })          
+          GOODS[goodsType] 
+            ? GOODS[goodsType]
+              .filter((el, ind) => ind < 8)
+              .map(el => {
+                return <Card key={el.id} {...el} />
+              }) 
+            : <h1>скоро в продаже</h1>
         }
       </div>
-      <Link className='see-all' to={`/${goodsType}`}>SEE ALL</Link>
+      <Link className='see-all' to={`goods/${goodsType}`}>SEE ALL</Link>
     </div>
   )
 }

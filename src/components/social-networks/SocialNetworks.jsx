@@ -8,16 +8,16 @@ import './SocialNetworks.scss'
 const SocialNetworks = ({size}) => {
   return (
     <div className='social-networks'>
-      <a href="!#">
+      <a href="!!!">
         <img width={size} src={facebook} alt="facebook" />
       </a>
-      <a href="!#">
+      <a href="!!!">
         <img width={size} src={instagram} alt="instagram" />
       </a>
-      <a href="!#">
+      <a href="!!!">
         <img width={size} src={pinterest} alt="pinterest" />
       </a>
-      <a href="!#">
+      <a href="!!!">
         <img width={size} src={twitter} alt="twitter" />
       </a>
     </div>

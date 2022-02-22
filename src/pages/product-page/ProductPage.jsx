@@ -35,8 +35,9 @@ import { relatedProd } from './related-products'
 import Card from '../../components/goods/card/Card'
 import { GOODS } from '../../components/goods/goods'
 import {Swiper, SwiperSlide} from 'swiper/react'
-import { Navigation, Thumbs, FreeMode } from 'swiper'
-import 'swiper/css/bundle'
+import { Navigation, Thumbs} from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
 
 const ProductPage = () => {  
 
@@ -55,7 +56,7 @@ const ProductPage = () => {
         <CategoryIntro id={id} name={name} rating={rating} goodsType={category} />
         <div className="container">
           <div className="detail">
-            <div className="detail__imgs">
+            <div className="detail__imgs" data-test-id='product-slider'>
 
               <div className="imgs-sm">
                 <div className="imgs-sm__arrows">
@@ -65,11 +66,9 @@ const ProductPage = () => {
                 <Swiper
                     className='thumbsSwiper'
                     onSwiper={setThumbsSwiper}
-                    modules={[Navigation, Thumbs, FreeMode]}
-                    spaceBetween={5}
+                    modules={[Navigation, Thumbs]}
                     slidesPerView={4}
                     slidesPerGroup={1}
-                    watchSlidesProgress={true}                  
                     navigation={{
                         nextEl: '.sm-arrows-down',
                         prevEl: '.sm-arrows-up',
@@ -97,7 +96,7 @@ const ProductPage = () => {
               <div className="imgs-big">                
                   <Swiper
                     className='mainSwiper'
-                    modules={[Navigation, Thumbs, FreeMode]}
+                    modules={[Navigation, Thumbs]}
                     spaceBetween={50}
                     navigation={{
                         nextEl: '.imgs-big__arr-next', 
@@ -250,42 +249,39 @@ const ProductPage = () => {
                 <img className='related-arr-next' src={arrNext} alt="arr" />
               </div>
             </div>
-            <Swiper
-              className='relatedSwiper'
-              modules={[Navigation]}
-              spaceBetween={50}
-              slidesPerView={4}
-              slidesPerGroup={1}
-              navigation={{
-                  nextEl: '.related-arr-next',
-                  prevEl: '.related-arr-prev',
-              }} 
-              breakpoints={{
-                220: {slidesPerView: 1},
-                480: {slidesPerView: 2},
-                800: {slidesPerView: 3},
-                1100: {slidesPerView: 4},
-              }}        
-            >
-              {
-                relatedProd.map(el => {
-                  return (
-                  <SwiperSlide key={el.id}>
-                     <Card  {...el} />
-                  </SwiperSlide>
-                  )
-                })          
-              }              
-            </Swiper>      
+            <div data-test-id='product-slider'>
+              <Swiper
+                className='relatedSwiper'
+                modules={[Navigation]}
+                spaceBetween={50}
+                slidesPerView={4}
+                slidesPerGroup={1}
+                navigation={{
+                    nextEl: '.related-arr-next',
+                    prevEl: '.related-arr-prev',
+                }} 
+                breakpoints={{
+                  220: {slidesPerView: 1},
+                  480: {slidesPerView: 2},
+                  800: {slidesPerView: 3},
+                  1100: {slidesPerView: 4},
+                }}        
+              >
+                {
+                  relatedProd.map(el => {
+                    return (
+                    <SwiperSlide key={el.id}>
+                      <Card  {...el} />
+                    </SwiperSlide>
+                    )
+                  })          
+                }              
+              </Swiper>      
+            </div>           
 
-            <div className="related-prod__cards"></div>
-
-          </div>    
-          
+          </div>          
         </div>
       </div>
-
-      <Footer />
     </>
   ) 
 }

@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import ProductPage from './pages/product-page/ProductPage'
 import './App.scss'
 import Header from './components/header/Header'
+import Footer from './components/footer/Footer'
 
 
 const App = () => {
@@ -18,12 +19,19 @@ const App = () => {
   return (
     <div className='app' data-test-id='app'>
       <Header />
-      <Routes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/:category' element={<CategoryPage />} />
-        <Route path='/:category/:id' element={<ProductPage />} />
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
+      <div className="content">
+        <Routes>
+          <Route path='/' element={<MainPage />} />      
+          <Route path='about' element={<h1>About Us</h1>} />   
+          <Route path='blog' element={<h1>Blog</h1>} />   
+          <Route path='contact' element={<h1>Contact</h1>} />   
+          <Route path='goods/:category' element={<CategoryPage />} />
+          <Route path='goods/:category/:id' element={<ProductPage />} />
+          <Route path='*' element={<NotFoundPage />} />
+        </Routes>
+      </div>
+      
+      <Footer />
     </div>
   )
 }

@@ -11,7 +11,7 @@ import 'swiper/css/bundle'
 const IntroMain = () => {
   return (
     <div className='intro'>
-      <div className='intro__slider'>
+      <div className='intro__slider' data-test-id='main-slider'>
         <img className='intro__arr-prev' width={40} src={arrPrev} alt="arr" />
         
         <img className='intro__arr-next' width={40} src={arrNext} alt="arr" />        

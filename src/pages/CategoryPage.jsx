@@ -14,7 +14,6 @@ const CategoryPage = () => {
         <CategoryIntro goodsType={category} />
         <AllGoods goodsType={category}/>
       </div>      
-      <Footer />
     </>
   )
 }

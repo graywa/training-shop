@@ -21,7 +21,6 @@ const MainPage = () => {
       <div className="container">
         <Blog />
       </div>  
-      <Footer />
     </>
 
   ) 

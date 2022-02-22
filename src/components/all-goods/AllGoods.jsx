@@ -31,9 +31,11 @@ const AllGoods = ({goodsType}) => {
 
         <div className="cards">
           {
-            GOODS[goodsType].map(el => {
+            GOODS[goodsType]
+            ? GOODS[goodsType].map(el => {
               return <Card key={el.id} {...el} />
-            })          
+              })
+            : <h1>Скоро в продаже</h1>
           }
         </div>
 

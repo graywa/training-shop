@@ -14,7 +14,7 @@ const CategoryIntro = ({goodsType, id, name, rating}) => {
             <div className="current-path">
               <Link to='/'><span>Home</span></Link> 
               <span>►</span>
-              <Link to={`/${goodsType}`}><span>{goodsType}</span></Link>
+              <Link to={`/goods/${goodsType}`}><span>{goodsType}</span></Link>
               {id && <span>►</span>}
               {id && <span>{name}</span>}              
             </div>
