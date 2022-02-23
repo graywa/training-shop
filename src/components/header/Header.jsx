@@ -111,7 +111,10 @@ const Header = () => {
               <div className={isOpenMenu ? "modal open" : "modal"} 
                   onClick={() => setIsOpenMenu(false)}                                
               >
-                <div className="content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal__content"
+                     onClick={(e) => e.stopPropagation()}
+                     data-test-id='burger-menu'
+                >
                   <ul className="modal-nav__list" >              
                     {Links.map(el => {
                       return <li key={el.title} onClick={() => setIsOpenMenu(false)}>

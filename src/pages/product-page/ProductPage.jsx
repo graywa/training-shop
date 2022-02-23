@@ -249,7 +249,7 @@ const ProductPage = () => {
                 <img className='related-arr-next' src={arrNext} alt="arr" />
               </div>
             </div>
-            <div data-test-id='product-slider'>
+            <div data-test-id='related-slider'>
               <Swiper
                 className='relatedSwiper'
                 modules={[Navigation]}

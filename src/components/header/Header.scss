@@ -134,7 +134,7 @@
   background: #12121263;
 
   transition: .2s linear;
-  .content {
+  &__content {
     display: flex;
     justify-content: center;
     max-width: 300px;
@@ -149,7 +149,7 @@
     visibility: visible;
     opacity: 1;
 
-    .content {
+    .modal__content {
       transform: translateX(0);
     }
   }
