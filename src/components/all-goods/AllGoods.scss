@@ -2,10 +2,47 @@
   margin-bottom: 180px;
 }
 .filter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 32px 0;
+
+  
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 0;
+  }
+
+  &__options {
+    display: flex;
+    height: 300px;
+    padding: 24px 42px;
+    margin-bottom: 24px;
+
+    background: #F8F8F8;
+  }
+
+  &__option {
+    width: 25%;
+    margin: 0 5px;
+    padding-bottom: 24px;
+    
+  }
+
+  &__title {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  &__list {
+    overflow: auto;
+    height: 100%;
+  }
+
+
+
+  &__item {
+    padding: 5px 0;
+  }
 
   a {
     opacity: .6;

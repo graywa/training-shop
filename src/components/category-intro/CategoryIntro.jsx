@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './CategoryIntro.scss'
 import share from './assets/share.svg'
-import ratingImg from './assets/rating.svg'
 import Rating from '../rating/Rating'
 
-const CategoryIntro = ({goodsType, id, name, rating}) => {
+const CategoryIntro = ({goodsType, id, name, rating, reviews}) => {
+
   return (
     <div className="intro-bg">
       <div className="container">
@@ -30,7 +30,7 @@ const CategoryIntro = ({goodsType, id, name, rating}) => {
           {id && <div className="product-info">
             <div className="product-rating">
               <Rating rating={rating} />
-              <span>2 Reviews</span>
+              <span>{reviews?.length} Reviews</span>
             </div>
             <div className="product-info__block">
               <div><span>SKU</span> 777</div> 

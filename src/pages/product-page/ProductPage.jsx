@@ -1,21 +1,11 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import CategoryIntro from '../../components/category-intro/CategoryIntro'
-import Footer from '../../components/footer/Footer'
 import './ProductPage.scss'
-import small1 from './assets/small1.png'
-import small2 from './assets/small2.png'
-import small3 from './assets/small3.png'
-import small4 from './assets/small4.png'
 import arrUp from './assets/arr-up.svg'
 import arrDown from './assets/arr-down.svg'
-import big from './assets/big.jpg'
 import arrPrev from './assets/arr-prev.svg'
 import arrNext from './assets/arr-next.svg'
-import color1 from './assets/color1.png'
-import color2 from './assets/color2.png'
-import color3 from './assets/color3.png'
-import color4 from './assets/color4.png'
 import hanger from './assets/hanger.svg'
 import heart from './assets/heart.svg'
 import scales from './assets/scales.svg'
@@ -29,31 +19,35 @@ import visa from './assets/visa.svg'
 import mastercard from './assets/mastercard.svg'
 import discover  from './assets/discover.svg'
 import americanexpress  from './assets/american-express.svg'
-import ratingImg from './assets/rating.svg'
 import message from './assets/message.svg'
 import { relatedProd } from './related-products'
 import Card from '../../components/goods/card/Card'
-import { GOODS } from '../../components/goods/goods'
+import { GOODS } from '../../components/goods/goods-data'
 import {Swiper, SwiperSlide} from 'swiper/react'
 import { Navigation, Thumbs} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import Rating from '../../components/rating/Rating'
 
-const ProductPage = () => {  
-
+const ProductPage = () => { 
   const {id, category} = useParams()
+  const {name, price, discount, rating, sizes, reviews, images, material} = GOODS[category].find(el => el.id === id)
+
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
+  const [size, setSize] = useState(sizes?.[0])
+  const [color, setColor] = useState(images[0]?.color)
 
-  console.log(thumbsSwiper)
+  useEffect(() => {
+    setSize(sizes?.[0])
+    setColor(images[0]?.color)
+  }, [id])
 
-  const {name, price, rating, sizes, reviews, images} = GOODS[category].find(el => el.id === id)
-
-  const bigImg =`https://training.cleverland.by/shop${images[0]?.url}`
+  const imgHost =`https://training.cleverland.by/shop`
 
   return (
     <>  
       <div data-test-id={`product-page-${category}`}>
-        <CategoryIntro id={id} name={name} rating={rating} goodsType={category} />
+        <CategoryIntro id={id} name={name} rating={rating} goodsType={category} reviews={reviews} />
         <div className="container">
           <div className="detail">
             <div className="detail__imgs" data-test-id='product-slider'>
@@ -64,33 +58,25 @@ const ProductPage = () => {
                   <img className='sm-arrows-down' src={arrDown} alt="arr" />
                 </div>
                 <Swiper
-                    className='thumbsSwiper'
-                    onSwiper={setThumbsSwiper}
-                    modules={[Navigation, Thumbs]}
-                    slidesPerView={4}
-                    slidesPerGroup={1}
-                    navigation={{
-                        nextEl: '.sm-arrows-down',
-                        prevEl: '.sm-arrows-up',
-                    }}  
-                    direction={'vertical'}               
-                  >
-                    <SwiperSlide>
-                      <img src={bigImg} alt="sm-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img src={bigImg} alt="sm-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img src={bigImg} alt="sm-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img src={bigImg} alt="sm-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img src={bigImg} alt="sm-img" />
-                    </SwiperSlide>
-                  </Swiper>
+                  className='thumbsSwiper'
+                  onSwiper={setThumbsSwiper}
+                  modules={[Navigation, Thumbs]}
+                  slidesPerView={4}
+                  slidesPerGroup={1}
+                  navigation={{
+                    nextEl: '.sm-arrows-down',
+                    prevEl: '.sm-arrows-up',
+                  }}  
+                  direction={'vertical'}               
+                >
+                  {images.map(el => {
+                    return (
+                      <SwiperSlide key={el.id}>
+                        <img src={`${imgHost}${el.url}`} alt="sm-img" />
+                      </SwiperSlide>
+                    )
+                  })}
+                </Swiper>
               </div>
 
               <div className="imgs-big">                
@@ -104,48 +90,46 @@ const ProductPage = () => {
                     }}
                     thumbs={{swiper: thumbsSwiper}}
                   >
-                    <SwiperSlide>
-                      <img className='imgs-big__big' src={bigImg} alt="big-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img className='imgs-big__big' src={bigImg} alt="big-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img className='imgs-big__big' src={bigImg} alt="big-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img className='imgs-big__big' src={bigImg} alt="big-img" />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <img className='imgs-big__big' src={bigImg} alt="big-img" />
-                    </SwiperSlide>
+                    {images.map(el => {
+                      return (
+                        <SwiperSlide key={el.id}>
+                          <img className='imgs-big__big' src={`${imgHost}${el.url}`} alt="sm-img" />
+                        </SwiperSlide>
+                      )
+                    })}
                   </Swiper>  
                 <img className='imgs-big__arr-prev' src={arrPrev} alt="arr" />
                 <img className='imgs-big__arr-next' src={arrNext} alt="arr" />
               </div>
             </div>
 
-
-
             <div className="detail__description">
               <div className="colors-block">
-                <div><span>COLOR: </span>Blue</div> 
+                <div><span>COLOR: </span>{color}</div> 
                 <div className='colors-block__list'>
-                  <img src={color1} alt="color" />
-                  <img src={color2} alt="color" />
-                  <img src={color3} alt="color" />
-                  <img src={color4} alt="color" />
+                  {
+                    images.map((el, ind) => {
+                      if(images[ind].color === images[ind - 1]?.color) return
+                      return (
+                        <img key={el.id} 
+                             src={`${imgHost}${el.url}`}
+                             alt="color" 
+                             className={color === el.color ? 'colors-block__list-item active' : 'colors-block__list-item'}
+                             onClick={() => setColor(el.color)}
+                        />
+                      )
+                    })
+                  }
                 </div>              
               </div>
               <div className="sizes-block">
-                <div><span>SIZE: </span>S</div> 
+                <div><span>SIZE: </span>{size}</div> 
                 <div className="sizes-block__btns">
                   {
                     sizes.map((el, ind ) => {
-                      return <button key={ind}><span>{el}</span></button>
+                      return <button key={ind} onClick={() => setSize(el)}><span>{el}</span></button>
                     })
                   }                
-                  
                 </div>
                 <div className="hanger">
                   <img src={hanger} alt="hanger" />
@@ -154,7 +138,18 @@ const ProductPage = () => {
                 
               </div>
               <div className="price-block">
-                <span>$ {price}</span>
+                <div className="price-block__count">
+                  {
+                    discount 
+                    ? <div>
+                        <span className='price-block__count_old' >$ {price}</span>
+                        <span className='price-block__count_new' > 
+                          $ {price - parseInt(discount.slice(1))/100 * price}
+                        </span>
+                      </div>
+                    : <span className='price-block__count_new' >$ {price}</span>
+                  }   
+                </div>                                 
                 <button>ADD TO CARD</button>
                 <div className="price-block__icons">
                   <img src={heart} alt="heart" />
@@ -197,46 +192,47 @@ const ProductPage = () => {
                 <div className="add-info__title">
                   ADDITIONAL INFORMATION
                 </div>
-                <div>Color: <span>Blue, White, Black, Gray</span></div>
-                <div>Size: <span>XS, S, M, L</span></div>
-                <div>Material: <span>100% Polyester</span></div>
+                <div>Colors: 
+                  <span>
+                    {images
+                      .map((el, ind) => {
+                        if(images[ind].color === images[ind - 1]?.color) return
+                        return ` ${el.color},`                      
+                      })
+                      .join('')
+                    }
+                  </span>
+                </div>
+                <div>Sizes: <span>{sizes.join(', ')}</span></div>
+                <div>Material: <span>{material}</span></div>
               </div>
               <div className="reviews">
                 REVIEWS
-                <div className="reviews__rating-review">
+                <div className="reviews__header">
                   <div className="reviews__rating">
-                    <img src={ratingImg} alt="rating" />
-                    <span>2 Reviews</span>
+                    <Rating rating={rating} />
+                    <span>{reviews?.length} Reviews</span>
                   </div>
                   <div className="reviews__review">
                     <img src={message} alt="message" />
                     <span>Write a review</span>
                   </div>
                 </div>
-                <div className="reviews__title-age">
-                  <div className="reviews__title">Oleh Chabanov</div>
-                  <div className="reviews__age">
-                    <span>3 manths ago</span>
-                    <img width={70} src={ratingImg} alt="rating" />
-                  </div>
-                </div>
-                <div className="reviews__text">
-                  <p>
-                  On the other hand, we denounce with righteous indignation and like men who are so beguiled and demoralized by the charms of pleasure of the moment
-                  </p>
-                </div>
-                <div className="reviews__title-age">
-                  <div className="reviews__title">ShAmAn design</div>
-                  <div className="reviews__age">
-                    <span>3 months ago</span>
-                    <img width={70} src={ratingImg} alt="rating" />
-                  </div>
-                </div>
-                <div className="reviews__text">
-                  <p>
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-                  </p>
-                </div>
+                {reviews.map(el => {
+                  return (
+                    <div className='reviews__item' key={el.id}>
+                      <div className="reviews__item-header">
+                        <div className="reviews__title">{el.name}</div>
+                        <div className="reviews__rating">
+                          <Rating rating={el.rating} />
+                        </div>
+                      </div>
+                      <div className="reviews__text">
+                        <p>{el.text}</p>
+                      </div>
+                    </div>                     
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -254,8 +250,6 @@ const ProductPage = () => {
                 className='relatedSwiper'
                 modules={[Navigation]}
                 spaceBetween={50}
-                slidesPerView={4}
-                slidesPerGroup={1}
                 navigation={{
                     nextEl: '.related-arr-next',
                     prevEl: '.related-arr-prev',

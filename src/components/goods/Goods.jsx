@@ -1,31 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {GOODS} from './goods.js'
+import {GOODS} from './goods-data'
 import Card from './card/Card'
 import './Goods.scss'
 
+const GOODS_NAV_MENU = [
+  {
+    particularName: 'isNewArrivals',
+    name: 'NEW ARRIVALS',
+  },
+  {
+    particularName: 'isSpecial',
+    name: 'SPECIALS',
+  },
+  {
+    particularName: 'isBestseller',
+    name: 'BESTSELLERS',
+  },
+  {
+    particularName: 'isMostViewed',
+    name: 'MOST VIEWED',
+  },
+  {
+    particularName: 'isFeatured',
+    name: 'FEATURED PRODUCTS',
+  },
+]
+
 const Goods = ({goodsType}) => {
+  const [particular, setParticular] = useState('isNewArrivals')
 
   return (
     <div className='goods' data-test-id={`clothes-${goodsType}`}>
       <div className="goods-header">
         <div className="goods__title">{`${goodsType}'s`}</div>
         <ul className="goods-nav">
-          <li className="goods-nav__link">
-            <Link to='!#'>NEW ARRIVALS</Link>
-          </li>
-          <li className="goods-nav__link">
-            <Link to='!#'>SPECIALS</Link>
-          </li>
-          <li className="goods-nav__link">
-            <Link to='!#'>BESTSELLERS</Link>
-          </li>
-          <li className="goods-nav__link">
-            <Link to='!#'>MOST VIEWED</Link>
-          </li>
-          <li className="goods-nav__link">
-            <Link to='!#'>FEATURED PRODUCTS</Link>
-          </li>
+          {
+            GOODS_NAV_MENU.map(el => {
+              return (
+                <li key={el.name} className={particular === el.particularName ? "goods-nav__link active" : "goods-nav__link"}
+                onClick={() => setParticular(el.particularName)}
+                >
+                  {el.name}
+                </li>
+            )})
+          } 
         </ul>
       </div>
 
@@ -33,6 +52,7 @@ const Goods = ({goodsType}) => {
         {
           GOODS[goodsType] 
             ? GOODS[goodsType]
+              .filter(el => el.particulars[particular])
               .filter((el, ind) => ind < 8)
               .map(el => {
                 return <Card key={el.id} {...el} />

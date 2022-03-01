@@ -23,13 +23,18 @@
 .goods-nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 22px;
     
   &__link {
+    padding: 5px;
+    cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     opacity: .6;
     transition: .2s linear;
+    &.active {
+      font-weight: 700;
+    }
     &:hover {
       opacity: 1;
     }
