@@ -3,8 +3,6 @@
 }
 .filter {
 
-  
-
   &__header {
     display: flex;
     justify-content: space-between;
@@ -12,36 +10,83 @@
     padding: 32px 0;
   }
 
+
   &__options {
     display: flex;
-    height: 300px;
-    padding: 24px 42px;
-    margin-bottom: 24px;
-
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-height: 0;
+    overflow: hidden;  
+    
     background: #F8F8F8;
+    transition: .2s linear; 
+     
+  }
+
+  &__options.open {
+    padding: 24px 24px;
+    margin-bottom: 24px;
+    max-height: 320px;   
+    @media (max-width: 900px) {
+      max-height: 650px;
+    } 
+    @media (max-width: 500px) {
+      max-height: 1000px;
+    } 
   }
 
   &__option {
-    width: 25%;
-    margin: 0 5px;
-    padding-bottom: 24px;
+    width: 20%;
+    margin: 0 10px;
+    padding-bottom: 32px;
+    height: 280px;
     
+    @media (max-width: 900px) {
+      width: 40%;
+      height: 260px;
+      margin: 0 0 40px;
+    }
+    @media (max-width: 500px) {
+      width: 80%;
+      height: 200px;
+    }
   }
 
   &__title {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+
     font-weight: 600;
   }
 
   &__list {
     overflow: auto;
     height: 100%;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #e7e5e5;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #868282;
+    }
   }
-
-
 
   &__item {
     padding: 5px 0;
+
+    font-size: 13px;
+
+    
+    input {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    label {
+      cursor: pointer;
+    }
+
   }
 
   a {
@@ -56,6 +101,7 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    margin: 0 5px;
 
     font-size: 13px;
     font-weight: 500;
@@ -77,5 +123,16 @@
         opacity: 1;
       }
     }   
-  }  
+  } 
+  &__description {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    font-size: 13px;
+  } 
+  &__total-items {
+    font-weight: 600;
+  }
 }

@@ -28,7 +28,7 @@ const GOODS_NAV_MENU = [
 ]
 
 const Goods = ({goodsType}) => {
-  const [particular, setParticular] = useState('isNewArrivals')
+  const [particular, setParticular] = useState(GOODS_NAV_MENU[0].particularName)
 
   return (
     <div className='goods' data-test-id={`clothes-${goodsType}`}>
@@ -38,8 +38,9 @@ const Goods = ({goodsType}) => {
           {
             GOODS_NAV_MENU.map(el => {
               return (
-                <li key={el.name} className={particular === el.particularName ? "goods-nav__link active" : "goods-nav__link"}
-                onClick={() => setParticular(el.particularName)}
+                <li key={el.name}
+                  className={particular === el.particularName ? "goods-nav__link active" : "goods-nav__link"}
+                  onClick={() => setParticular(el.particularName)}
                 >
                   {el.name}
                 </li>

@@ -69,12 +69,13 @@ const ProductPage = () => {
                   }}  
                   direction={'vertical'}               
                 >
-                  {images.map(el => {
-                    return (
-                      <SwiperSlide key={el.id}>
-                        <img src={`${imgHost}${el.url}`} alt="sm-img" />
-                      </SwiperSlide>
-                    )
+                  {images
+                    .map(el => {
+                      return (
+                        <SwiperSlide key={el.id}>
+                          <img src={`${imgHost}${el.url}`} alt="sm-img" />
+                        </SwiperSlide>
+                      )
                   })}
                 </Swiper>
               </div>
@@ -90,12 +91,13 @@ const ProductPage = () => {
                     }}
                     thumbs={{swiper: thumbsSwiper}}
                   >
-                    {images.map(el => {
-                      return (
-                        <SwiperSlide key={el.id}>
-                          <img className='imgs-big__big' src={`${imgHost}${el.url}`} alt="sm-img" />
-                        </SwiperSlide>
-                      )
+                    {images
+                      .map(el => {
+                        return (
+                          <SwiperSlide key={el.id}>
+                            <img className='imgs-big__big' src={`${imgHost}${el.url}`} alt="sm-img" />
+                          </SwiperSlide>
+                        )
                     })}
                   </Swiper>  
                 <img className='imgs-big__arr-prev' src={arrPrev} alt="arr" />
@@ -127,7 +129,13 @@ const ProductPage = () => {
                 <div className="sizes-block__btns">
                   {
                     sizes.map((el, ind ) => {
-                      return <button key={ind} onClick={() => setSize(el)}><span>{el}</span></button>
+                      return (
+                        <button key={ind} onClick={() => setSize(el)}
+                                className={size === el ? 'btn active' : 'btn'}
+                        >
+                          <span>{el}</span>
+                        </button>
+                      )
                     })
                   }                
                 </div>
@@ -150,7 +158,7 @@ const ProductPage = () => {
                     : <span className='price-block__count_new' >$ {price}</span>
                   }   
                 </div>                                 
-                <button>ADD TO CARD</button>
+                <button>ADD TO CART</button>
                 <div className="price-block__icons">
                   <img src={heart} alt="heart" />
                   <img src={scales} alt="scales" />

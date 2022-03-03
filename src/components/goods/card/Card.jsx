@@ -1,6 +1,5 @@
 import React from 'react'
 import './Card.scss'
-import ratingImg from '../assets/rating.svg'
 import { Link } from 'react-router-dom'
 import Rating from '../../rating/Rating'
 
@@ -20,7 +19,6 @@ const Card = ({name, price, images, rating, discount, id, category}) => {
         <div className="card__wrapper">
           <div className="card__price">{`$ ${price}`}</div>
           <Rating rating={rating} />
-          
         </div>        
       </div>        
     </Link>

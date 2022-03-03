@@ -46,9 +46,19 @@
 }
 .cards {
   display: grid;
-  grid-template: auto/repeat(auto-fit, minmax(255px, 1fr));
+  justify-content: space-evenly;
+  grid-template: auto/repeat(4, minmax(255px, 1fr));
   gap: 30px;
   margin-bottom: 48px;
+  @media (max-width: 1180px) {
+    grid-template: auto/repeat(3, minmax(255px, 320px));
+  }
+  @media (max-width: 900px) {
+    grid-template: auto/repeat(2, minmax(255px, 320px));
+  }
+  @media (max-width: 600px) {
+    grid-template: auto/repeat(1, minmax(255px, 320px));
+  }
 }
 .see-all {
   display: block;
