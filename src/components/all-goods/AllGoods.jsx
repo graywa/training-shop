@@ -59,9 +59,6 @@ const AllGoods = ({goodsType}) => {
   const uniqAllSizes = getUniqArr(allSizes)
   const uniqAllBrands = getUniqArr(allBrands)
 
-  //console.log('fg',filteredGoods)
-  //console.log(filteredGoods)
-
   useEffect(() => {
     if(!GOODS[goodsType]?.length) setFilteredGoods([])
     if(GOODS[goodsType]?.length) {
@@ -91,7 +88,7 @@ const AllGoods = ({goodsType}) => {
       <div className='all-goods'>
         <div className="filter">
           <div className="filter__header">
-            <div className="filter__block" onClick={handleFilter} >
+            <div className="filter__block" onClick={handleFilter} data-test-id='filter-button' >
               <img width={32} src={isFilterOpen ? cross : settings} alt="settings" />
               <span>FILTER</span>
             </div>
@@ -101,14 +98,16 @@ const AllGoods = ({goodsType}) => {
             </div>
           </div>
           
-          <div className={isFilterOpen ? "filter__options open" : "filter__options"}>
+          <div className={isFilterOpen ? "filter__options open" : "filter__options"}
+                data-test-id={`filter-${goodsType}`}
+          >
             <div className="filter__option">
               <div className="filter__title">COLOR</div>
-              <div className="filter__list">
+              <div className="filter__list" data-test-id='filters-color'>
                 <ul >
                   {uniqAllColors.map(el => {
                     return (
-                      <li key={el} className='filter__item' >
+                      <li key={el} className='filter__item' data-test-id={`filter-color-${el}`} >
                         <input type="checkbox" id={el} checked={colorFilter.includes(el)} 
                                onChange={() => colorFilter.includes(el) 
                                   ? setColorFilter(colorFilter.filter(item => item !== el)) 
@@ -124,17 +123,17 @@ const AllGoods = ({goodsType}) => {
 
             <div className="filter__option">
               <div className="filter__title">SIZE</div>
-              <div className="filter__list">
+              <div className="filter__list" data-test-id='filters-size' >
                 <ul >
                   {uniqAllSizes.map(el => {
                     return (
-                      <li key={el}  className='filter__item' >
+                      <li key={el}  className='filter__item' data-test-id={`filter-size-${el}`} >
                         <input type="checkbox" id={el} checked={sizeFilter.includes(el)} 
                                 onChange={() => sizeFilter.includes(el) 
                                   ? setSizeFilter(sizeFilter.filter(item => item !== el)) 
                                   : setSizeFilter([...sizeFilter, el])} 
                         />
-                        <label htmlFor={el} >{el}</label>
+                        <label htmlFor={el}>{el}</label>
                       </li>
                     )
                   })}
@@ -143,17 +142,17 @@ const AllGoods = ({goodsType}) => {
             </div>
             <div className="filter__option">
               <div className="filter__title">BRAND</div>
-              <div className="filter__list">
+              <div className="filter__list" data-test-id='filters-brand'>
                 <ul >
                   {uniqAllBrands.map(el => {
                     return (
-                      <li key={el} className='filter__item' >
+                      <li key={el} className='filter__item' data-test-id={`filter-brand-${el}`} >
                         <input type="checkbox" id={el} checked={brandFilter.includes(el)}
                               onChange={() => brandFilter.includes(el) 
                                 ? setBrandFilter(brandFilter.filter(item => item !== el)) 
                                 : setBrandFilter([...brandFilter, el])} 
                         />
-                        <label htmlFor={el} >{el}</label>
+                        <label htmlFor={el}>{el}</label>
                       </li>
                     )
                   })}
@@ -184,14 +183,14 @@ const AllGoods = ({goodsType}) => {
 
           <div>
             {
-               !!(colorFilter.length || sizeFilter.length || brandFilter.length || priceFilter.length)
-               && <div className='filter__description'>
-                    <div className="filter__total-items">{filteredGoods.length} items found</div>
-                    {colorFilter.map(el => <span key={el}>Color: {el}</span>)}
-                    {sizeFilter.map(el => <span key={el}>Size: {el}</span>)}
-                    {brandFilter.map(el => <span key={el}>Brand: {el}</span>)}
-                    {priceFilter.map(el => <span key={el.title}>Price: {el.title}</span>)}
-                  </div>             
+              !!(colorFilter.length || sizeFilter.length || brandFilter.length || priceFilter.length)
+              && <div className='filter__description'>
+                  <div className="filter__total-items">{filteredGoods.length} items found</div>
+                  {colorFilter.map(el => <span key={el}>Color: {el}</span>)}
+                  {sizeFilter.map(el => <span key={el}>Size: {el}</span>)}
+                  {brandFilter.map(el => <span key={el}>Brand: {el}</span>)}
+                  {priceFilter.map(el => <span key={el.title}>Price: {el.title}</span>)}
+                </div>             
             }
           </div>
         </div>

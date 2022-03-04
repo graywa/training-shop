@@ -74,9 +74,15 @@
   }
 
   &__item {
+    display: flex;
+    align-items: end;
     padding: 5px 0;
 
     font-size: 13px;
+    label {
+      display: inline-block;
+      width: 100%;
+    }
 
     
     input {

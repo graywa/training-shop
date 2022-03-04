@@ -41,6 +41,7 @@ const Goods = ({goodsType}) => {
                 <li key={el.name}
                   className={particular === el.particularName ? "goods-nav__link active" : "goods-nav__link"}
                   onClick={() => setParticular(el.particularName)}
+                  data-test-id={`clouthes-${goodsType}-${el.particularName}`} 
                 >
                   {el.name}
                 </li>
