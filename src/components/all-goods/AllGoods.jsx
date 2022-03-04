@@ -107,8 +107,9 @@ const AllGoods = ({goodsType}) => {
                 <ul >
                   {uniqAllColors.map(el => {
                     return (
-                      <li key={el} className='filter__item' data-test-id={`filter-color-${el}`} >
+                      <li key={el} className='filter__item' >
                         <input type="checkbox" id={el} checked={colorFilter.includes(el)} 
+                              data-test-id={`filter-color-${el}`}
                                onChange={() => colorFilter.includes(el) 
                                   ? setColorFilter(colorFilter.filter(item => item !== el)) 
                                   : setColorFilter([...colorFilter, el])} 
@@ -127,8 +128,9 @@ const AllGoods = ({goodsType}) => {
                 <ul >
                   {uniqAllSizes.map(el => {
                     return (
-                      <li key={el}  className='filter__item' data-test-id={`filter-size-${el}`} >
+                      <li key={el}  className='filter__item'  >
                         <input type="checkbox" id={el} checked={sizeFilter.includes(el)} 
+                                data-test-id={`filter-size-${el}`}
                                 onChange={() => sizeFilter.includes(el) 
                                   ? setSizeFilter(sizeFilter.filter(item => item !== el)) 
                                   : setSizeFilter([...sizeFilter, el])} 
@@ -146,8 +148,9 @@ const AllGoods = ({goodsType}) => {
                 <ul >
                   {uniqAllBrands.map(el => {
                     return (
-                      <li key={el} className='filter__item' data-test-id={`filter-brand-${el}`} >
+                      <li key={el} className='filter__item' >
                         <input type="checkbox" id={el} checked={brandFilter.includes(el)}
+                              data-test-id={`filter-brand-${el}`} 
                               onChange={() => brandFilter.includes(el) 
                                 ? setBrandFilter(brandFilter.filter(item => item !== el)) 
                                 : setBrandFilter([...brandFilter, el])} 
