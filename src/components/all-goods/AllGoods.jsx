@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState} from 'react'
 import './AllGoods.scss'
 import settings from './assets/settings.svg'
 import viewGrid from './assets/view-grid.svg'
@@ -8,6 +8,37 @@ import { GOODS } from '../goods/goods-data'
 import Card from '../goods/card/Card'
 
 const AllGoods = ({goodsType}) => {
+  const [uniqColors, setUniqColors] = useState([])
+  const [uniqSizes, setUniqSizes] = useState([])
+  const [uniqBrands, setUniqBrands] = useState([])
+  const uniqPricies = [
+    {
+      title: '0 - $50',
+      start: 0,
+      end: 50
+    },
+    {
+      title: '$50 - $100',
+      start: 50,
+      end: 100
+    },
+    {
+      title: '$100 - $150',
+      start: 100,
+      end: 150
+    },
+    {
+      title: '$150 - $200',
+      start: 150,
+      end: 200
+    },
+    {
+      title: 'more than $200',
+      start: 200,
+      end: Infinity
+    }
+  ]
+
   const [colorFilter, setColorFilter] = useState([])
   const [sizeFilter, setSizeFilter] = useState([])
   const [brandFilter, setBrandFilter] = useState([])
@@ -15,49 +46,31 @@ const AllGoods = ({goodsType}) => {
   const [filteredGoods, setFilteredGoods] = useState([])
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
-  const allColors = [],
-        allSizes = [], 
-        allBrands = [],
-        allPricies = [
-          {
-            title: '0 - $50',
-            start: 0,
-            end: 50
-          },
-          {
-            title: '$50 - $100',
-            start: 50,
-            end: 100
-          },
-          {
-            title: '$100 - $150',
-            start: 100,
-            end: 150
-          },
-          {
-            title: '$150 - $200',
-            start: 150,
-            end: 200
-          },
-          {
-            title: 'more than $200',
-            start: 200,
-            end: Infinity
-          },
-        ]
-  
-  GOODS[goodsType]?.forEach(el => {
-    allBrands.push(el.brand)
-    el.sizes.forEach(item => allSizes.push(item))
-    el.images.forEach(item => {
-      allColors.push(item.color)
-  })})
+  useEffect(() => {
+    const allColors = [],
+          allSizes = [], 
+          allBrands = []
 
-  const getUniqArr = (arr) => Array.from(new Set(arr))
+    GOODS[goodsType]?.forEach(el => {      
+      allBrands.push(el.brand)
+      el.sizes.forEach(item => allSizes.push(item))
+      el.images.forEach(item => allColors.push(item.color))
+    })  
 
-  const uniqAllColors = getUniqArr(allColors)
-  const uniqAllSizes = getUniqArr(allSizes)
-  const uniqAllBrands = getUniqArr(allBrands)
+    const getUniqArr = (arr) => Array.from(new Set(arr))
+
+    setUniqColors(getUniqArr(allColors))
+    setUniqSizes(getUniqArr(allSizes))
+    setUniqBrands(getUniqArr(allBrands))  
+  }, [goodsType])
+
+  useEffect(() => {
+    setColorFilter([])
+    setSizeFilter([])
+    setBrandFilter([])
+    setPriceFilter([])
+    setIsFilterOpen(false)
+  }, [goodsType])
 
   useEffect(() => {
     if(!GOODS[goodsType]?.length) setFilteredGoods([])
@@ -79,8 +92,14 @@ const AllGoods = ({goodsType}) => {
     }     
   }, [goodsType, colorFilter, sizeFilter, brandFilter, priceFilter])
 
-  const handleFilter = () => {
+  const handleVisibleFilter = () => {
     setIsFilterOpen(!isFilterOpen)
+  }
+
+  const handleChangeFilter = (filterArr, setFilterArr, el) => {
+    filterArr.includes(el) 
+      ? setFilterArr(filterArr.filter(item => item !== el)) 
+      : setFilterArr([...filterArr, el])
   }
 
   return (
@@ -88,7 +107,7 @@ const AllGoods = ({goodsType}) => {
       <div className='all-goods'>
         <div className="filter">
           <div className="filter__header">
-            <div className="filter__block" onClick={handleFilter} data-test-id='filter-button' >
+            <div className="filter__block" onClick={handleVisibleFilter} data-test-id='filter-button' >
               <img width={32} src={isFilterOpen ? cross : settings} alt="settings" />
               <span>FILTER</span>
             </div>
@@ -105,14 +124,12 @@ const AllGoods = ({goodsType}) => {
               <div className="filter__title">COLOR</div>
               <div className="filter__list" data-test-id='filters-color'>
                 <ul >
-                  {uniqAllColors.map(el => {
+                  {uniqColors.map(el => {
                     return (
                       <li key={el} className='filter__item' >
                         <input type="checkbox" id={el} checked={colorFilter.includes(el)} 
                               data-test-id={`filter-color-${el}`}
-                               onChange={() => colorFilter.includes(el) 
-                                  ? setColorFilter(colorFilter.filter(item => item !== el)) 
-                                  : setColorFilter([...colorFilter, el])} 
+                              onChange={() => handleChangeFilter(colorFilter, setColorFilter, el)} 
                         />
                         <label htmlFor={el} >{el}</label>
                       </li>
@@ -126,14 +143,12 @@ const AllGoods = ({goodsType}) => {
               <div className="filter__title">SIZE</div>
               <div className="filter__list" data-test-id='filters-size' >
                 <ul >
-                  {uniqAllSizes.map(el => {
+                  {uniqSizes.map(el => {
                     return (
                       <li key={el}  className='filter__item'  >
                         <input type="checkbox" id={el} checked={sizeFilter.includes(el)} 
                                 data-test-id={`filter-size-${el}`}
-                                onChange={() => sizeFilter.includes(el) 
-                                  ? setSizeFilter(sizeFilter.filter(item => item !== el)) 
-                                  : setSizeFilter([...sizeFilter, el])} 
+                                onChange={() => handleChangeFilter(sizeFilter, setSizeFilter, el)} 
                         />
                         <label htmlFor={el}>{el}</label>
                       </li>
@@ -146,14 +161,12 @@ const AllGoods = ({goodsType}) => {
               <div className="filter__title">BRAND</div>
               <div className="filter__list" data-test-id='filters-brand'>
                 <ul >
-                  {uniqAllBrands.map(el => {
+                  {uniqBrands.map(el => {
                     return (
                       <li key={el} className='filter__item' >
                         <input type="checkbox" id={el} checked={brandFilter.includes(el)}
                               data-test-id={`filter-brand-${el}`} 
-                              onChange={() => brandFilter.includes(el) 
-                                ? setBrandFilter(brandFilter.filter(item => item !== el)) 
-                                : setBrandFilter([...brandFilter, el])} 
+                              onChange={() => handleChangeFilter(brandFilter, setBrandFilter, el)} 
                         />
                         <label htmlFor={el}>{el}</label>
                       </li>
@@ -166,7 +179,7 @@ const AllGoods = ({goodsType}) => {
               <div className="filter__title">PRICE</div>
               <div className="filter__list">
                 <ul >
-                  {allPricies.map(el => {
+                  {uniqPricies.map(el => {
                     return (
                       <li key={el.title} className='filter__item'  >
                         <input type="checkbox" id={el.title} 

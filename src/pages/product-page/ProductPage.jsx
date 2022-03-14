@@ -28,14 +28,29 @@ import { Navigation, Thumbs} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import Rating from '../../components/rating/Rating'
+import { useDispatch, useSelector } from 'react-redux'
+import { addGoods, removeGoods } from '../../store/cartSlice'
 
 const ProductPage = () => { 
   const {id, category} = useParams()
   const {name, price, discount, rating, sizes, reviews, images, material} = GOODS[category].find(el => el.id === id)
+  const cartGoods = useSelector(state => state.cart.cartGoods)
+  const dispatch = useDispatch()
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
   const [size, setSize] = useState(sizes?.[0])
   const [color, setColor] = useState(images[0]?.color)
+
+  const checkGoodsInCart = () => {
+    return cartGoods?.some(el => {
+      return el.id === id && el.color === color & el.size === size
+    })
+  }
+  const [goodsInCart, setGoodsInCart] = useState(checkGoodsInCart())
+
+  useEffect(() => {
+    setGoodsInCart(checkGoodsInCart())
+  }, [id, color, size])
 
   useEffect(() => {
     setSize(sizes?.[0])
@@ -43,6 +58,21 @@ const ProductPage = () => {
   }, [id])
 
   const imgHost =`https://training.cleverland.by/shop`
+  const photo = `${imgHost}${images[0].url}`
+
+  
+
+  const addGoodsToCart = (id, name, size, color, photo, price) => {
+    setGoodsInCart(true)
+    dispatch(addGoods({id, name, size, color, photo, price}))
+  }
+
+  const removeGoodsFromCart = (id, size, color) => {
+    setGoodsInCart(false)
+    dispatch(removeGoods({id, size, color}))
+  }
+
+  
 
   return (
     <>  
@@ -152,13 +182,23 @@ const ProductPage = () => {
                     ? <div>
                         <span className='price-block__count_old' >$ {price}</span>
                         <span className='price-block__count_new' > 
-                          $ {price - parseInt(discount.slice(1))/100 * price}
+                          $ {Math.ceil(price - parseInt(discount.slice(1))/100 * price)}
                         </span>
                       </div>
                     : <span className='price-block__count_new' >$ {price}</span>
                   }   
                 </div>                                 
-                <button>ADD TO CART</button>
+                <button onClick={() => {
+                  goodsInCart
+                  ? removeGoodsFromCart(id, size, color)
+                  : addGoodsToCart(id, name, size, color, photo, price)}}
+                >
+                  {goodsInCart
+                    ? 'REMOVE FROM CART'
+                    : 'ADD TO CART'
+                  }
+                  
+                </button>
                 <div className="price-block__icons">
                   <img src={heart} alt="heart" />
                   <img src={scales} alt="scales" />
