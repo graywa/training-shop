@@ -58,9 +58,8 @@ const ProductPage = () => {
   }, [id])
 
   const imgHost =`https://training.cleverland.by/shop`
-  const photo = `${imgHost}${images[0].url}`
-
-  
+  const partPhoto = images?.find(el => el.color === color).url
+  const photo = `${imgHost}${partPhoto}`
 
   const addGoodsToCart = (id, name, size, color, photo, price) => {
     setGoodsInCart(true)
@@ -71,8 +70,6 @@ const ProductPage = () => {
     setGoodsInCart(false)
     dispatch(removeGoods({id, size, color}))
   }
-
-  
 
   return (
     <>  
