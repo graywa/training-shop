@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Cart.scss'
 import bin from './assets/bin.svg'
 import minus from './assets/minus.svg'
 import plus from './assets/plus.svg'
 import cross from './assets/cross.svg'
-import { removeGoods, changeQuantityGoods } from '../../store/cartSlice'
+import { removeGoods, changeQuantityGoods, setGoodsFromLocalStorage } from '../../store/cartSlice'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Cart = ({isOpenCart, setIsOpenCart, cartGoods}) => {
-
   const dispatch = useDispatch()
+
+  useEffect(() => {        
+    if( !cartGoods.length && localStorage.getItem('cartGoodsLocal') ) {
+      const cartGoodsLocal = JSON?.parse(localStorage.getItem('cartGoodsLocal'))
+      dispatch(setGoodsFromLocalStorage({cartGoodsLocal}))
+    }
+  }, [])
 
   const changeQuantityHandler = (quantity, id , color, size) => {
     if (quantity <= 0) return

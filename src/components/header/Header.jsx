@@ -18,18 +18,10 @@ import { setGoodsFromLocalStorage } from '../../store/cartSlice'
 
 const Header = () => {  
   const {pathname} = useLocation()
-  const dispatch = useDispatch()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const [isOpenCart, setIsOpenCart] = useState(false)
 
   let cartGoods = useSelector(state => state.cart.cartGoods)
-
-  useEffect(() => {        
-    if( !cartGoods.length && localStorage.getItem('cartGoodsLocal') ) {
-      const cartGoodsLocal = JSON?.parse(localStorage.getItem('cartGoodsLocal'))
-      dispatch(setGoodsFromLocalStorage({cartGoodsLocal}))
-    }
-  }, [])
 
   useEffect(() => {    
     const scrollWidth = window.innerWidth - document.body.offsetWidth
