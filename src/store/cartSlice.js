@@ -7,6 +7,7 @@ const cartSlice = createSlice({
   },
   reducers: {
     addGoods(state, action) {
+      console.log(action)
       state.cartGoods.push({
         id: action.payload.id,
         name: action.payload.name,
@@ -16,7 +17,6 @@ const cartSlice = createSlice({
         price: action.payload.price,
         quantity: 1
       })
-      localStorage.setItem('cartGoodsLocal', JSON.stringify(state.cartGoods))
     },
     removeGoods(state, action) {
       state.cartGoods = state.cartGoods.filter(el => {
@@ -24,7 +24,6 @@ const cartSlice = createSlice({
                || el.size !== action.payload.size 
                || el.color !== action.payload.color
       })
-      localStorage.setItem('cartGoodsLocal', JSON.stringify(state.cartGoods))
     },
     changeQuantityGoods(state, action) {
       const targetGoods = state.cartGoods.find(el => {
@@ -33,7 +32,6 @@ const cartSlice = createSlice({
               && el.color === action.payload.color
       })
       targetGoods.quantity = action.payload.quantity
-      localStorage.setItem('cartGoodsLocal', JSON.stringify(state.cartGoods))
     },
     setGoodsFromLocalStorage(state, action) {
       state.cartGoods = action.payload.cartGoodsLocal

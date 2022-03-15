@@ -33,7 +33,7 @@ import { addGoods, removeGoods } from '../../store/cartSlice'
 
 const ProductPage = () => { 
   const {id, category} = useParams()
-  const {name, price, discount, rating, sizes, reviews, images, material} = GOODS[category].find(el => el.id === id)
+  let {name, price, discount, rating, sizes, reviews, images, material} = GOODS[category].find(el => el.id === id)
   const cartGoods = useSelector(state => state.cart.cartGoods)
   const dispatch = useDispatch()
 
@@ -53,6 +53,10 @@ const ProductPage = () => {
   }, [cartGoods, id, color, size])
 
   useEffect(() => {
+    localStorage.setItem('cartGoodsLocal', JSON.stringify(cartGoods))
+  }, [cartGoods])
+
+  useEffect(() => {
     setSize(sizes?.[0])
     setColor(images[0]?.color)
   }, [id])
@@ -61,6 +65,10 @@ const ProductPage = () => {
   const partPhoto = images?.find(el => el.color === color)?.url
   const photo = `${imgHost}${partPhoto}`
 
+  const getPriceWidthDisc = (price) => {
+    if(discount) return (price - parseInt(discount.slice(1)) / 100 * price).toFixed(2)
+    return price
+  }
   const addGoodsToCart = (id, name, size, color, photo, price) => {
     setGoodsInCart(true)
     dispatch(addGoods({id, name, size, color, photo, price}))
@@ -179,16 +187,17 @@ const ProductPage = () => {
                     ? <div>
                         <span className='price-block__count_old' >$ {price}</span>
                         <span className='price-block__count_new' > 
-                          $ {Math.ceil(price - parseInt(discount.slice(1))/100 * price)}
+                          {getPriceWidthDisc(price)}
                         </span>
                       </div>
                     : <span className='price-block__count_new' >$ {price}</span>
                   }   
                 </div>                                 
                 <button onClick={() => {
+                  const finalPrice = getPriceWidthDisc(price)                  
                   goodsInCart
                   ? removeGoodsFromCart(id, size, color)
-                  : addGoodsToCart(id, name, size, color, photo, price)}}
+                  : addGoodsToCart(id, name, size, color, photo, finalPrice)}}
                   data-test-id='add-cart-button'
                 >
                   {goodsInCart
