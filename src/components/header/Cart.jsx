@@ -92,7 +92,7 @@ const Cart = ({isOpenCart, setIsOpenCart, cartGoods}) => {
             </div>
 
             <div className="cart__total">
-              Total
+              Total:
               <span>
                 ${(cartGoods.reduce((acc, el) => acc + el.quantity * el.price, 0)).toFixed(2)}
               </span>

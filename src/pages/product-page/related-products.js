@@ -1,8 +1,3 @@
-import girl1 from './assets/girl1.jpg'
-import girl2 from './assets/girl2.jpg'
-import girl3 from './assets/girl3.jpg'
-import girl4 from './assets/girl4.jpg'
-
 
 export const relatedProd = [
   {
