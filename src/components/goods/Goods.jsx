@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {GOODS} from './goods-data'
 import Card from './card/Card'
 import './Goods.scss'
+import Preloader from '../Preloader/Preloader'
+import Error from '../error/Error'
 
 const GOODS_NAV_MENU = [
   {
@@ -27,7 +28,7 @@ const GOODS_NAV_MENU = [
   },
 ]
 
-const Goods = ({goodsType}) => {
+const Goods = ({goodsType, goods, isLoading, isError, errorMessage}) => {
   const [particular, setParticular] = useState(GOODS_NAV_MENU[0].particularName)
 
   return (
@@ -50,19 +51,29 @@ const Goods = ({goodsType}) => {
         </ul>
       </div>
 
-      <div className="cards">
-        {
-          GOODS[goodsType] 
-            ? GOODS[goodsType]
-              .filter(el => el.particulars[particular])
-              .filter((el, ind) => ind < 8)
-              .map(el => {
-                return <Card key={el.id} {...el} />
-              }) 
-            : <h1>скоро в продаже</h1>
-        }
-      </div>
-      <Link className='see-all' to={`goods/${goodsType}`}>SEE ALL</Link>
+      {
+        isLoading
+        ? <Preloader />
+        : !isError && <div>
+           <div className="cards">
+              {
+                goods.length 
+                  ? goods
+                    .filter(el => el.particulars[particular])
+                    .filter((el, ind) => ind < 8)
+                    .map(el => {
+                      return <Card key={el.id} {...el} />
+                    }) 
+                  : <h1>скоро в продаже</h1>
+              }
+            </div>
+            <Link className='see-all' to={`goods/${goodsType}`}>SEE ALL</Link>
+          </div>
+      }
+
+      {
+        isError && <Error errorMessage={errorMessage} />
+      }      
     </div>
   )
 }

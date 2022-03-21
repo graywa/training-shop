@@ -1,8 +1,8 @@
-import { configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
+import { configureStore} from '@reduxjs/toolkit'
 import cart from './cartSlice'
 import goods from './goodsSlice'
 import createSagaMiddleware from 'redux-saga'
-import goodsSagatWatcher from './goodsSagas'
+import goodsSagasWatcher from './goodsSagas'
 
 const saga = createSagaMiddleware()
 
@@ -14,4 +14,4 @@ export default configureStore({
   middleware: [saga],
 })
 
-saga.run(goodsSagatWatcher)
+saga.run(goodsSagasWatcher)

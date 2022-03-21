@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import CategoryIntro from '../../components/category-intro/CategoryIntro'
 import './ProductPage.scss'
-import arrUp from './assets/arr-up.svg'
-import arrDown from './assets/arr-down.svg'
 import arrPrev from './assets/arr-prev.svg'
 import arrNext from './assets/arr-next.svg'
 import hanger from './assets/hanger.svg'
@@ -22,30 +20,62 @@ import americanexpress  from './assets/american-express.svg'
 import message from './assets/message.svg'
 import { relatedProd } from './related-products'
 import Card from '../../components/goods/card/Card'
-import { GOODS } from '../../components/goods/goods-data'
 import {Swiper, SwiperSlide} from 'swiper/react'
-import { Navigation, Thumbs} from 'swiper'
+import { Navigation} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import Rating from '../../components/rating/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { addGoods, removeGoods } from '../../store/cartSlice'
+import { getGoodsByCategory, getProduct } from '../../store/goodsSlice'
+import Preloader from '../../components/Preloader/Preloader'
+import ThumbsSlider from '../../components/thumbs-slider/ThumbsSlider'
+import Error from '../../components/error/Error'
 
-const ProductPage = () => { 
+const ProductPage = () => {  
   const {id, category} = useParams()
-  let {name, price, discount, rating, sizes, reviews, images, material} = GOODS[category].find(el => el.id === id)
-  const cartGoods = useSelector(state => state.cart.cartGoods)
   const dispatch = useDispatch()
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
+  useEffect(() => {
+    const goodsType = category
+    dispatch(getProduct({id}))
+    dispatch(getGoodsByCategory({goodsType}))
+  }, [id])
+
+  const initialProduct = {name: '', 
+                          price: null, 
+                          discount: '', 
+                          rating: null, 
+                          sizes: [], 
+                          reviews: [], 
+                          images: [], 
+                          material: ''}
+
+  let {name, price, discount, rating, sizes, reviews, images, material} = useSelector(state => {
+    return state.goods.goods[category].find(el => el.id === id)
+  }) 
+  || initialProduct
+
+  const goods = useSelector(state => state.goods.goods[category])
+  
+  const {isLoading, isError, errorMessage} = useSelector(state => state.goods)
+  
+  const cartGoods = useSelector(state => state.cart.cartGoods) 
+  
   const [size, setSize] = useState(sizes?.[0])
   const [color, setColor] = useState(images[0]?.color)
+  
+  useEffect(() => {
+    setSize(sizes?.[0])
+    setColor(images[0]?.color)
+  }, [sizes, images])
 
   const checkGoodsInCart = () => {
     return cartGoods?.some(el => {
       return el.id === id && el.color === color & el.size === size
     })
   }
+
   const [goodsInCart, setGoodsInCart] = useState(checkGoodsInCart())
 
   useEffect(() => {
@@ -84,213 +114,168 @@ const ProductPage = () => {
       <div data-test-id={`product-page-${category}`}>
         <CategoryIntro id={id} name={name} rating={rating} goodsType={category} reviews={reviews} />
         <div className="container">
-          <div className="detail">
-            <div className="detail__imgs" data-test-id='product-slider'>
+          {
+            isLoading 
+            ? <Preloader />
+            : !isError && <div className="detail">
 
-              <div className="imgs-sm">
-                <div className="imgs-sm__arrows">
-                  <img className='sm-arrows-up' src={arrUp} alt="arr" />
-                  <img className='sm-arrows-down' src={arrDown} alt="arr" />
-                </div>
-                <Swiper
-                  className='thumbsSwiper'
-                  onSwiper={setThumbsSwiper}
-                  modules={[Navigation, Thumbs]}
-                  slidesPerView={4}
-                  slidesPerGroup={1}
-                  navigation={{
-                    nextEl: '.sm-arrows-down',
-                    prevEl: '.sm-arrows-up',
-                  }}  
-                  direction={'vertical'}               
-                >
-                  {images
-                    .map(el => {
-                      return (
-                        <SwiperSlide key={el.id}>
-                          <img src={`${imgHost}${el.url}`} alt="sm-img" />
-                        </SwiperSlide>
-                      )
-                  })}
-                </Swiper>
-              </div>
+              <ThumbsSlider imgHost={imgHost} images={images} />
 
-              <div className="imgs-big">                
-                  <Swiper
-                    className='mainSwiper'
-                    modules={[Navigation, Thumbs]}
-                    spaceBetween={50}
-                    navigation={{
-                        nextEl: '.imgs-big__arr-next', 
-                        prevEl: '.imgs-big__arr-prev',
-                    }}
-                    thumbs={{swiper: thumbsSwiper}}
-                  >
-                    {images
-                      .map(el => {
-                        return (
-                          <SwiperSlide key={el.id}>
-                            <img className='imgs-big__big' src={`${imgHost}${el.url}`} alt="sm-img" />
-                          </SwiperSlide>
-                        )
-                    })}
-                  </Swiper>  
-                <img className='imgs-big__arr-prev' src={arrPrev} alt="arr" />
-                <img className='imgs-big__arr-next' src={arrNext} alt="arr" />
-              </div>
-            </div>
-
-            <div className="detail__description">
-              <div className="colors-block">
-                <div><span>COLOR: </span>{color}</div> 
-                <div className='colors-block__list'>
-                  {
-                    images.map((el, ind) => {
-                      if(images[ind].color === images[ind - 1]?.color) return
-                      return (
-                        <img key={el.id} 
-                             src={`${imgHost}${el.url}`}
-                             alt="color" 
-                             className={color === el.color ? 'colors-block__list-item active' : 'colors-block__list-item'}
-                             onClick={() => setColor(el.color)}
-                        />
-                      )
-                    })
-                  }
-                </div>              
-              </div>
-              <div className="sizes-block">
-                <div><span>SIZE: </span>{size}</div> 
-                <div className="sizes-block__btns">
-                  {
-                    sizes.map((el, ind ) => {
-                      return (
-                        <button key={ind} onClick={() => setSize(el)}
-                                className={size === el ? 'btn active' : 'btn'}
-                        >
-                          <span>{el}</span>
-                        </button>
-                      )
-                    })
-                  }                
-                </div>
-                <div className="hanger">
-                  <img src={hanger} alt="hanger" />
-                  <span>Size guide</span>
-                </div>
-                
-              </div>
-              <div className="price-block">
-                <div className="price-block__count">
-                  {
-                    discount 
-                    ? <div>
-                        <span className='price-block__count_old' >$ {price}</span>
-                        <span className='price-block__count_new' > 
-                          {getPriceWidthDisc(price)}
-                        </span>
-                      </div>
-                    : <span className='price-block__count_new' >$ {price}</span>
-                  }   
-                </div>                                 
-                <button onClick={() => {
-                  const finalPrice = getPriceWidthDisc(price)                  
-                  goodsInCart
-                  ? removeGoodsFromCart(id, size, color)
-                  : addGoodsToCart(id, name, size, color, photo, finalPrice)}}
-                  data-test-id='add-cart-button'
-                >
-                  {goodsInCart
-                    ? 'REMOVE FROM CART'
-                    : 'ADD TO CART'
-                  }
-                  
-                </button>
-                <div className="price-block__icons">
-                  <img src={heart} alt="heart" />
-                  <img src={scales} alt="scales" />
-                </div>              
-              </div>
-              <div className="services-block">
-                <div className="services-block__item">
-                  <img src={car} alt="car" />
-                  Shipping & Delivery
-                </div>
-                <div className="services-block__item">
-                  <img src={refresh} alt="refresh" />
-                  Returns & Exchanges
-                </div>
-                <div className="services-block__item">
-                  <img src={mail} alt="mail" />
-                  Ask a question
-                </div>
-              </div>
-              <div className="guarantees-block">
-                <div className="guarantees-block__title">
-                  <span>guaranteed safe checkout</span>
-                  <div></div>
-                </div>
-                <div className="guarantees-block__services">
-                  <img src={stripe} alt="stripe" />
-                  <img src={aes} alt="aes" />
-                  <img src={paypal} alt="paypal" />
-                  <img src={visa} alt="visa" />
-                  <img src={mastercard} alt="mastercard" />
-                  <img src={discover} alt="discover" />
-                  <img src={americanexpress} alt="americanexpress" />
-                </div>
-              </div>
-              <div className="description-block">
-                DESCRIPTION
-              </div>
-              <div className="add-info">
-                <div className="add-info__title">
-                  ADDITIONAL INFORMATION
-                </div>
-                <div>Colors: 
-                  <span>
-                    {images
-                      .map((el, ind) => {
+              <div className="detail__description">
+                <div className="colors-block">
+                  <div><span>COLOR: </span>{color}</div> 
+                  <div className='colors-block__list'>
+                    {
+                      images.map((el, ind) => {
                         if(images[ind].color === images[ind - 1]?.color) return
-                        return ` ${el.color},`                      
+                        return (
+                          <img key={el.id} 
+                              src={`${imgHost}${el.url}`}
+                              alt="color" 
+                              className={color === el.color ? 'colors-block__list-item active' : 'colors-block__list-item'}
+                              onClick={() => setColor(el.color)}
+                          />
+                        )
                       })
-                      .join('')
                     }
-                  </span>
+                  </div>              
                 </div>
-                <div>Sizes: <span>{sizes.join(', ')}</span></div>
-                <div>Material: <span>{material}</span></div>
-              </div>
-              <div className="reviews">
-                REVIEWS
-                <div className="reviews__header">
-                  <div className="reviews__rating">
-                    <Rating rating={rating} />
-                    <span>{reviews?.length} Reviews</span>
+                <div className="sizes-block">
+                  <div><span>SIZE: </span>{size}</div> 
+                  <div className="sizes-block__btns">
+                    {
+                      sizes.map((el, ind ) => {
+                        return (
+                          <button key={ind} onClick={() => setSize(el)}
+                                  className={size === el ? 'btn active' : 'btn'}
+                          >
+                            <span>{el}</span>
+                          </button>
+                        )
+                      })
+                    }                
                   </div>
-                  <div className="reviews__review">
-                    <img src={message} alt="message" />
-                    <span>Write a review</span>
+                  <div className="hanger">
+                    <img src={hanger} alt="hanger" />
+                    <span>Size guide</span>
                   </div>
+                  
                 </div>
-                {reviews.map(el => {
-                  return (
-                    <div className='reviews__item' key={el.id}>
-                      <div className="reviews__item-header">
-                        <div className="reviews__title">{el.name}</div>
-                        <div className="reviews__rating">
-                          <Rating rating={el.rating} />
+                <div className="price-block">
+                  <div className="price-block__count">
+                    {
+                      discount 
+                      ? <div>
+                          <span className='price-block__count_old' >$ {price}</span>
+                          <span className='price-block__count_new' > 
+                            {getPriceWidthDisc(price)}
+                          </span>
                         </div>
-                      </div>
-                      <div className="reviews__text">
-                        <p>{el.text}</p>
-                      </div>
-                    </div>                     
-                  )
-                })}
+                      : <span className='price-block__count_new' >$ {price}</span>
+                    }   
+                  </div>                                 
+                  <button onClick={() => {
+                    const finalPrice = getPriceWidthDisc(price)                  
+                    goodsInCart
+                    ? removeGoodsFromCart(id, size, color)
+                    : addGoodsToCart(id, name, size, color, photo, finalPrice)}}
+                    data-test-id='add-cart-button'
+                  >
+                    {goodsInCart
+                      ? 'REMOVE FROM CART'
+                      : 'ADD TO CART'
+                    }
+                    
+                  </button>
+                  <div className="price-block__icons">
+                    <img src={heart} alt="heart" />
+                    <img src={scales} alt="scales" />
+                  </div>              
+                </div>
+                <div className="services-block">
+                  <div className="services-block__item">
+                    <img src={car} alt="car" />
+                    Shipping & Delivery
+                  </div>
+                  <div className="services-block__item">
+                    <img src={refresh} alt="refresh" />
+                    Returns & Exchanges
+                  </div>
+                  <div className="services-block__item">
+                    <img src={mail} alt="mail" />
+                    Ask a question
+                  </div>
+                </div>
+                <div className="guarantees-block">
+                  <div className="guarantees-block__title">
+                    <span>guaranteed safe checkout</span>
+                    <div></div>
+                  </div>
+                  <div className="guarantees-block__services">
+                    <img src={stripe} alt="stripe" />
+                    <img src={aes} alt="aes" />
+                    <img src={paypal} alt="paypal" />
+                    <img src={visa} alt="visa" />
+                    <img src={mastercard} alt="mastercard" />
+                    <img src={discover} alt="discover" />
+                    <img src={americanexpress} alt="americanexpress" />
+                  </div>
+                </div>
+                <div className="description-block">
+                  DESCRIPTION
+                </div>
+                <div className="add-info">
+                  <div className="add-info__title">
+                    ADDITIONAL INFORMATION
+                  </div>
+                  <div>Colors: 
+                    <span>
+                      {images
+                        .map((el, ind) => {
+                          if(images[ind].color === images[ind - 1]?.color) return
+                          return ` ${el.color},`                      
+                        })
+                        .join('')
+                      }
+                    </span>
+                  </div>
+                  <div>Sizes: <span>{sizes.join(', ')}</span></div>
+                  <div>Material: <span>{material}</span></div>
+                </div>
+                <div className="reviews">
+                  REVIEWS
+                  <div className="reviews__header">
+                    <div className="reviews__rating">
+                      <Rating rating={rating} />
+                      <span>{reviews?.length} Reviews</span>
+                    </div>
+                    <div className="reviews__review">
+                      <img src={message} alt="message" />
+                      <span>Write a review</span>
+                    </div>
+                  </div>
+                  {reviews.map(el => {
+                    return (
+                      <div className='reviews__item' key={el.id}>
+                        <div className="reviews__item-header">
+                          <div className="reviews__title">{el.name}</div>
+                          <div className="reviews__rating">
+                            <Rating rating={el.rating} />
+                          </div>
+                        </div>
+                        <div className="reviews__text">
+                          <p>{el.text}</p>
+                        </div>
+                      </div>                     
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          </div>
+            </div>  
+          }
+          {
+            isError && <Error errorMessage={errorMessage} />
+          }    
 
           <div className="related-prod">
             <div className="related-prod__header">
@@ -300,34 +285,43 @@ const ProductPage = () => {
                 <img className='related-arr-next' src={arrNext} alt="arr" />
               </div>
             </div>
-            <div data-test-id='related-slider'>
-              <Swiper
-                className='relatedSwiper'
-                modules={[Navigation]}
-                spaceBetween={50}
-                navigation={{
-                    nextEl: '.related-arr-next',
-                    prevEl: '.related-arr-prev',
-                }} 
-                breakpoints={{
-                  220: {slidesPerView: 1},
-                  480: {slidesPerView: 2},
-                  800: {slidesPerView: 3},
-                  1100: {slidesPerView: 4},
-                }}        
-              >
-                {
-                  relatedProd.map(el => {
-                    return (
-                    <SwiperSlide key={el.id}>
-                      <Card  {...el} />
-                    </SwiperSlide>
-                    )
-                  })          
-                }              
-              </Swiper>      
-            </div>           
+            
+            {
+              isLoading
+              ? <Preloader />
+              : !isError && <div data-test-id='related-slider'>
+                  <Swiper
+                    className='relatedSwiper'
+                    modules={[Navigation]}
+                    spaceBetween={50}
+                    navigation={{
+                        nextEl: '.related-arr-next',
+                        prevEl: '.related-arr-prev',
+                    }} 
+                    breakpoints={{
+                      220: {slidesPerView: 1},
+                      480: {slidesPerView: 2},
+                      800: {slidesPerView: 3},
+                      1100: {slidesPerView: 4},
+                    }}        
+                  >
+                    {
+                      goods.map(el => {
+                        return (
+                        <SwiperSlide key={el.id}>
+                          <Card  {...el} />
+                        </SwiperSlide>
+                        )
+                      })          
+                    }              
+                  </Swiper>      
+                </div>
+            }
 
+            {
+              isError && <Error errorMessage={errorMessage} />
+            }
+                       
           </div>          
         </div>
       </div>

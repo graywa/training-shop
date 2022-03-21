@@ -15,21 +15,27 @@ const goodsSlice = createSlice({
     getGoods(state) {
       state.isLoading = true       
     },
+    getGoodsByCategory(state, action) {
+      state.isLoading = true
+    },
     getProduct(state, action) {
       state.isLoading = true
     },
     getGoodsSuccess(state, action) {
       state.isLoading = false
       state.errorMessage = ''
-      console.log(action)
       state.goods = action.payload.goods
     },
-    getProductSuccess(state, action) {
-      
+    getGoodsByCategorySuccess(state, action) {
+      state.isLoading = false
+      state.errorMessage = ''
+      const category = action.payload.goods[0].category
+      state.goods[category] = action.payload.goods
+    },
+    getProductSuccess(state, action) {      
       state.isLoading = false
       state.errorMessage = ''
       const category = action.payload.product.category.toLowerCase()
-      console.log(category)
       state.goods[category].push(action.payload.product) 
     },
     goodsRequestError(state, action) {
@@ -40,6 +46,12 @@ const goodsSlice = createSlice({
   }
 })
 
-export const {getGoods, getProduct, getGoodsSuccess,  getProductSuccess, goodsRequestError} = goodsSlice.actions
+export const {getGoods,
+              getProduct,
+              getGoodsByCategory,
+              getGoodsByCategorySuccess,
+              getGoodsSuccess,  
+              getProductSuccess, 
+              goodsRequestError} = goodsSlice.actions
 
 export default goodsSlice.reducer

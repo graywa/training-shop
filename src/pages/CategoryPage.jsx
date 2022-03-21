@@ -4,7 +4,6 @@ import AllGoods from '../components/all-goods/AllGoods'
 import CategoryIntro from '../components/category-intro/CategoryIntro'
 
 const CategoryPage = () => {
-
   const {category} = useParams()
 
   return (
