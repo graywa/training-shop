@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/training-shop/static/css/main.70a888ce.css",
-    "main.js": "/training-shop/static/js/main.b1aa4592.js",
+    "main.css": "/training-shop/static/css/main.36638b1f.css",
+    "main.js": "/training-shop/static/js/main.b2ad3ea3.js",
     "static/media/woman.png": "/training-shop/static/media/woman.4152b783e591f01bafb6.png",
     "static/media/girl.jpg": "/training-shop/static/media/girl.ba5d4eb3d9420781b5f8.jpg",
     "static/media/way.jpg": "/training-shop/static/media/way.5cad0183f33abe4f2f35.jpg",
@@ -9,12 +9,8 @@
     "static/media/wedding.jpg": "/training-shop/static/media/wedding.653a844b906171bd2ee2.jpg",
     "static/media/accessories.jpg": "/training-shop/static/media/accessories.ee7f09dd43e5a9912d95.jpg",
     "static/media/sale.jpg": "/training-shop/static/media/sale.6b1e286dc702ba60be57.jpg",
-    "static/media/girl1.jpg": "/training-shop/static/media/girl1.7472a839b6c5d7ed227c.jpg",
     "static/media/recent.jpg": "/training-shop/static/media/recent.5f7ce6ec287630e86bf9.jpg",
-    "static/media/girl3.jpg": "/training-shop/static/media/girl3.b60f6932598e066e266e.jpg",
     "static/media/new-season.jpg": "/training-shop/static/media/new-season.50c6caf0e00920727596.jpg",
-    "static/media/girl2.jpg": "/training-shop/static/media/girl2.eb178076f9fffbe5ebf2.jpg",
-    "static/media/girl4.jpg": "/training-shop/static/media/girl4.746180237ae3cebb8197.jpg",
     "static/media/women.jpg": "/training-shop/static/media/women.2e28690d1ff57477ec5d.jpg",
     "static/media/men.jpg": "/training-shop/static/media/men.b6cd01c12e335cbef2a0.jpg",
     "static/media/logo.svg": "/training-shop/static/media/logo.458fe7e5089d3c2642be67e88faf7931.svg",
@@ -61,11 +57,11 @@
     "static/media/plus.svg": "/training-shop/static/media/plus.c7657b46ee66a9842b5d482baa6f7f62.svg",
     "static/media/cross.svg": "/training-shop/static/media/cross.ccbee267556a2fee8c08b7190b82cc0c.svg",
     "static/media/minus.svg": "/training-shop/static/media/minus.25b2a98532a74aa7da9155bc37cd3509.svg",
-    "main.70a888ce.css.map": "/training-shop/static/css/main.70a888ce.css.map",
-    "main.b1aa4592.js.map": "/training-shop/static/js/main.b1aa4592.js.map"
+    "main.36638b1f.css.map": "/training-shop/static/css/main.36638b1f.css.map",
+    "main.b2ad3ea3.js.map": "/training-shop/static/js/main.b2ad3ea3.js.map"
   },
   "entrypoints": [
-    "static/css/main.70a888ce.css",
-    "static/js/main.b1aa4592.js"
+    "static/css/main.36638b1f.css",
+    "static/js/main.b2ad3ea3.js"
   ]
 }
