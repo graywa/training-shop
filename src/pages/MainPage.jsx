@@ -5,18 +5,18 @@ import Blog from '../components/blog/Blog'
 import Goods from '../components/goods/Goods.jsx'
 import IntroMain from '../components/intro-main/IntroMain'
 import News from '../components/news/News'
-import Preloader from '../components/Preloader/Preloader'
 import SubscribeBlock from '../components/subcribe-block/SubscribeBlock'
-import { getGoods, getProduct } from '../store/goodsSlice'
+import { getGoods } from '../store/goodsSlice'
 
 const MainPage = () => {
   const dispatch = useDispatch()
+  
+  const {goods: {women, men}, isLoading, isError, errorMessage} = useSelector(state => state.goods)
 
   useEffect(() => {    
+    if(!women.length && !men.length)
     dispatch(getGoods())
   }, [])
-
-  const {goods: {women, men}, isLoading, isError, errorMessage} = useSelector(state => state.goods)
 
   return (
     <>

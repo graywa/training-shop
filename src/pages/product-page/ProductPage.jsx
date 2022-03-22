@@ -36,12 +36,6 @@ const ProductPage = () => {
   const {id, category} = useParams()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    const goodsType = category
-    dispatch(getProduct({id}))
-    dispatch(getGoodsByCategory({goodsType}))
-  }, [id])
-
   const initialProduct = {name: '', 
                           price: null, 
                           discount: '', 
@@ -59,6 +53,17 @@ const ProductPage = () => {
   const goods = useSelector(state => state.goods.goods[category])
   
   const {isLoading, isError, errorMessage} = useSelector(state => state.goods)
+
+  useEffect(() => {
+    if(!name) dispatch(getProduct({id}))    
+  }, [id])
+
+  useEffect(() => {
+    if(!goods.length) {
+      const goodsType = category
+      dispatch(getGoodsByCategory({goodsType}))
+    }    
+  }, [category])
   
   const cartGoods = useSelector(state => state.cart.cartGoods) 
   

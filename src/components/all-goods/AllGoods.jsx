@@ -15,7 +15,7 @@ const AllGoods = ({goodsType}) => {
   const [filteredGoods, setFilteredGoods] = useState([])
 
   useEffect(() => {
-    dispatch(getGoodsByCategory({goodsType}))
+    if(!goods.length) dispatch(getGoodsByCategory({goodsType}))    
   }, [goodsType])
 
   return (

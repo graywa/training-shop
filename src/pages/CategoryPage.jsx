@@ -7,12 +7,10 @@ const CategoryPage = () => {
   const {category} = useParams()
 
   return (
-    <>
-      <div data-test-id={`products-page-${category}`}>
-        <CategoryIntro goodsType={category} />
-        <AllGoods goodsType={category}/>
-      </div>      
-    </>
+    <div data-test-id={`products-page-${category}`}>
+      <CategoryIntro goodsType={category} />
+      <AllGoods goodsType={category}/>
+    </div>      
   )
 }
 
