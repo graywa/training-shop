@@ -3,7 +3,7 @@ import './Error.scss'
 
 const Error = ({errorMessage}) => {
   return (
-    <div className='error' data-test-id='error' >
+    <div className='error-block' data-test-id='error' >
       <b>Ошибка получения данных: </b>{errorMessage}
     </div>
   )

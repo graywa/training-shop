@@ -49,7 +49,7 @@ const Filter = ({goodsType, goods, filteredGoods, setFilteredGoods}) => {
           allSizes = [], 
           allBrands = []
 
-      goods.forEach(el => {      
+      goods?.forEach(el => {      
       allBrands.push(el.brand)
       el.sizes.forEach(item => allSizes.push(item))
       el.images.forEach(item => allColors.push(item.color))
@@ -71,8 +71,8 @@ const Filter = ({goodsType, goods, filteredGoods, setFilteredGoods}) => {
   }, [goods])
 
   useEffect(() => {
-    if(!goods.length) setFilteredGoods([])
-    if(goods.length) {
+    if(!goods?.length) setFilteredGoods([])
+    if(goods?.length) {
       let finalGoods = [...goods]
       if (colorFilter.length) finalGoods = finalGoods.filter(el => {
         return el.images.some(item => colorFilter.includes(item.color))      

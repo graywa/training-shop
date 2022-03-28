@@ -35,22 +35,22 @@ const Footer = () => {
           <ul className="footer-nav__group">
             <li className="footer-nav__title">CATEGORIES</li>
             <li className="footer-nav__item">
-              <Link to='/goods/men' data-test-id={`footer-nav-link-men`}>
+              <Link to='/men' data-test-id={`footer-nav-link-men`}>
                 Men
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='/goods/women' data-test-id={`footer-nav-link-women`}>
+              <Link to='/women' data-test-id={`footer-nav-link-women`}>
                 Women
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='/goods/accessories' data-test-id={`footer-nav-link-#`}>
+              <Link to='/accessories' data-test-id={`footer-nav-link-#`}>
                 Accessories
               </Link>
             </li>
             <li className="footer-nav__item">
-              <Link to='/goods/beauty' data-test-id={`footer-nav-link-#`}>
+              <Link to='/beauty' data-test-id={`footer-nav-link-#`}>
                 Beauty
               </Link>
             </li>

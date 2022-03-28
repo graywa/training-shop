@@ -7,7 +7,7 @@ const Card = ({name, price, images, rating, discount, id, category}) => {
   return (
     <Link 
       className='card' 
-      to={`/goods/${category}/${id}`} 
+      to={`/${category}/${id}`} 
       data-test-id={`clothes-card-${category}`} 
     >
       <div className="card__photo">

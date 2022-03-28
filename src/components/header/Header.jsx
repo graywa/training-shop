@@ -78,7 +78,7 @@ const Header = () => {
                     to={`/${el.path}`} 
                     className = {pathname.slice(1) === el.title.toLowerCase() 
                       ? 'nav__item nav__item_active' : 'nav__item'}
-                    data-test-id={`menu-link-${el.path.slice(6)}`}                    
+                    data-test-id={`menu-link-${el.path}`}                    
                   >
                     {el.title}
                   </Link>
@@ -136,7 +136,7 @@ const Header = () => {
                           to={`/${el.path}`} 
                           className = {pathname.slice(1) === el.title.toLowerCase() 
                             ? 'nav__item nav__item_active' : 'nav__item'}
-                          data-test-id={`menu-link-${el.path.slice(6)}`}                    
+                          data-test-id={`menu-link-${el.path}`}                    
                         >
                           {el.title}
                         </Link>

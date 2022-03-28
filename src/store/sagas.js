@@ -1,9 +1,11 @@
 import {call, put, takeLatest} from 'redux-saga/effects'
 import { goodsApi } from '../api/goods-api'
+import { subscribeApi } from '../api/subscribe-api';
 import { goodsRequestError,
          getGoodsSuccess, 
          getProductSuccess, 
          getGoodsByCategorySuccess } from './goodsSlice'
+import { subscribeError, subscribeSeccess } from './subscribeSlice';
 
 
 function* goodsRequestWorker() {
@@ -38,8 +40,20 @@ function* productRequestWorker(action) {
   }
 }
 
-export default function* goodsSagatWatcher() {
+function* subscribeWorker(action) {
+  try {
+    const email = action.payload.email
+    yield call(subscribeApi.subscribe, email)
+    yield put(subscribeSeccess())
+  } catch (error) {
+    let message = error.message
+    yield put(subscribeError({message}))
+  }
+}
+
+export default function* sagaWatcher() {
   yield takeLatest('goods/getGoods', goodsRequestWorker)
   yield takeLatest('goods/getProduct', productRequestWorker)
   yield takeLatest('goods/getGoodsByCategory', goodsByCategoryRequestWorker)
+  yield takeLatest('subscribe/startSubscribe', subscribeWorker)
 }

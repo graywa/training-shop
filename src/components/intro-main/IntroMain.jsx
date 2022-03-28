@@ -42,14 +42,14 @@ const IntroMain = () => {
       <div className="intro__cotegories">
         <div className="intro__women-men">
           <div className="intro__women">
-            <WhiteBlock path={'/goods/women'} title='momen' />
+            <WhiteBlock path={'/women'} title='momen' />
           </div>
           <div className="intro__men">
-            <WhiteBlock path={'/goods/men'} title={'men'} />
+            <WhiteBlock path={'/men'} title={'men'} />
           </div>
         </div>
         <div className="intro__accessories">
-          <WhiteBlock path={'/goods/accessories'} title='accessories' />            
+          <WhiteBlock path={'/accessories'} title='accessories' />            
         </div>
       </div>
     </div>

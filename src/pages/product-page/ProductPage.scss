@@ -344,6 +344,7 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
+    word-break: break-all;
     opacity: .8;
     &:not(:last-child) {
       margin-bottom: 48px;

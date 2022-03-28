@@ -57,7 +57,7 @@ const Goods = ({goodsType, goods, isLoading, isError, errorMessage}) => {
         : !isError && <div>
            <div className="cards">
               {
-                goods.length 
+                goods?.length 
                   ? goods
                     .filter(el => el.particulars[particular])
                     .filter((el, ind) => ind < 8)
@@ -67,7 +67,7 @@ const Goods = ({goodsType, goods, isLoading, isError, errorMessage}) => {
                   : <h1>скоро в продаже</h1>
               }
             </div>
-            <Link className='see-all' to={`goods/${goodsType}`}>SEE ALL</Link>
+            <Link className='see-all' to={`/${goodsType}`}>SEE ALL</Link>
           </div>
       }
 

@@ -31,8 +31,9 @@ import Preloader from '../../components/Preloader/Preloader'
 import ThumbsSlider from '../../components/thumbs-slider/ThumbsSlider'
 import Error from '../../components/error/Error'
 
-const ProductPage = () => {  
-  const {id, category} = useParams()
+const ProductPage = ({category}) => {  
+  const {id} = useParams()
+  
   const dispatch = useDispatch()
 
   const initialProduct = {name: '', 

@@ -13,28 +13,31 @@ const goodsSlice = createSlice({
   },
   reducers: {
     getGoods(state) {
-      state.isLoading = true       
+      state.isLoading = true 
     },
-    getGoodsByCategory(state, action) {
-      state.isLoading = true
+    getGoodsByCategory(state) {
+      state.isLoading = true      
     },
-    getProduct(state, action) {
-      state.isLoading = true
+    getProduct(state) {
+      state.isLoading = true  
     },
     getGoodsSuccess(state, action) {
-      state.isLoading = false
+      state.isLoading = false    
       state.errorMessage = ''
+      state.isError = false  
       state.goods = action.payload.goods
     },
     getGoodsByCategorySuccess(state, action) {
       state.isLoading = false
       state.errorMessage = ''
+      state.isError = false
       const category = action.payload.goods[0].category
       state.goods[category] = action.payload.goods
     },
     getProductSuccess(state, action) {      
       state.isLoading = false
       state.errorMessage = ''
+      state.isError = false
       const category = action.payload.product.category.toLowerCase()
       state.goods[category].push(action.payload.product) 
     },
