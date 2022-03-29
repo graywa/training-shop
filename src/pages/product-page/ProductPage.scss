@@ -317,6 +317,11 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    cursor: pointer;
+    transition: .2s linear;
+    &:hover {
+      opacity: .8;
+    }
   }
 
   &__item {
@@ -376,4 +381,9 @@
     }
   }
 }
+
+
+// review modal
+
+
 

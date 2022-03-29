@@ -10,12 +10,13 @@ const subscribeSlice = createSlice({
   },
   reducers: {  
     startSubscribe(state, action) {
-      state.isLoading = true
+      console.log(action)
+      state.isLoading = action.payload.description
     },
     subscribeSeccess(state, action) {
       state.isLoading = false
       state.isError = false
-      state.isSeccess = true
+      state.isSeccess = action.payload.description
       state.errorMessage = ''
     },
     resetSubscribeSeccess(state, action) {
@@ -23,9 +24,13 @@ const subscribeSlice = createSlice({
     },
     subscribeError(state, action) {
       state.isLoading = false
-      state.isError = true
+      state.isError = action.payload.description
       state.errorMessage = action.payload.message
-    }    
+    },
+    resetSubscribeError(state, action) {
+      state.isError = false
+      state.errorMessage = ''
+    },
   }
 })
 
@@ -33,6 +38,7 @@ export const {
   startSubscribe, 
   subscribeSeccess,
   resetSubscribeSeccess, 
-  subscribeError} = subscribeSlice.actions
+  subscribeError,
+  resetSubscribeError} = subscribeSlice.actions
 
 export default subscribeSlice.reducer

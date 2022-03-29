@@ -27,13 +27,13 @@ import Rating from '../../components/rating/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { addGoods, removeGoods } from '../../store/cartSlice'
 import { getGoodsByCategory, getProduct } from '../../store/goodsSlice'
-import Preloader from '../../components/Preloader/Preloader'
+import Preloader from '../../components/preloader/Preloader'
 import ThumbsSlider from '../../components/thumbs-slider/ThumbsSlider'
 import Error from '../../components/error/Error'
+import ReviewModal from './review-modal/ReviewModal'
 
 const ProductPage = ({category}) => {  
-  const {id} = useParams()
-  
+  const {id} = useParams()  
   const dispatch = useDispatch()
 
   const initialProduct = {name: '', 
@@ -69,6 +69,7 @@ const ProductPage = ({category}) => {
   
   const [size, setSize] = useState(sizes?.[0])
   const [color, setColor] = useState(images[0]?.color)
+  const [isReviewOpen, setIsReviewOpen] = useState(false)
   
   useEffect(() => {
     setSize(sizes?.[0])
@@ -189,8 +190,7 @@ const ProductPage = ({category}) => {
                     {goodsInCart
                       ? 'REMOVE FROM CART'
                       : 'ADD TO CART'
-                    }
-                    
+                    }                    
                   </button>
                   <div className="price-block__icons">
                     <img src={heart} alt="heart" />
@@ -247,6 +247,13 @@ const ProductPage = ({category}) => {
                   <div>Sizes: <span>{sizes.join(', ')}</span></div>
                   <div>Material: <span>{material}</span></div>
                 </div>
+
+                <ReviewModal
+                  id={id}
+                  isReviewOpen={isReviewOpen}
+                  setIsReviewOpen={setIsReviewOpen}
+                />
+
                 <div className="reviews">
                   REVIEWS
                   <div className="reviews__header">
@@ -254,7 +261,10 @@ const ProductPage = ({category}) => {
                       <Rating rating={rating} />
                       <span>{reviews?.length} Reviews</span>
                     </div>
-                    <div className="reviews__review">
+                    <div 
+                      className="reviews__review"
+                      onClick={() => setIsReviewOpen(true)}
+                    >
                       <img src={message} alt="message" />
                       <span>Write a review</span>
                     </div>

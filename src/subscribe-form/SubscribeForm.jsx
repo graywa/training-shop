@@ -2,88 +2,124 @@ import React, { useEffect } from 'react'
 import './SubscribeForm.scss'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch, useSelector } from 'react-redux';
-import { resetSubscribeSeccess, startSubscribe } from '../store/subscribeSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  resetSubscribeError,
+  resetSubscribeSeccess,
+  startSubscribe,
+} from '../store/subscribeSlice'
 import CircleLoader from '../components/circle-loader/CircleLoader'
 
-const SubscribeForm = () => {
+const SubscribeForm = ({
+  description,
+  formClass,
+  inputClass,
+  messageClass,
+  buttonClass,
+  loaderClass,  
+  buttonText
+}) => {
   const dispatch = useDispatch()
-  const {
-    isLoading,
-    isError,
-    errorMessage,
-    isSeccess} = useSelector(state => state.subscribe)
+  let {isLoading, isSeccess, isError, errorMessage} = useSelector(
+    (state) => state.subscribe
+  )
+
+  isLoading = isLoading === description ? true : false
+  isSeccess = isSeccess === description ? true : false
+  isError = isError === description ? true : false
 
   useEffect(() => {
-    if(isSeccess) {
+    if (isSeccess) {
       setTimeout(() => {
         dispatch(resetSubscribeSeccess())
-      }, 2000)
-    }    
+      }, 2500)
+    }
   }, [isSeccess])
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        dispatch(resetSubscribeError())
+      }, 2500)
+    }
+  }, [isError])
 
   return (
     <Formik
-      enableReinitialize
-      initialValues={{email: ''}}      
+      initialValues={{ email: '' }}
       onSubmit={(values, props) => {
-        props.setSubmitting(false)
+        const email = values.email
         props.resetForm()
-        dispatch(startSubscribe(values))
+        dispatch(startSubscribe({email, description}))        
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-                  .email('Email должен быть действительным')
-                  .required('Обязательное поле')
-      })}
+          .email('email должен быть действительным')
+          .required('Введите ваш email'),
+      })}        
     >
-      {props => {
+      {(props) => {
         const {
-          values, 
-          touched, 
-          errors, 
-          dirty,
-          isSubmitting, 
-          handleChange, 
-          handleBlur, 
-          handleSubmit} = props
+          values,
+          touched,
+          errors,
+          handleChange,
+          setErrors,
+          handleSubmit,
+        } = props
+
         return (
-          <form className='form' onSubmit={handleSubmit}>            
-            <input 
-              id='email'
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={
-                errors.email && touched.email ? 'form__input error' : 'form__input'
-              } 
-              type="email" 
-              placeholder='Enter your email'
-            />
-            {errors.email && touched.email && (
-              <div className='form__input-error'>{errors.email}</div>
-            )}   
-            {isError && (
-              <div className='form__input-error'>{`Ошибка: ${errorMessage}`}</div>
-            )}        
-            {isSeccess && (
-              <div className='form__input-seccess'>{'✓ Вы успешно подписались'}</div>
-            )}        
+          <form className={formClass} onSubmit={handleSubmit}>  
+            <div className="input-wrapper">
+              <input
+                id='email'
+                value={values.email}
+                onChange={handleChange}
+                onBlur={() => {  
+                  if(!values.email){
+                    setTimeout(() => {
+                      setErrors({})
+                    }, 2500)   
+                  }                   
+                }}
+                className={
+                  (errors.email && touched.email) || isError || isSeccess
+                    ? `${inputClass} message`
+                    : inputClass 
+                }
+                type='email'
+                placeholder='Enter your email'
+              />
+              {errors.email && touched.email && (
+                <div className={`${messageClass} error`}>{errors.email}</div>
+              )}
+              {isError && (
+                <div
+                  className={`${messageClass} error`}
+                >{`Ошибка: ${errorMessage}`}</div>
+              )}
+              {isSeccess && (
+                <div className={`${messageClass} success`}>
+                  {'✓ Вы успешно подписались'}
+                </div>
+              )}
+            </div>          
+            
             <button
-              type='submit'              
-              className="form__button"              
-              disabled={Object.keys(errors).length || isSubmitting}
+              type='submit'
+              className={buttonClass}
+              disabled={Object.keys(errors).length || isLoading}
             >
-              subscribe
+              {buttonText}
               {isLoading && (
-                <span className="form__loader">
+                <span className={loaderClass}>
                   <CircleLoader />
                 </span>
-              )}              
+              )}
             </button>
           </form>
         )
-      }}      
+      }}
     </Formik>
   )
 }

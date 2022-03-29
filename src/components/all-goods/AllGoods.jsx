@@ -4,7 +4,7 @@ import Card from '../goods/card/Card'
 import Filter from '../filter/Filter'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGoodsByCategory } from '../../store/goodsSlice'
-import Preloader from '../Preloader/Preloader'
+import Preloader from '../preloader/Preloader'
 import Error from '../error/Error'
 
 const AllGoods = ({goodsType}) => {

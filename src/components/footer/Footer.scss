@@ -17,52 +17,11 @@
     line-height: 1.5;
     color: #fff;
   }
-  @media (max-width: 900px) {
+  @media (max-width: 940px) {
     padding: 15px 0;
     flex-direction: column;
     gap: 10px;
   }
-}
-.contact-us-form {
-  display: flex;
-  gap: 15px;
-  &__input {
-    width: 400px;
-    height: 32px;
-    border: none;
-    padding-left: 15px;
-    background: rgba(255, 255, 255, 0.212);
-    color: #fff;
-    &:focus {
-      outline: 1px solid rgb(58, 57, 56);
-    }
-    @media (max-width: 630px) {
-      width: 230px;
-    }
-    
-  }
-
-  &__btn {
-    padding: 7px 24px;
-
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.5;
-    text-align: center;
-    color: #fff;
-
-    border: 1px solid #fff;
-    cursor: pointer;
-    transition: .2s linear;
-    &:hover {
-      color: rgb(180, 174, 174);
-      border: 1px solid rgb(180, 174, 174);
-    }
-  }
-  @media (max-width: 450px) {
-      flex-direction: column;
-      gap: 15px;
-    }
 }
 
 .footer-nav {

@@ -1,4 +1,11 @@
 .rating {
   display: flex;
   align-items: center;
+  &__star.edit {
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
 }

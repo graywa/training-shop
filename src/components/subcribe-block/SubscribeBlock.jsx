@@ -16,7 +16,15 @@ const SubscribeBlock = () => {
         <div className="form-subscr__text">
           subscribe and <span>get 10% off</span>
         </div>          
-          <SubscribeForm />
+          <SubscribeForm 
+            description='middle'
+            formClass='form'
+            inputClass='form__input'
+            messageClass='form__message'
+            buttonClass='form__button'
+            loaderClass='form__loader'
+            buttonText='SUBSCRIBE'
+          />
       </div>                      
     </div>
   )

@@ -3,22 +3,20 @@
   justify-content: center;
   align-items: center;
 }
-.loader-circle-93 svg {
-  height: 50px;
-  width: 50px;
-  stroke: rgb(230, 230, 230);
-  transform: rotate(-90deg);
+.loader-circle-6 {
+  animation: loader-circle-6-spin 1s linear infinite;
+  border: solid 4px #bbb;
+  border-top: solid 4px transparent;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
 }
-.loader-circle-93 circle {
-  stroke-dasharray: 156;
-  stroke-dashoffset: 156;
-  animation: anm-loader-circle-93 2.3s infinite;
-}
-@keyframes anm-loader-circle-93 {
-  50% {
-      stroke-dashoffset: 0;
+@keyframes loader-circle-6-spin {
+  0% {
+      transform: rotate(0deg);
   }
   100% {
-      stroke-dashoffset: -156;
+      transform: rotate(360deg);
   }
 }

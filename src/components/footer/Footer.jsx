@@ -13,6 +13,7 @@ import visa from './assets/visa.svg'
 import mastercard from './assets/mastercard.svg'
 import discover from './assets/discover.svg'
 import americanexpress from './assets/americanexpress.svg'
+import SubscribeForm from '../../subscribe-form/SubscribeForm'
 
 const Footer = () => {
   return (
@@ -21,10 +22,15 @@ const Footer = () => {
         <div className="container">
           <div className="contact-us">
             <div className="contact-us__title">BE IN TOUCH WITH US:</div>
-            <form className="contact-us-form">
-              <input className="contact-us-form__input" type='email' placeholder='Enter your email'/>
-              <div className="contact-us-form__btn">JOIN US</div>
-            </form>
+            <SubscribeForm 
+              description='footer'
+              formClass='footer-form'
+              inputClass='footer-form__input'
+              messageClass='footer-form__message'
+              buttonClass='footer-form__btn'
+              loaderClass='footer-form__loader'
+              buttonText='JOIN US'
+            />            
             <SocialNetworks size={18} />
           </div>
         </div>

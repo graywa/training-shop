@@ -1,0 +1,93 @@
+.modal-review {
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #12121263;
+
+  transition: .2s linear;
+  .review {    
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+    align-items: center;
+    max-width: 450px;    
+    width: 100%;
+    background: #fff;
+    padding: 40px; 
+    
+    text-align: center;
+
+    box-shadow: 3px 3px 15px 0px #0000005c;
+    transition: .2s linear;
+    &__title {
+      width: 100%;
+
+      font-size: 20px;
+      font-weight: 600;
+    }
+    &__rating {
+      text-align: center;
+    }
+    .review-form {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%;
+
+
+      &__name,
+      &__text,
+      &__btn { 
+        padding: 10px 15px;     
+        width: 100%;
+        outline: none;
+        border: none;
+        background: #f5f5f5;
+
+        color: #121212;
+
+        &:focus {
+          outline: 1px solid #cacaca;      
+        }
+      }
+      &__name {
+
+      }
+      &__text {        
+        height: 200px;
+        resize: none;
+      }
+      &__btn {      
+        background: #121212;
+      
+        color: #fff;
+
+        cursor: pointer;
+        transition: .2s linear;
+
+        &:hover {
+          background: #333333;
+        }
+
+      }
+    }
+  }
+
+  &.open {
+    visibility: visible;
+    opacity: 1;    
+  }
+
+}
+
+
+  
+    

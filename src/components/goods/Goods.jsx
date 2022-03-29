@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Card from './card/Card'
 import './Goods.scss'
-import Preloader from '../Preloader/Preloader'
+import Preloader from '../preloader/Preloader'
 import Error from '../error/Error'
 
 const GOODS_NAV_MENU = [
