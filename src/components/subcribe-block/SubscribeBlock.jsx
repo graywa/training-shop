@@ -24,6 +24,8 @@ const SubscribeBlock = () => {
             buttonClass='form__button'
             loaderClass='form__loader'
             buttonText='SUBSCRIBE'
+            testInput='main-subscribe-mail-field'
+            testButton='main-subscribe-mail-button'
           />
       </div>                      
     </div>

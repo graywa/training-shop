@@ -30,6 +30,8 @@ const Footer = () => {
               buttonClass='footer-form__btn'
               loaderClass='footer-form__loader'
               buttonText='JOIN US'
+              testInput='footer-mail-field'
+              testButton='footer-subscribe-mail-button'
             />            
             <SocialNetworks size={18} />
           </div>

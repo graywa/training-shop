@@ -273,7 +273,11 @@ const ProductPage = ({category}) => {
                       className="reviews__review"
                       onClick={() => setIsReviewOpen(true)}
                     >
-                      <img src={message} alt="message" />
+                      <img 
+                        src={message}
+                        alt="message"
+                        data-test-id='review-button'
+                      />
                       <span>Write a review</span>
                     </div>
                   </div>

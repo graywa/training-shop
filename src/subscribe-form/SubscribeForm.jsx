@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './SubscribeForm.scss'
-import { Formik } from 'formik'
+import { Formik, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -9,6 +9,7 @@ import {
   startSubscribe,
 } from '../store/subscribeSlice'
 import CircleLoader from '../components/circle-loader/CircleLoader'
+import { useLocation } from 'react-router-dom'
 
 const SubscribeForm = ({
   description,
@@ -17,9 +18,14 @@ const SubscribeForm = ({
   messageClass,
   buttonClass,
   loaderClass,  
-  buttonText
+  buttonText,
+  testInput,
+  testButton
 }) => {
   const dispatch = useDispatch()
+  const {pathname} = useLocation()
+  const formikRef = useRef()
+
   let {isLoading, isSeccess, isError, errorMessage} = useSelector(
     (state) => state.subscribe
   )
@@ -44,6 +50,11 @@ const SubscribeForm = ({
     }
   }, [isError])
 
+  useEffect(() => {
+    dispatch(resetSubscribeSeccess())
+    formikRef.current.resetForm()
+  }, [pathname])
+
   return (
     <Formik
       initialValues={{ email: '' }}
@@ -54,9 +65,10 @@ const SubscribeForm = ({
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .email('email должен быть действительным')
+          .email('email не верный')
           .required('Введите ваш email'),
-      })}        
+      })}      
+      innerRef={formikRef}   
     >
       {(props) => {
         const {
@@ -64,6 +76,7 @@ const SubscribeForm = ({
           touched,
           errors,
           handleChange,
+          handleBlur,
           setErrors,
           handleSubmit,
         } = props
@@ -73,15 +86,17 @@ const SubscribeForm = ({
             <div className="input-wrapper">
               <input
                 id='email'
-                value={values.email}
+                value={values.email}                
                 onChange={handleChange}
-                onBlur={() => {  
+                onBlur={(e) => {   
                   if(!values.email){
                     setTimeout(() => {
                       setErrors({})
-                    }, 2500)   
-                  }                   
-                }}
+                    }, 2000)   
+                  }
+                  handleBlur(e) 
+                }                   
+                }
                 className={
                   (errors.email && touched.email) || isError || isSeccess
                     ? `${inputClass} message`
@@ -89,6 +104,7 @@ const SubscribeForm = ({
                 }
                 type='email'
                 placeholder='Enter your email'
+                data-test-id={testInput}
               />
               {errors.email && touched.email && (
                 <div className={`${messageClass} error`}>{errors.email}</div>
@@ -100,7 +116,7 @@ const SubscribeForm = ({
               )}
               {isSeccess && (
                 <div className={`${messageClass} success`}>
-                  '✓ Вы успешно подписались'
+                  ✓ Вы успешно подписались
                 </div>
               )}
             </div>          
@@ -109,6 +125,7 @@ const SubscribeForm = ({
               type='submit'
               className={buttonClass}
               disabled={Object.keys(errors).length || isLoading}
+              data-test-id={testButton}
             >
               {buttonText}
               {isLoading && (

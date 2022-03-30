@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Formik } from 'formik'
 import './ReviewModal.scss'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,15 +9,16 @@ import {
   resetReviewSeccess,
   sendReviewError,
   resetReviewError,
+  changeRating,
 } from '../../../store/reviewSlice'
 import Rating from '../../../components/rating/Rating'
 import cross from '../../../components/filter/assets/cross.svg'
 import CircleLoader from '../../../components/circle-loader/CircleLoader'
-import { getProduct } from '../../../store/goodsSlice'
 
 
 function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
   const dispatch = useDispatch()
+  const formikRef = useRef()
 
   let { rating, isLoading, isSeccess, isError, errorMessage } = useSelector(
     (state) => state.review
@@ -41,12 +42,15 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
     if(isSeccess) {
       setTimeout(() => {
         setIsReviewOpen(false)
-        console.log(isSeccess)
         dispatch(resetReviewSeccess())
-        dispatch(getProduct({id}))
       }, 1500)
     }
   }, [isSeccess])
+
+  useEffect(() => {    
+    dispatch(changeRating({rating: 1}))
+    formikRef.current.resetForm()
+  }, [id])
 
   
 
@@ -55,7 +59,11 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
       className={isReviewOpen ? 'modal-review open' : 'modal-review'}
       onClick={() => setIsReviewOpen(false)}
     >
-      <div className='review' onClick={(e) => e.stopPropagation()}>
+      <div 
+        className='review'
+        onClick={(e) => e.stopPropagation()}
+        data-test-id='review-modal'
+      >
         <img 
           className='review__cross' 
           src={cross} 
@@ -67,6 +75,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
           <Rating editable={true} rating={rating} size={30} />
         </div>
         <Formik
+          innerRef={formikRef}
           initialValues={{
             name: '',
             text: '',            
@@ -102,14 +111,16 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                     type='text'
                     className='review-form__name'
                     onChange={handleChange}
-                    onBlur={() => {  
+                    onBlur={(e) => {  
                       if(!values.name){
                         setTimeout(() => {
                           setErrors({})
                         }, 2500)   
-                      }                   
+                      }   
+                      handleBlur(e)                
                     }}
                     placeholder='Ваше имя'
+                    data-test-id='review-name-field'
                   />
                   {errors.name && touched.name && (
                     <div className='review__message error'>{errors.name}</div>
@@ -123,8 +134,16 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                     type='text'
                     className='review-form__text'
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                    onBlur={(e) => {
+                      if(!values.name){
+                        setTimeout(() => {
+                          setErrors({})
+                        }, 2500)   
+                      }
+                      handleBlur(e)
+                    }}
                     placeholder='Ваш отзыв'
+                    data-test-id='review-text-field'
                   />
                   {errors.text && touched.text && (
                     <div className='review__message error textarea'>{errors.text}</div>
@@ -136,6 +155,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                     type='submit'
                     className='review-form__btn'
                     disabled={Object.keys(errors).length || isLoading}
+                    data-test-id='review-submit-button'
                   >
                     SUBMIT
                     {isLoading && (
@@ -152,7 +172,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                   )}  
                   {isSeccess && (
                     <div className='review__message'>
-                      '✓ Ваш отзыв успешно добавлен'
+                      ✓ Ваш отзыв успешно добавлен
                     </div>
                   )}
                 </div>

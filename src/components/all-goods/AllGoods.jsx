@@ -15,7 +15,6 @@ const AllGoods = ({goodsType}) => {
   const [filteredGoods, setFilteredGoods] = useState([])
 
   useEffect(() => {
-    console.log(goods)
     if(!goods?.length && goods !== undefined) {
       dispatch(getGoodsByCategory({goodsType}))
     }    

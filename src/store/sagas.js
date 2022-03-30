@@ -58,8 +58,9 @@ function* subscribeWorker(action) {
 function* reviewSendWorker(action) {
   try {
     const {id, name, text, rating} = action.payload
-    yield call(reviewApi.review, id, name, text, rating)
+    const product = yield call(reviewApi.review, id, name, text, rating)
     yield put(sendReviewSeccess())
+    yield put(getProductSuccess({product}))
   } catch (error) {
     const message = error.message
     yield put(sendReviewError({message}))
