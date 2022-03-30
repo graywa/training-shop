@@ -14,6 +14,7 @@
 
   transition: .2s linear;
   .review {    
+    position: relative;
     display: flex;
     gap: 30px;
     flex-direction: column;
@@ -25,8 +26,17 @@
     
     text-align: center;
 
-    box-shadow: 3px 3px 15px 0px #0000005c;
+    box-shadow: 3px 3px 10px 0px #0000005c;
     transition: .2s linear;
+    &__cross {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index: 5;
+
+      cursor: pointer;
+    }
+
     &__title {
       width: 100%;
 
@@ -39,9 +49,12 @@
     .review-form {
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 35px;
       width: 100%;
 
+      .wrapper-field {
+        position: relative;        
+      }
 
       &__name,
       &__text,
@@ -61,11 +74,14 @@
       &__name {
 
       }
-      &__text {        
+      &__text { 
+        position: relative;       
         height: 200px;
         resize: none;
       }
-      &__btn {      
+      &__btn {  
+        position: relative;
+        padding: 15px;    
         background: #121212;
       
         color: #fff;
@@ -76,8 +92,46 @@
         &:hover {
           background: #333333;
         }
+        &:disabled {
+          cursor: not-allowed;
+          background: rgb(107, 106, 106);
+        }    
 
       }
+    }
+
+    &__message {   
+      position: absolute;      
+      z-index: 5;
+      width: 100%;
+      height: 26px; 
+      padding: 3px 12px;
+      margin:  0 0 6px;   
+      text-align: center;    
+      transition: .2s linear;
+      border-radius: 0 0 12px 12px;
+      border: 1px solid rgb(90, 133, 78);
+      border-top: none;
+      color: rgb(61, 94, 52); 
+
+      animation: show .3s;
+    }
+  
+    &__message.textarea {
+      bottom: -26px;
+      left: 0;
+    }
+  
+    &__message.error {
+      border: 1px solid rgb(243, 166, 166);
+      border-top: none;
+      color: rgb(80, 40, 40);
+    }
+
+    &__loader {
+      position: absolute;
+      top: calc(50% - 15px);
+      left: 10%;
     }
   }
 
@@ -86,6 +140,11 @@
     opacity: 1;    
   }
 
+}
+
+
+@keyframes show {
+  from {opacity: 0;} to {opacity: 1;}  
 }
 
 

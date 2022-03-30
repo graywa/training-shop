@@ -39,6 +39,8 @@ const goodsSlice = createSlice({
       state.errorMessage = ''
       state.isError = false
       const category = action.payload.product.category.toLowerCase()
+      const id = action.payload.product.id
+      state.goods[category] = state.goods[category].filter(el => el.id !== id)
       state.goods[category].push(action.payload.product) 
     },
     goodsRequestError(state, action) {

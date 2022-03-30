@@ -100,7 +100,7 @@ const SubscribeForm = ({
               )}
               {isSeccess && (
                 <div className={`${messageClass} success`}>
-                  {'✓ Вы успешно подписались'}
+                  '✓ Вы успешно подписались'
                 </div>
               )}
             </div>          

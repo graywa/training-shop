@@ -36,19 +36,27 @@ const ProductPage = ({category}) => {
   const {id} = useParams()  
   const dispatch = useDispatch()
 
-  const initialProduct = {name: '', 
-                          price: null, 
-                          discount: '', 
-                          rating: null, 
-                          sizes: [], 
-                          reviews: [], 
-                          images: [], 
-                          material: ''}
+  const initialProduct = {
+    name: '', 
+    price: null, 
+    discount: '', 
+    rating: null, 
+    sizes: [], 
+    reviews: [], 
+    images: [], 
+    material: ''}
 
-  let {name, price, discount, rating, sizes, reviews, images, material} = useSelector(state => {
-    return state.goods.goods[category].find(el => el.id === id)
-  }) 
-  || initialProduct
+  let {
+    name, 
+    price, 
+    discount, 
+    rating, 
+    sizes, 
+    reviews, 
+    images, 
+    material} = useSelector(state => {
+      return state.goods.goods[category].find(el => el.id === id)
+    }) || initialProduct
 
   const goods = useSelector(state => state.goods.goods[category])
   
