@@ -13,6 +13,7 @@
   background: #12121263;
 
   transition: .2s linear;
+  animation: show .2s linear;
   .review {    
     position: relative;
     display: flex;
@@ -28,6 +29,7 @@
 
     box-shadow: 3px 3px 10px 0px #0000005c;
     transition: .2s linear;
+
     &__cross {
       position: absolute;
       top: 15px;
@@ -114,7 +116,7 @@
       border-top: none;
       color: rgb(61, 94, 52); 
 
-      animation: show .3s;
+      animation: show .2s linear;
     }
   
     &__message.textarea {
@@ -137,14 +139,20 @@
 
   &.open {
     visibility: visible;
-    opacity: 1;    
+    opacity: 1; 
   }
-
 }
 
 
 @keyframes show {
-  from {opacity: 0;} to {opacity: 1;}  
+  from {
+    opacity: 0;
+    visibility: hidden;
+  } 
+  to {
+    opacity: 1;
+    visibility: visible;
+  }  
 }
 
 

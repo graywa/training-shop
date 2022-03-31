@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Formik } from 'formik'
 import './ReviewModal.scss'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,6 +19,7 @@ import CircleLoader from '../../../components/circle-loader/CircleLoader'
 function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
   const dispatch = useDispatch()
   const formikRef = useRef()
+  const [isOpen, setIsOpen] = useState(true)
 
   let { rating, isLoading, isSeccess, isError, errorMessage } = useSelector(
     (state) => state.review
@@ -40,149 +41,159 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
 
   useEffect(() => {
     if(isSeccess) {
+      formikRef.current.resetForm()
       setTimeout(() => {
         setIsReviewOpen(false)
+        setIsOpen(true)
         dispatch(resetReviewSeccess())
-      }, 1500)
+      }, 400)
     }
   }, [isSeccess])
 
-  useEffect(() => {    
+  useEffect(() => {  
     dispatch(changeRating({rating: 1}))
-    formikRef.current.resetForm()
-  }, [id])
+  }, [isReviewOpen])
 
-  
+  const handleClick = () => {
+    setIsOpen(false)
+    setTimeout(() => {
+      setIsReviewOpen(false)
+      setIsOpen(true)
+    }, 200)
+  }
 
   return (
-    <div
-      className={isReviewOpen ? 'modal-review open' : 'modal-review'}
-      onClick={() => setIsReviewOpen(false)}
-    >
-      <div 
-        className='review'
-        onClick={(e) => e.stopPropagation()}
-        data-test-id='review-modal'
+    <>
+      {isReviewOpen && (
+      <div
+        className={isOpen ? 'modal-review open' : 'modal-review'}
+        onClick={handleClick}
       >
-        <img 
-          className='review__cross' 
-          src={cross} 
-          alt="cross" 
-          onClick={() => setIsReviewOpen(false)}
-        />
-        <div className='review__title'>Whrite a review</div>
-        <div className='review__rating'>
-          <Rating editable={true} rating={rating} size={30} />
-        </div>
-        <Formik
-          innerRef={formikRef}
-          initialValues={{
-            name: '',
-            text: '',            
-          }}
-          onSubmit={({name, text}, props) => {
-            props.resetForm()    
-            dispatch(startSendReview({id, rating, name, text}))
-          }}
-          validationSchema={Yup.object().shape({
-            name: Yup.string()              
-                     .required('Введите ваше имя'),
-            text: Yup.string()
-                     .required('Введите ваш отзыв')
-          })}
+        <div 
+          className='review'
+          onClick={(e) => e.stopPropagation()}
+          data-test-id='review-modal'
         >
-          {(props) => {
-            const {
-              values,
-              touched,
-              errors,
-              handleChange,
-              handleBlur,
-              setErrors,
-              handleSubmit,
-            } = props
+          <img 
+            className='review__cross' 
+            src={cross} 
+            alt="cross" 
+            onClick={handleClick}
+          />
+          <div className='review__title'>Whrite a review</div>
+          <div className='review__rating'>
+            <Rating editable={true} rating={rating} size={30} />
+          </div>
+          <Formik
+            innerRef={formikRef}
+            initialValues={{
+              name: '',
+              text: '',            
+            }}
+            onSubmit={({name, text}, props) => {                
+              dispatch(startSendReview({id, rating, name, text}))
+            }}
+            validationSchema={Yup.object().shape({
+              name: Yup.string()              
+                      .required('Введите ваше имя'),
+              text: Yup.string()
+                      .required('Введите ваш отзыв')
+            })}
+          >
+            {(props) => {
+              const {
+                values,
+                touched,
+                errors,
+                handleChange,
+                handleBlur,
+                setErrors,
+                handleSubmit,
+              } = props
 
-            return (
-              <form className='review-form' onSubmit={handleSubmit}>
-                <div className='wrapper-field'>
-                  <input
-                    id='name'
-                    value={values.name}
-                    type='text'
-                    className='review-form__name'
-                    onChange={handleChange}
-                    onBlur={(e) => {  
-                      if(!values.name){
-                        setTimeout(() => {
-                          setErrors({})
-                        }, 2500)   
-                      }   
-                      handleBlur(e)                
-                    }}
-                    placeholder='Ваше имя'
-                    data-test-id='review-name-field'
-                  />
-                  {errors.name && touched.name && (
-                    <div className='review__message error'>{errors.name}</div>
-                  )}                  
-                </div>
+              return (
+                <form className='review-form' onSubmit={handleSubmit}>
+                  <div className='wrapper-field'>
+                    <input
+                      id='name'
+                      value={values.name}
+                      type='text'
+                      className='review-form__name'
+                      onChange={handleChange}
+                      onBlur={(e) => {  
+                        if(!values.name){
+                          setTimeout(() => {
+                            setErrors({})
+                          }, 2500)   
+                        }   
+                        handleBlur(e)                
+                      }}
+                      placeholder='Ваше имя'
+                      data-test-id='review-name-field'
+                    />
+                    {errors.name && touched.name && (
+                      <div className='review__message error'>{errors.name}</div>
+                    )}                  
+                  </div>
 
-                <div className="wrapper-field">
-                  <textarea
-                    id='text'
-                    value={values.text}
-                    type='text'
-                    className='review-form__text'
-                    onChange={handleChange}
-                    onBlur={(e) => {
-                      if(!values.name){
-                        setTimeout(() => {
-                          setErrors({})
-                        }, 2500)   
-                      }
-                      handleBlur(e)
-                    }}
-                    placeholder='Ваш отзыв'
-                    data-test-id='review-text-field'
-                  />
-                  {errors.text && touched.text && (
-                    <div className='review__message error textarea'>{errors.text}</div>
-                  )}                  
-                </div>                
+                  <div className="wrapper-field">
+                    <textarea
+                      id='text'
+                      value={values.text}
+                      type='text'
+                      className='review-form__text'
+                      onChange={handleChange}
+                      onBlur={(e) => {
+                        if(!values.name){
+                          setTimeout(() => {
+                            setErrors({})
+                          }, 2500)   
+                        }
+                        handleBlur(e)
+                      }}
+                      placeholder='Ваш отзыв'
+                      data-test-id='review-text-field'
+                    />
+                    {errors.text && touched.text && (
+                      <div className='review__message error textarea'>{errors.text}</div>
+                    )}                  
+                  </div>                
 
-                <div className="wrapper-field">
-                  <button
-                    type='submit'
-                    className='review-form__btn'
-                    disabled={Object.keys(errors).length || isLoading}
-                    data-test-id='review-submit-button'
-                  >
-                    SUBMIT
-                    {isLoading && (
-                      <span className="review__loader">
-                        <CircleLoader />
-                      </span> 
+                  <div className="wrapper-field">
+                    <button
+                      type='submit'
+                      className='review-form__btn'
+                      disabled={Object.keys(errors).length || isLoading}
+                      data-test-id='review-submit-button'
+                    >
+                      SUBMIT
+                      {isLoading && (
+                        <span className="review__loader">
+                          <CircleLoader />
+                        </span> 
+                      )}
+                                      
+                    </button>
+                    {isError && (
+                      <div
+                        className='review__message error'
+                      >{`Ошибка: ${errorMessage}`}</div>
+                    )}  
+                    {isSeccess && (
+                      <div className='review__message'>
+                        ✓ Ваш отзыв успешно добавлен
+                      </div>
                     )}
-                                    
-                  </button>
-                  {isError && (
-                    <div
-                      className='review__message error'
-                    >{`Ошибка: ${errorMessage}`}</div>
-                  )}  
-                  {isSeccess && (
-                    <div className='review__message'>
-                      ✓ Ваш отзыв успешно добавлен
-                    </div>
-                  )}
-                </div>
-                
-              </form>
-            )
-          }}
-        </Formik>
+                  </div>
+                  
+                </form>
+              )
+            }}
+          </Formik>
+        </div>
       </div>
-    </div>
+      )}
+    </>  
   )
 }
 
