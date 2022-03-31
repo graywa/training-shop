@@ -85,6 +85,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
             <Rating editable={true} rating={rating} size={30} />
           </div>
           <Formik
+            validateOnMount
             innerRef={formikRef}
             initialValues={{
               name: '',
@@ -108,8 +109,11 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                 handleChange,
                 handleBlur,
                 setErrors,
+                setTouched,
                 handleSubmit,
               } = props
+
+            console.log(touched, errors)
 
               return (
                 <form className='review-form' onSubmit={handleSubmit}>
@@ -123,7 +127,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                       onBlur={(e) => {  
                         if(!values.name){
                           setTimeout(() => {
-                            setErrors({})
+                            setTouched({name: false})
                           }, 2500)   
                         }   
                         handleBlur(e)                
@@ -144,9 +148,9 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                       className='review-form__text'
                       onChange={handleChange}
                       onBlur={(e) => {
-                        if(!values.name){
+                        if(!values.text){
                           setTimeout(() => {
-                            setErrors({})
+                            setTouched({text: false})
                           }, 2500)   
                         }
                         handleBlur(e)

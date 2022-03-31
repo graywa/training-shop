@@ -70,6 +70,7 @@ const SubscribeForm = ({
           .required('Введите ваш email'),
       })}      
       innerRef={formikRef}   
+      validateOnMount      
     >
       {(props) => {
         const {
@@ -79,6 +80,7 @@ const SubscribeForm = ({
           handleChange,
           handleBlur,
           setErrors,
+          setTouched,
           handleSubmit,
         } = props
 
@@ -92,7 +94,7 @@ const SubscribeForm = ({
                 onBlur={(e) => {   
                   if(!values.email){
                     setTimeout(() => {
-                      setErrors({})
+                      setTouched({...touched, email: false})
                     }, 2000)   
                   }
                   handleBlur(e) 
