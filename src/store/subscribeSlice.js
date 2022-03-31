@@ -10,7 +10,6 @@ const subscribeSlice = createSlice({
   },
   reducers: {  
     startSubscribe(state, action) {
-      console.log(action)
       state.isLoading = action.payload.description
     },
     subscribeSeccess(state, action) {
