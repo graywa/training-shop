@@ -130,6 +130,7 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
                 )}
               </div>
 
+              <div></div>
               <div className='cart__total'>
                 Total:
                 <span>
@@ -149,7 +150,7 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
                 BACK TO SHOPPING
               </button>
             </div>
-            
+
           </div>
         </div>
       </div>
