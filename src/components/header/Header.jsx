@@ -12,8 +12,8 @@ import SocialNetworks from '../social-networks/SocialNetworks'
 import { Link, useLocation } from 'react-router-dom'
 import { Links } from './Links'
 import { useDispatch, useSelector } from 'react-redux'
-import Cart from './Cart'
 import { setGoodsFromLocalStorage } from '../../store/cartSlice'
+import Cart from './cart/Cart'
 
 
 const Header = () => {  

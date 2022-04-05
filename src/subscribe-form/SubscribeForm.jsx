@@ -59,7 +59,7 @@ const SubscribeForm = ({
   return (
     <Formik
       initialValues={{ email: '' }}
-      initialErrors={{email: 'введите email'}}
+      //initialErrors={{email: 'введите email'}}
       onSubmit={(values, props) => {
         const email = values.email
         dispatch(startSubscribe({email, description}))        
@@ -77,6 +77,8 @@ const SubscribeForm = ({
           values,
           touched,
           errors,
+          dirty,
+          isValid,
           handleChange,
           handleBlur,
           setErrors,
@@ -127,7 +129,7 @@ const SubscribeForm = ({
             <button
               type='submit'
               className={buttonClass}
-              disabled={Object.keys(errors).length || isLoading}
+              disabled={!isValid || !dirty}
               data-test-id={testButton}
             >
               {buttonText}

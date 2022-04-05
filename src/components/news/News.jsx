@@ -12,6 +12,7 @@ const News = () => {
           title='lookbook collection'
         />
       </div>
+            
       <div className="news__sale">
         <WhiteBlock 
           path='!#' 

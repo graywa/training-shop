@@ -22,7 +22,8 @@ const MainPage = () => {
     <>
       <div className='container'>
         <IntroMain />
-        <Advantage />        
+        <Advantage />  
+        
         <Goods goodsType='women'
                goods={women}
                isLoading={isLoading} 

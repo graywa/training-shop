@@ -80,10 +80,11 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
             alt="cross" 
             onClick={handleClick}
           />
-          <div className='review__title'>Whrite a review</div>
+          <div className='review__title'>WRITE A REVIEW</div>
           <div className='review__rating'>
             <Rating editable={true} rating={rating} size={30} />
           </div>
+          
           <Formik
             validateOnMount
             innerRef={formikRef}
@@ -112,9 +113,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                 setTouched,
                 handleSubmit,
               } = props
-
-            console.log(touched, errors)
-
+              
               return (
                 <form className='review-form' onSubmit={handleSubmit}>
                   <div className='wrapper-field'>

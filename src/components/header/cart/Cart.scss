@@ -39,18 +39,31 @@
     font-weight: 600; 
     img:hover {
       cursor: pointer;
-    }  
+    } 
 
   }
   &__title {
     height: 14px;
   }
-  &__wrapper {
+  
+  &__links {
+    padding: 24px 30px 0;
+
+    font-size: 15px;
+  }
+  &__slides {
+    height: calc(100% - 90px);
+    width: 400%;
+  }
+
+  &__items {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 48px);
+    width: 25%;
+    height: 100%;
     padding: 24px 30px;
-    & > button {
+
+    & button {
       border: none;
       padding: 16px 0;
       font-size: 13px;
@@ -72,11 +85,6 @@
         background: #eeeeee;
       }
     }
-  }
-  &__links {
-    padding: 0 0 24px;
-
-    font-size: 15px;
   }
   &__goods {
     overflow: auto;
@@ -187,6 +195,5 @@
 
   &__bin {
     cursor: pointer;
-  }
-  
+  }  
 }
