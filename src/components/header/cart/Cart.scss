@@ -29,6 +29,8 @@
     transition: .2s linear;  
 
     & button {
+      display: block;
+      width: 100%;
       border: none;
       padding: 16px 0;
       font-size: 13px;
