@@ -109,9 +109,8 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                 errors,
                 handleChange,
                 handleBlur,
-                setErrors,
-                setTouched,
                 handleSubmit,
+                setFieldTouched,
               } = props
               
               return (
@@ -126,7 +125,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                       onBlur={(e) => {  
                         if(!values.name){
                           setTimeout(() => {
-                            setTouched({name: false})
+                            setFieldTouched('name', false)
                           }, 2500)   
                         }   
                         handleBlur(e)                
@@ -149,7 +148,7 @@ function ReviewModal({ id, isReviewOpen, setIsReviewOpen }) {
                       onBlur={(e) => {
                         if(!values.text){
                           setTimeout(() => {
-                            setTouched({text: false})
+                            setFieldTouched('text', false)
                           }, 2500)   
                         }
                         handleBlur(e)

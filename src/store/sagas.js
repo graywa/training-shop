@@ -1,16 +1,18 @@
 import {call, put, takeLatest} from 'redux-saga/effects'
 import { goodsApi } from '../api/goods-api'
+import { orderApi } from '../api/order-api'
 import { reviewApi } from '../api/review-api'
 import { subscribeApi } from '../api/subscribe-api'
 import { goodsRequestError,
          getGoodsSuccess, 
          getProductSuccess, 
          getGoodsByCategorySuccess } from './goodsSlice'
+import { reqCountriesError, reqStoreAddressError, respCountriesSeccess, respStoreAddressSeccess } from './orderSlice'
 import { sendReviewError, sendReviewSeccess } from './reviewSlice'
 import { subscribeError, subscribeSeccess } from './subscribeSlice'
 
 
-function* goodsRequestWorker() {
+function* goodsReqWorker() {
   try {
     const goods = yield call(goodsApi.getGoods)
     yield put(getGoodsSuccess({goods}))
@@ -20,7 +22,7 @@ function* goodsRequestWorker() {
   }
 }
 
-function* goodsByCategoryRequestWorker(action) {
+function* goodsByCategoryReqWorker(action) {
   try {
     const category = action.payload.goodsType
     const goods = yield call(goodsApi.getGoodsByCategory, category)
@@ -31,7 +33,7 @@ function* goodsByCategoryRequestWorker(action) {
   }
 }
 
-function* productRequestWorker(action) {
+function* productReqWorker(action) {
   try {
     const id = action.payload.id
     const product = yield call(goodsApi.getProduct, id)
@@ -67,11 +69,33 @@ function* reviewSendWorker(action) {
   }
 }
 
+function* countriesReqWorker() {
+  try {
+    const countries = yield call(orderApi.getCountries)
+    yield put(respCountriesSeccess({countries}))
+  } catch (error) {
+    let message = error.message
+    yield put(reqCountriesError({message}))
+  }
+}
+
+function* storeAddressReqWorker(action) {
+  try {
+    const {city, country} = action.payload
+    const storeAddress = yield call(orderApi.getStoreAddress, city, country)
+    yield put(respStoreAddressSeccess({storeAddress}))
+  } catch (error) {
+    let message = error.message
+    yield put(reqStoreAddressError({message}))
+  }
+}
 
 export default function* sagaWatcher() {
-  yield takeLatest('goods/getGoods', goodsRequestWorker)
-  yield takeLatest('goods/getProduct', productRequestWorker)
-  yield takeLatest('goods/getGoodsByCategory', goodsByCategoryRequestWorker)
+  yield takeLatest('goods/getGoods', goodsReqWorker)
+  yield takeLatest('goods/getProduct', productReqWorker)
+  yield takeLatest('goods/getGoodsByCategory', goodsByCategoryReqWorker)
   yield takeLatest('subscribe/startSubscribe', subscribeWorker)
   yield takeLatest('review/startSendReview', reviewSendWorker)
+  yield takeLatest('order/getCountries', countriesReqWorker)
+  yield takeLatest('order/getStoreAddress', storeAddressReqWorker)
 }

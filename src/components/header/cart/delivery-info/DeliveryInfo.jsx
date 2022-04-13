@@ -1,12 +1,14 @@
 import { Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cartSlides } from '../Cart'
 import './DeliveryInfo.scss'
 import * as Yup from 'yup'
 import cn from 'classnames'
 import CartInput from '../cart-input/CartInput'
 import MaskedInput from '../masked-input/MaskedInput'
-import CartSelect, { Dropdown } from '../cart-select/CartSeletc'
+import CartSelect from '../cart-select/CartSeletc'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCountries, getStoreAddress } from '../../../../store/orderSlice'
 
 function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
   const [formatChars, setFormatChars] = useState({
@@ -16,6 +18,17 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
     a: '[A-Za-z]',
     '*': '[A-Za-z0-9]',
   })
+
+  const [countryOptOpen, setCountryOptOpen] = useState(false)
+  const [storeAddressOptOpen, setStoreAddressOptOpen] = useState(false)
+
+  const dispatch = useDispatch()
+
+  const {countries,
+     storeAddress,
+     isLoading,
+      countriesError,
+      storeAddressError } = useSelector(state => state.order)
 
   const validationForAddress = {
     is: (method) => method !== 'Store pickup',
@@ -42,7 +55,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
           house: '',
           apartment: '',
           country2: '',
-          storeAdress: '',
+          storeAddress: '',
           postcode: '',
           checkbox: false,
         }}
@@ -75,7 +88,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
               .required('Обязательное поле'),
           }),
           country2: Yup.string().when('deliveryMethod', validationForStoreAddress),
-          storeAdress: Yup.string().when('deliveryMethod', validationForStoreAddress),
+          storeAddress: Yup.string().when('deliveryMethod', validationForStoreAddress),
           checkbox: Yup.boolean()
             .oneOf([true], 'Необходимо отметить')
             .required('Обязательное поле'),
@@ -91,7 +104,6 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
             handleChange,
             handleBlur,
             handleSubmit,
-            setValues,
             setFieldValue,
           } = props
 
@@ -112,12 +124,20 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
               default:
             }
           }
-          //console.log(values)
-          //console.log(!values.country2)
+
+          const storePickupChange = (e) => {
+            handleChange(e)
+            if(!countries.length) dispatch(getCountries())            
+          }
 
           return (
             <form onSubmit={handleSubmit}>
-              <div className='form-content'>
+              <div className='form-content'
+               onClick={() => {
+                  setCountryOptOpen(false)
+                  setStoreAddressOptOpen(false)
+                }}
+              >
                 <div className='radio-group'>
                   <div className='radio-group__title'>
                     Choose the method of delivery of the items
@@ -146,7 +166,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
                       type='radio'
                       name='deliveryMethod'
                       value='Store pickup'
-                      onChange={handleChange}
+                      onChange={storePickupChange}
                     />
                     Store pickup
                   </label>
@@ -157,7 +177,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
                   type='tel'
                   label='PHONE'
                   mask='+ 375\ (12) 999 99 99'
-                  placeholder='+375 (__) _______'
+                  placeholder='+ 375 (__) _______'
                   formatChars={formatChars}
                   handleChange={phoneChange}
                 />
@@ -198,19 +218,24 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
                       label='ADDRESS OF STORE'
                       placeholder='Country'
                       readOnly={true}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      optionValues={[{value: 'belarus'},{value: 'russia'},{value: 'ukrain'}]}
+                      optOpen={countryOptOpen}
+                      setOptOpen={setCountryOptOpen}
+                      optionValues={countries}
+                      isLoading={isLoading}
+                      errorMsg={countriesError}
                     />
 
                     <CartSelect
-                      name='storeAdress'
+                      name='storeAddress'
                       placeholder='Store adress'
                       readOnly={false}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
+                      optOpen={storeAddressOptOpen}
+                      setOptOpen={setStoreAddressOptOpen}
                       disabled={!values.country2}
-                      optionValues={[{value: '1'},{value: '2'},{value: '3'}]}
+                      country={values.country2}
+                      optionValues={storeAddress}
+                      isLoading={isLoading}
+                      errorMsg={storeAddressError}
                     />
                   </>
                 )}

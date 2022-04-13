@@ -4,9 +4,9 @@ import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
 import { useDispatch } from 'react-redux'
 import cross from '../assets/cross.svg'
 import cn from 'classnames'
-
 import CartItems from './cart-items/CartItems'
 import DeliveryInfo from './delivery-info/DeliveryInfo'
+import Payment from './payment/Payment'
 
 export const cartSlides = {
   items: 'items',
@@ -61,6 +61,12 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
             />
 
             <DeliveryInfo
+              cartGoods={cartGoods}
+              setIsOpenCart={setIsOpenCart}
+              setSlide={setSlide}
+            />
+
+            <Payment 
               cartGoods={cartGoods}
               setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}

@@ -47,7 +47,7 @@ const goodsSlice = createSlice({
       state.isLoading = false
       state.isError = true
       state.errorMessage = action.payload.message
-    }
+    },
   }
 })
 
