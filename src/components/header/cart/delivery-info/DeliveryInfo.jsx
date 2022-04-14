@@ -8,9 +8,13 @@ import CartInput from '../cart-input/CartInput'
 import MaskedInput from '../masked-input/MaskedInput'
 import CartSelect from '../cart-select/CartSeletc'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCountries, getStoreAddress } from '../../../../store/orderSlice'
+import {
+  getCountries,
+  getStoreAddress,
+  updOrder,
+} from '../../../../store/orderSlice'
 
-function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
+function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
   const [formatChars, setFormatChars] = useState({
     1: '[2-4]',
     2: '[3,4,5,9]',
@@ -18,28 +22,24 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
     a: '[A-Za-z]',
     '*': '[A-Za-z0-9]',
   })
-
-  const [countryOptOpen, setCountryOptOpen] = useState(false)
-  const [storeAddressOptOpen, setStoreAddressOptOpen] = useState(false)
-
   const dispatch = useDispatch()
 
-  const {countries,
-     storeAddress,
-     isLoading,
-      countriesError,
-      storeAddressError } = useSelector(state => state.order)
+  const {
+    countries,
+    storeAddress,
+    isLoading,
+    countriesError,
+    storeAddressError,
+  } = useSelector((state) => state.order)
 
   const validationForAddress = {
     is: (method) => method !== 'Store pickup',
-    then: Yup.string()              
-      .required('Обязательное поле')
+    then: Yup.string().required('Обязательное поле'),
   }
 
   const validationForStoreAddress = {
     is: (method) => method === 'Store pickup',
-    then: Yup.string()              
-      .required('Обязательное поле')
+    then: Yup.string().required('Обязательное поле'),
   }
 
   return (
@@ -60,7 +60,12 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
           checkbox: false,
         }}
         onSubmit={(values, props) => {
-          console.log(values)
+          const fields = values
+          if(values.country2) fields.country = values.country2
+          delete fields.country2
+          delete fields.checkbox    
+                
+          dispatch(updOrder({fields}))
           setSlide(cartSlides.payment)
         }}
         validationSchema={Yup.object().shape({
@@ -73,11 +78,10 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
               'Некорректный email'
             )
             .required('Обязательное поле'),
-          country: Yup.string().when('deliveryMethod', validationForAddress),          
+          country: Yup.string().when('deliveryMethod', validationForAddress),
           city: Yup.string().when('deliveryMethod', validationForAddress),
           street: Yup.string().when('deliveryMethod', validationForAddress),
-          house: Yup.string().when('deliveryMethod', validationForAddress)
-                  .max(4, 'Сшишком длинный номер'),
+          house: Yup.string().when('deliveryMethod', validationForAddress),
           apartment: Yup.number('Вводите цифры')
             .typeError('Вводите цифры')
             .max(999, 'Слишком длинный номер'),
@@ -87,8 +91,14 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
               .matches(/(.*\d.*){6}/, 'Введите полный номер')
               .required('Обязательное поле'),
           }),
-          country2: Yup.string().when('deliveryMethod', validationForStoreAddress),
-          storeAddress: Yup.string().when('deliveryMethod', validationForStoreAddress),
+          country2: Yup.string().when(
+            'deliveryMethod',
+            validationForStoreAddress
+          ),
+          storeAddress: Yup.string().when(
+            'deliveryMethod',
+            validationForStoreAddress
+          ),
           checkbox: Yup.boolean()
             .oneOf([true], 'Необходимо отметить')
             .required('Обязательное поле'),
@@ -99,17 +109,17 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
             values,
             touched,
             errors,
-            dirty,
-            isValid,
             handleChange,
             handleBlur,
             handleSubmit,
             setFieldValue,
           } = props
+          //console.log(values)
+          //console.log(errors)
 
           const phoneChange = (e) => {
             let value = e.target.value
-            setFieldValue('phone', value)
+            handleChange(e)
 
             switch (value[7]) {
               case '2':
@@ -127,17 +137,12 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
 
           const storePickupChange = (e) => {
             handleChange(e)
-            if(!countries.length) dispatch(getCountries())            
+            if (!countries.length) dispatch(getCountries())
           }
 
           return (
             <form onSubmit={handleSubmit}>
-              <div className='form-content'
-               onClick={() => {
-                  setCountryOptOpen(false)
-                  setStoreAddressOptOpen(false)
-                }}
-              >
+              <div className='form-content'>
                 <div className='radio-group'>
                   <div className='radio-group__title'>
                     Choose the method of delivery of the items
@@ -218,19 +223,16 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
                       label='ADDRESS OF STORE'
                       placeholder='Country'
                       readOnly={true}
-                      optOpen={countryOptOpen}
-                      setOptOpen={setCountryOptOpen}
                       optionValues={countries}
                       isLoading={isLoading}
                       errorMsg={countriesError}
+                      setFieldValue={setFieldValue}
                     />
 
                     <CartSelect
                       name='storeAddress'
                       placeholder='Store adress'
                       readOnly={false}
-                      optOpen={storeAddressOptOpen}
-                      setOptOpen={setStoreAddressOptOpen}
                       disabled={!values.country2}
                       country={values.country2}
                       optionValues={storeAddress}
@@ -276,15 +278,12 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide }) {
               <div className='cart__total'>
                 Total:
                 <span>
-                  $
-                  {cartGoods
-                    .reduce((acc, el) => acc + el.quantity * el.price, 0)
-                    .toFixed(2)}
+                  ${totalPrice}
                 </span>
               </div>
               {!!cartGoods.length && (
                 <button
-                  disabled={!isValid || !dirty}
+                  //disabled={!isValid || !dirty}
                   className='dark-btn'
                   type='submit'
                 >

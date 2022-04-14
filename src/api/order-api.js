@@ -9,4 +9,9 @@ export const orderApi = {
       .post('search/cities', { city, country })
       .then((response) => response.data)
   },
+  postOrder(order) {
+    return instance
+      .post('cart', {...order})
+      .then(response => response.data)
+  }
 }

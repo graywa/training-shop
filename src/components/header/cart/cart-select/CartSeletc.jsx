@@ -16,48 +16,69 @@ export function CartSelect(props) {
     country,
     placeholder,
     label,
-    readOnly,
-    optOpen,
-    setOptOpen,
+    readOnly,    
     disabled = false,
     optionValues,
+    setFieldValue,
     isLoading,
     errorMsg,
   } = props
+
   const [field, meta] = useField(name)
+  const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch()
 
   const { onBlur, value, onChange } = field
   const { error, touched } = meta
 
   const inputChange = (e) => {
-    setOptOpen(true)
+    setIsOpen(true)
     onChange(e)
     const value = e.target.value
-    if (value.length >= 3) {
-      const city = value
-      dispatch(getStoreAddress({ city, country }))
-    }
-    if (!value.length) {
-      dispatch(resetStoreAddress())
+
+    if(name === 'storeAddress') {
+      if (value.length >= 3) {
+        const city = value
+        dispatch(getStoreAddress({ city, country }))
+      }
+
+      if (!value.length) {
+        dispatch(resetStoreAddress())
+      }
     }
   }
 
   const optionChange = (e) => {
-    setOptOpen(false)
+    setIsOpen(false)
     onChange(e)
+    
+    
+    if(name === 'country2') {
+      dispatch(resetStoreAddress())
+      setTimeout(() => {
+        setFieldValue('storeAddress', '',)
+      }, 100)      
+    }
+  }
+
+  const onBlurInput = (e) => {
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 100)
+      
+    onBlur(e)
   }
 
   return (
-    <div className='cart-select' onClick={(e) => e.stopPropagation()}>
+    <div className='cart-select'>
       {label && <label htmlFor={name}>{label}</label>}
-      <div className={cn('dd-wrapper', { open: optOpen })}>
+      <div className={cn('dd-wrapper', { open: isOpen })}>
         <div
           className={cn('dd-header', {
             error: error && touched,
           })}
           onClick={() => {
-            if (!disabled) setOptOpen(!optOpen)
+            if (!disabled) setIsOpen(!isOpen)
           }}
         >
           <input
@@ -66,7 +87,7 @@ export function CartSelect(props) {
             name={name}
             placeholder={placeholder}
             value={value}
-            onBlur={onBlur}
+            onBlur={onBlurInput}
             onChange={inputChange}
             readOnly={readOnly}
             disabled={disabled}
@@ -74,14 +95,14 @@ export function CartSelect(props) {
           />
           {isLoading === 'storeAddress' && name === isLoading && <DotsLoader />}
           <img
-            className={cn('dd-arrow', { open: optOpen })}
+            className={cn('dd-arrow', { open: isOpen })}
             width={15}
             src={arrow}
             alt='arrow'
           />
         </div>
 
-        {optOpen && (
+        {isOpen && (
           <div className='dd-list'>
             {!!optionValues.length &&
               optionValues.map((el) => (

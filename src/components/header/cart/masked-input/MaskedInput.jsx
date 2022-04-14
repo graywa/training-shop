@@ -13,7 +13,7 @@ function MaskedInput({
   formatChars,
   handleChange
 }) {
-  const [field, meta] = useField(name)
+  const [field, meta] = useField(name)  
 
   const configInput = {
     id: name,

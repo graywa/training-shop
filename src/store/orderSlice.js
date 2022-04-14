@@ -4,23 +4,9 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: {
     order: {
-      products: [],
-      deliveryMethod: '',
-      paymentMethod: '',
-      totalPrice: '',
-      phone: '',
-      email: '',
-      country: '',
-      cashEmail: '',
-      city: '',
-      street: '',
-      house: '',
-      apartment: '',
-      postcode: '',
-      card: '',
-      cardDate: '',
-      cardCVV: '',
+      products: [],      
     },
+    orderError: '',
     countries: [],
     storeAddress: [],
     isLoading: false,
@@ -55,6 +41,20 @@ const orderSlice = createSlice({
       state.isLoading = false
       state.storeAddressError = action.payload.message
     },
+    updOrder(state, action) {
+      state.order = {...state.order,...action.payload.fields}
+    },
+    startPostOrder(state, action) {
+      state.isLoading = 'order'      
+    },
+    postOrderSuccess(state, action) {
+      state.isLoading = false
+      state.orderError = ''
+    },
+    postOrderError(state, action) {
+      state.isLoading = false
+      state.orderError = action.payload.message
+    }
   },
 })
 
@@ -66,6 +66,10 @@ export const {
   resetStoreAddress,
   reqCountriesError,
   reqStoreAddressError,
+  updOrder,
+  startPostOrder,
+  postOrderSuccess,
+  postOrderError,
 } = orderSlice.actions
 
 export default orderSlice.reducer

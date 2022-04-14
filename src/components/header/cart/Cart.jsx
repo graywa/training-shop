@@ -19,6 +19,9 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
   const dispatch = useDispatch()
 
   const [slide, setSlide] = useState(cartSlides.items)
+  const totalPrice = cartGoods
+    ?.reduce((acc, el) => acc + el.quantity * el.price, 0)
+    .toFixed(2)
 
   useEffect(() => {
     if (!cartGoods.length && localStorage.getItem('cartGoodsLocal')) {
@@ -58,18 +61,21 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
               cartGoods={cartGoods}
               setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
+              totalPrice={totalPrice}
             />
 
             <DeliveryInfo
               cartGoods={cartGoods}
               setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
+              totalPrice={totalPrice}
             />
 
-            <Payment 
+            <Payment
               cartGoods={cartGoods}
               setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
+              totalPrice={totalPrice}
             />
           </div>
         </div>

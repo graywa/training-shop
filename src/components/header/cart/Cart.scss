@@ -143,11 +143,15 @@
   &:first-child {
     border-bottom: 2px solid #f8f8f8;
   }
+  input {
+    cursor: pointer;
+  }
   label {
     display: flex;
     gap: 15px;
     padding: 15px 0;
     border-top: 2px solid #f8f8f8;
+    cursor: pointer;
   }
 }
 .cart-input {
@@ -173,11 +177,13 @@
     gap: 15px;
     margin-bottom: 12px;
     label {
+      cursor: pointer;
       font-size: 14px;
       font-weight: 400;
       line-height: 22px;
     }
     input {
+      cursor: pointer;
       margin-top: 5px;
     }
     >.error {
@@ -236,9 +242,10 @@
   }
   img {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 13px;
+    right: 14px;
     z-index: 5;
+    cursor: pointer;
   }
 }
 

@@ -7,7 +7,7 @@ import { goodsRequestError,
          getGoodsSuccess, 
          getProductSuccess, 
          getGoodsByCategorySuccess } from './goodsSlice'
-import { reqCountriesError, reqStoreAddressError, respCountriesSeccess, respStoreAddressSeccess } from './orderSlice'
+import { postOrderError, postOrderSuccess, reqCountriesError, reqStoreAddressError, respCountriesSeccess, respStoreAddressSeccess } from './orderSlice'
 import { sendReviewError, sendReviewSeccess } from './reviewSlice'
 import { subscribeError, subscribeSeccess } from './subscribeSlice'
 
@@ -90,6 +90,17 @@ function* storeAddressReqWorker(action) {
   }
 }
 
+function* postOrderWorker(action) {
+  try {    
+    const order = action.payload.order
+    yield call(orderApi.postOrder, order)
+    yield put(postOrderSuccess())
+  } catch (error) {
+    const message = error.message    
+    yield put(postOrderError({message}))
+  }
+}
+
 export default function* sagaWatcher() {
   yield takeLatest('goods/getGoods', goodsReqWorker)
   yield takeLatest('goods/getProduct', productReqWorker)
@@ -98,4 +109,5 @@ export default function* sagaWatcher() {
   yield takeLatest('review/startSendReview', reviewSendWorker)
   yield takeLatest('order/getCountries', countriesReqWorker)
   yield takeLatest('order/getStoreAddress', storeAddressReqWorker)
+  yield takeLatest('order/startPostOrder', postOrderWorker)
 }
