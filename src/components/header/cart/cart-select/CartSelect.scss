@@ -56,19 +56,24 @@
       display: inline-block;
       padding: 15px;
       width: 100%;
+      
       &.error {
         color: #D61313;
+      }            
+      &:nth-child(even) {
+        background-color: #f8f8f8;
       }
-      
       &:hover, &:focus {
         cursor: pointer;
-        background-color: #f8f8f8;
+        background-color: #ebebeb;
       }
     }
 
     &__radio { 
       display: none;
     }
+
+    
   }
 
   .error-note {

@@ -4,9 +4,11 @@ import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
 import { useDispatch } from 'react-redux'
 import cross from '../assets/cross.svg'
 import cn from 'classnames'
-import CartItems from './cart-items/CartItems'
-import DeliveryInfo from './delivery-info/DeliveryInfo'
-import Payment from './payment/Payment'
+import CartItems from './cart-items-slide/CartItems'
+import DeliveryInfo from './delivery-info-slide/DeliveryInfo'
+import Payment from './payment-slide/Payment'
+import Status from './status-slide/Status'
+
 
 export const cartSlides = {
   items: 'items',
@@ -15,7 +17,7 @@ export const cartSlides = {
   status: 'status',
 }
 
-const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
+const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {  
   const dispatch = useDispatch()
 
   const [slide, setSlide] = useState(cartSlides.items)
@@ -30,11 +32,12 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
     }
   }, [])
 
+  
   return (
     <>
       <div
-        className={isOpenCart ? 'modal open' : 'modal'}
-        onClick={() => setIsOpenCart(false)}
+        className={cn('modal', {open : isOpenCart2})}
+        onClick={closeCartModal}
       >
         <div
           className='cart__content'
@@ -43,39 +46,62 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
         >
           <div className='cart__header'>
             <span className='cart__title'>SHOPPING CART</span>
-            <span onClick={() => setIsOpenCart(false)}>
+            <span onClick={closeCartModal}>
               <img width={16} src={cross} alt='cross' />
             </span>
           </div>
 
-          <div className='cart__links'>
-            <span>Item in Cart </span>
-            <span>/</span>
-            <span> Delivery Info </span>
-            <span>/</span>
-            <span> Payment</span>
-          </div>
+          {slide !== cartSlides.status && (
+            <div className='cart__links'>
+              <span
+                className={cn('link', { active: slide === cartSlides.items })}
+              >
+                Item in Cart
+                {' '}
+              </span>
+              <span>/</span>
+              <span
+                className={cn('link', {
+                  active: slide === cartSlides.delivery,
+                })}
+              >
+                {' '}
+                Delivery Info{' '}
+              </span>
+              <span>/</span>
+              <span
+                className={cn('link', {
+                  active: slide === cartSlides.payment,
+                })}
+              >
+                {' '}
+                Payment
+              </span>
+            </div>
+          )}
 
           <div className={cn('cart__slides', slide)}>
             <CartItems
               cartGoods={cartGoods}
-              setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
               totalPrice={totalPrice}
+              closeCartModal={closeCartModal}
             />
 
             <DeliveryInfo
-              cartGoods={cartGoods}
-              setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
               totalPrice={totalPrice}
             />
 
             <Payment
               cartGoods={cartGoods}
-              setIsOpenCart={setIsOpenCart}
               setSlide={setSlide}
               totalPrice={totalPrice}
+            />
+
+            <Status
+              closeCartModal={closeCartModal}
+              setSlide={setSlide}
             />
           </div>
         </div>

@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import {
   startSendReview,
-  sendReviewSeccess,
   resetReviewSeccess,
-  sendReviewError,
   resetReviewError,
   changeRating,
 } from '../../../store/reviewSlice'

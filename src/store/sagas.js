@@ -93,7 +93,7 @@ function* storeAddressReqWorker(action) {
 function* postOrderWorker(action) {
   try {    
     const order = action.payload.order
-    yield call(orderApi.postOrder, order)
+    yield call(orderApi.postOrder, order)    
     yield put(postOrderSuccess())
   } catch (error) {
     const message = error.message    

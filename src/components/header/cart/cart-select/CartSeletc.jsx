@@ -37,7 +37,7 @@ export function CartSelect(props) {
     const value = e.target.value
 
     if(name === 'storeAddress') {
-      if (value.length >= 3) {
+      if (value.length === 3) {
         const city = value
         dispatch(getStoreAddress({ city, country }))
       }
@@ -105,17 +105,19 @@ export function CartSelect(props) {
         {isOpen && (
           <div className='dd-list'>
             {!!optionValues.length &&
-              optionValues.map((el) => (
-                <label key={el.name || el.city} className='dd-list__item'>
-                  <input
-                    type='radio'
-                    name={name}
-                    value={el.name || el.city}
-                    onChange={optionChange}
-                    className='dd-list__radio'
-                  />
-                  {el.name || el.city}
-                </label>
+              optionValues
+                .filter(el => el.name || el.city.includes(value))
+                .map((el) => (
+                  <label key={el.name || el.city} className='dd-list__item'>
+                    <input
+                      type='radio'
+                      name={name}
+                      value={el.name || el.city}
+                      onChange={optionChange}
+                      className='dd-list__radio'
+                    />
+                    {el.name || el.city}
+                  </label>
               ))}
             {name === 'storeAddress' && !optionValues.length && value.length >= 3 
             && (<label className='dd-list__item'>Совпадений не найдено</label>)}

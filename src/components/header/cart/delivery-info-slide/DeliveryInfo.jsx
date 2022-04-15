@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { cartSlides } from '../Cart'
 import './DeliveryInfo.scss'
 import * as Yup from 'yup'
@@ -10,11 +10,10 @@ import CartSelect from '../cart-select/CartSeletc'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getCountries,
-  getStoreAddress,
   updOrder,
 } from '../../../../store/orderSlice'
 
-function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
+function DeliveryInfo({ setSlide, totalPrice }) {
   const [formatChars, setFormatChars] = useState({
     1: '[2-4]',
     2: '[3,4,5,9]',
@@ -45,6 +44,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
   return (
     <div className='delivery-info'>
       <Formik
+        enableReinitialize
         initialValues={{
           deliveryMethod: 'Pickup from post offices',
           phone: '',
@@ -60,7 +60,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
           checkbox: false,
         }}
         onSubmit={(values, props) => {
-          const fields = values
+          const fields = {...values}
           if(values.country2) fields.country = values.country2
           delete fields.country2
           delete fields.checkbox    
@@ -113,6 +113,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
             handleBlur,
             handleSubmit,
             setFieldValue,
+            isValid,
           } = props
           //console.log(values)
           //console.log(errors)
@@ -138,6 +139,10 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
           const storePickupChange = (e) => {
             handleChange(e)
             if (!countries.length) dispatch(getCountries())
+          }
+
+          const checkIsValid = (e) => {
+            if (!isValid) setFieldValue('checkbox', false)
           }
 
           return (
@@ -264,7 +269,7 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
                     type='checkbox'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.checkbox}
+                    checked={values.checkbox}
                   />
                   <label htmlFor='checkbox'>
                     I agree to the processing of my personal information
@@ -281,16 +286,15 @@ function DeliveryInfo({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
                   ${totalPrice}
                 </span>
               </div>
-              {!!cartGoods.length && (
-                <button
-                  //disabled={!isValid || !dirty}
-                  className='dark-btn'
-                  type='submit'
-                >
-                  FURTHER
-                </button>
-              )}
               <button
+                className='dark-btn'
+                type='submit'
+                onClick={(e) => checkIsValid(e)}
+              >
+                FURTHER
+              </button>
+              <button
+                type='button'
                 className='light-btn'
                 onClick={() => setSlide(cartSlides.items)}
               >

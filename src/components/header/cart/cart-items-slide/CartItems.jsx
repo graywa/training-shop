@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { changeQuantityGoods, removeGoods } from '../../../../store/cartSlice'
 import { cartSlides } from '../Cart'
 
-function CartItems({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
+function CartItems({ cartGoods, setSlide, totalPrice, closeCartModal }) {
   const dispatch = useDispatch()
 
   const changeQuantityHandler = (quantity, id, color, size) => {
@@ -83,13 +83,13 @@ function CartItems({ cartGoods, setIsOpenCart, setSlide, totalPrice }) {
           ${totalPrice}
         </span>
       </div>
-      {!!cartGoods.length && (
-        <button className='dark-btn' onClick={() => setSlide(cartSlides.delivery)}>
-          FURTHER
-        </button>
-      )}
-      <button className='light-btn' onClick={() => setIsOpenCart(false)}>
-        BACK TO SHOPPING
+      <button className='dark-btn'
+         onClick={() => {
+           cartGoods.length 
+           ? setSlide(cartSlides.delivery)
+           : closeCartModal()
+        }}>
+        {cartGoods.length ? 'FURTHER' : 'BACK TO SHOPPING'}   
       </button>
     </div>
   )

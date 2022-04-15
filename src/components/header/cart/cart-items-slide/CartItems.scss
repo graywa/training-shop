@@ -11,16 +11,6 @@
   &__goods {
     overflow: auto;
     padding-right: 15px;
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-    &::-webkit-scrollbar-track {
-      background: #e7e5e5;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #868282;
-    }
   }
 
   &__item {

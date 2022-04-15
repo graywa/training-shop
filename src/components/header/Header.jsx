@@ -11,15 +11,15 @@ import './Header.scss'
 import SocialNetworks from '../social-networks/SocialNetworks'
 import { Link, useLocation } from 'react-router-dom'
 import { Links } from './Links'
-import { useDispatch, useSelector } from 'react-redux'
-import { setGoodsFromLocalStorage } from '../../store/cartSlice'
+import { useSelector } from 'react-redux'
 import Cart from './cart/Cart'
 
 
 const Header = () => {  
   const {pathname} = useLocation()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
-  const [isOpenCart, setIsOpenCart] = useState(false)
+  const [isOpenCart, setIsOpenCart] = useState(false)  
+  const [isOpenCart2, setIsOpenCart2] = useState(false)
 
   let cartGoods = useSelector(state => state.cart.cartGoods)
 
@@ -29,14 +29,30 @@ const Header = () => {
     document.body.style.paddingRight = isOpenMenu || isOpenCart ? `${scrollWidth}px` : ''
   }, [isOpenMenu, isOpenCart])
 
+  const openCartModal = () => {
+    setIsOpenCart(true)
+    setTimeout(() => {
+      setIsOpenCart2(true)
+    },0)
+  }
+
+  const closeCartModal = () => {
+    setIsOpenCart2(false)
+    setTimeout(() => {
+      setIsOpenCart(false)
+    },200)
+  }
+
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         setIsOpenMenu(false)
-        setIsOpenCart(false)
+        closeCartModal(false)
       }
     })
   }, [])
+
+
 
   return (
     <header className='header' data-test-id='header'>
@@ -99,7 +115,7 @@ const Header = () => {
                 </li>
                 <li className="nav__btns-item">
                   <span className='cart-btn' 
-                        onClick={() => setIsOpenCart(!isOpenCart)}
+                        onClick={openCartModal}
                         data-test-id='cart-button'
                   >
                     <img  width={24} src={cart} alt="cart" />
@@ -111,7 +127,14 @@ const Header = () => {
                 </li>
               </ul>
 
-              <Cart isOpenCart={isOpenCart} setIsOpenCart={() => setIsOpenCart()} cartGoods={cartGoods} />
+              {isOpenCart && (
+                <Cart 
+                  isOpenCart2={isOpenCart2}
+                  closeCartModal={closeCartModal}
+                  cartGoods={cartGoods} 
+                />
+              )}
+              
 
               <div className={isOpenMenu ? "burger-menu open" : "burger-menu"}  
                     onClick={() => setIsOpenMenu(!isOpenMenu)}

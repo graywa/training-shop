@@ -58,14 +58,13 @@ const SubscribeForm = ({
 
   return (
     <Formik
-      initialValues={{ email: '' }}
-      //initialErrors={{email: 'введите email'}}
+      initialValues={{ mainEmail: '' }}
       onSubmit={(values, props) => {
-        const email = values.email
+        const email = values.mainEmail
         dispatch(startSubscribe({email, description}))        
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string()
+        mainEmail: Yup.string()
           .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'Некорректный email')
           .email('email не верный')
           .required('Введите ваш email'),
@@ -81,8 +80,7 @@ const SubscribeForm = ({
           isValid,
           handleChange,
           handleBlur,
-          setErrors,
-          setTouched,
+          setFieldTouched,
           handleSubmit,
         } = props
 
@@ -90,20 +88,20 @@ const SubscribeForm = ({
           <form className={formClass} onSubmit={handleSubmit}>  
             <div className="input-wrapper">
               <input
-                id='email'
-                value={values.email}                
+                id='mainEmail'
+                value={values.mainEmail}                
                 onChange={handleChange}
                 onBlur={(e) => {   
-                  if(!values.email){
+                  if(!values.mainEmail){
                     setTimeout(() => {
-                      setTouched({...touched, email: false})
+                      setFieldTouched('mainEmail', false)
                     }, 2000)   
                   }
                   handleBlur(e) 
                 }                   
                 }
                 className={
-                  (errors.email && touched.email) || isError || isSeccess
+                  (errors.mainEmail && touched.mainEmail) || isError || isSeccess
                     ? `${inputClass} message`
                     : inputClass 
                 }
@@ -111,8 +109,8 @@ const SubscribeForm = ({
                 placeholder='Enter your email'
                 data-test-id={testInput}
               />
-              {errors.email && touched.email && (
-                <div className={`${messageClass} error`}>{errors.email}</div>
+              {errors.mainEmail && touched.mainEmail && (
+                <div className={`${messageClass} error`}>{errors.mainEmail}</div>
               )}
               {isError && (
                 <div

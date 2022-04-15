@@ -7,6 +7,7 @@ const orderSlice = createSlice({
       products: [],      
     },
     orderError: '',
+    orderSuccess: false,
     countries: [],
     storeAddress: [],
     isLoading: false,
@@ -45,13 +46,19 @@ const orderSlice = createSlice({
       state.order = {...state.order,...action.payload.fields}
     },
     startPostOrder(state, action) {
-      state.isLoading = 'order'      
+      state.isLoading = 'order'   
+      state.orderSuccess = false   
     },
     postOrderSuccess(state, action) {
+      state.order = { 
+        products: [] 
+      }
       state.isLoading = false
+      state.orderSuccess = true
       state.orderError = ''
     },
     postOrderError(state, action) {
+      state.orderSuccess = false
       state.isLoading = false
       state.orderError = action.payload.message
     }

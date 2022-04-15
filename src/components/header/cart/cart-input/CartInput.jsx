@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import cn from 'classnames'
 import { Field, useField } from 'formik'
-import eye from './../payment/assets/eye.svg'
+import eye from '../payment-slide/assets/eye.svg'
+import closeEye from '../payment-slide/assets/close-eye.svg'
 
 function CartInput({
   name,
@@ -39,7 +40,7 @@ function CartInput({
       {hasImg && (
         <img
           width={21}
-          src={eye}
+          src={inputType === 'text' ? eye : closeEye}
           alt='eye'
           onClick={inputTypeToggle}
         />

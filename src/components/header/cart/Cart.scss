@@ -15,8 +15,7 @@
   font-size: 9px;
   color: #fff;
   text-align: center;
-  line-height: 16px;
-  
+  line-height: 16px;  
 }
 .cart {
   &__content {
@@ -26,7 +25,7 @@
 
     overflow: hidden;
     transform: translateX(150%);
-    transition: .2s linear;  
+    transition: 0.2s linear;  
 
     & button {
       display: block;
@@ -39,6 +38,7 @@
       transition: .2s linear;
     }
     .dark-btn {
+      position: relative;
       margin-bottom: 16px;
       background: #121212;
       color: #fff;
@@ -72,11 +72,17 @@
   &__title {
     height: 14px;
   }
-  
   &__links {
     padding: 24px 30px 0;
 
     font-size: 15px;
+
+    .link {
+      opacity: .4;
+      &.active {
+      opacity: 1;
+      }
+    }
   }
 
   &__slides {
@@ -110,14 +116,15 @@
 
   &__bin {
     cursor: pointer;
-  }  
+  } 
 }
 
 
 // ======== STEPS   =============
 
 .delivery-info,
-.payment-slide {
+.payment-slide,
+.status-slide {
   display: flex;
   flex-direction: column;
   width: 25%;
@@ -125,6 +132,13 @@
   padding: 34px 25px 24px;
   form {
     height: 100%;
+  }
+
+  input[type=radio],
+  input[type=checkbox] {
+    accent-color: #121212;
+    transform: scale(1.4);
+    margin: 0;
   }
 }
 
@@ -187,7 +201,7 @@
       margin-top: 5px;
     }
     >.error {
-      bottom: -14px;
+      bottom: -14px;      
     }
   }
 
@@ -217,11 +231,10 @@
 .cart-input-small {
   position: relative;
   width: 50%;
+  border: 1px solid transparent;
 
   &.error {
-    input {
-      border: 1px solid #D61313;
-    }    
+    border: 1px solid #D61313;
   }
   >.error {
     position: absolute;
@@ -292,9 +305,37 @@
   gap: 10px;
 }
 
-input[type=radio],
-input[type=checkbox] {
-  accent-color: #121212;
-  transform: scale(1.4);
-  margin: 0;
+
+//======== STATUS =========
+
+.status-slide {
+  height: calc(100% + 42px);
+  
+  .dark-btn {
+    margin-top: auto;
+  }
+}
+
+.status {
+  text-align: center;
+
+  &__title {
+    padding: 96px 50px 24px;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 150%;
+  }
+  &__body {
+    padding: 0 30px;
+    line-height: 22px;
+    p {
+      margin-bottom: 20px;
+    }
+  }
+  &__loader {
+    position: absolute;
+    right: 20%;
+    top: 7px;
+    z-index: 5;
+  }
 }

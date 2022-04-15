@@ -13,6 +13,7 @@ import eye from './assets/eye.svg'
 import { startPostOrder, updOrder } from '../../../../store/orderSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
+
 function Payment({ cartGoods, setSlide, totalPrice }) {
   const [formatChars, setFormatChars] = useState({
     1: '[0-1]',
@@ -35,8 +36,8 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
           cardDate: '',
           cardCVV: '',
         }}
-        onSubmit={(values, props) => {
-          const fields = values
+        onSubmit={async(values, props) => {          
+          const fields = {...values}
 
           const products = cartGoods.map((el) => {
             return {
@@ -49,16 +50,12 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
 
           fields.products = products
           fields.totalPrice = totalPrice
-          
-          dispatch(updOrder({ fields }))
-
           order = {...order, ...fields}
           
-          console.log(fields)
-          console.log(order)
-
+          dispatch(updOrder({ fields }))
           dispatch(startPostOrder({order}))
-
+        
+          setSlide(cartSlides.status)
         }}
         validationSchema={Yup.object().shape({
           cashEmail: Yup.string().when('paymentMethod', {
@@ -104,15 +101,8 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
         {(props) => {
           const {
             values,
-            touched,
-            errors,
-            dirty,
-            isValid,
             handleChange,
-            handleBlur,
             handleSubmit,
-            setFieldValue,
-            setFieldError,
           } = props
 
           const cardDateChange = (e) => {
@@ -216,12 +206,11 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                 Total:
                 <span>${totalPrice}</span>
               </div>
-              {!!cartGoods.length && (
-                <button className='dark-btn' type='submit'>
+              <button className='dark-btn' type='submit' >
                   {values.paymentMethod === 'Cash' ? 'READY' : 'CHECK OUT'}
-                </button>
-              )}
+              </button>
               <button
+                type='button'
                 className='light-btn'
                 onClick={() => setSlide(cartSlides.delivery)}
               >
