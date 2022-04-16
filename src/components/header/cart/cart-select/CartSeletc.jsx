@@ -103,8 +103,7 @@ export function CartSelect(props) {
             autoComplete='off'
             tabIndex={0}
             role="button"
-          />
-          
+          />          
           
           {isLoading === 'storeAddress' && name === isLoading && (
             <span className="dd-loader">

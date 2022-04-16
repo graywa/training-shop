@@ -65,13 +65,13 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                 'Некорректный email'
               )
-              .required('Обязательное поле'),
+              .required('Поле должно быть заполнено'),
           }),
           card: Yup.string().when('paymentMethod', {
             is: (method) => method === 'Card',
             then: Yup.string()
               .matches(/(.*\d.*){16}/, 'Введите полный номер')
-              .required('Обязательное поле'),
+              .required('Поле должно быть заполнено'),
           }),
           cardDate: Yup.string().when('paymentMethod', {
             is: (method) => method === 'Card',
@@ -87,14 +87,14 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                 }
                 return true
               })
-              .required('Обязательное поле'),
+              .required('Поле должно быть заполнено'),
           }),
           cardCVV: Yup.string().when('paymentMethod', {
             is: (method) => method === 'Card',
             then: Yup.string()
               .min(3, '3-4 символа')
               .max(4, '3-4 символа')
-              .required('Обязательное поле'),
+              .required('Поле должно быть заполнено'),
           }),
         })}
       >

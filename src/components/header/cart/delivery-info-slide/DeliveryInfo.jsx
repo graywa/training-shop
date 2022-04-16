@@ -33,12 +33,12 @@ function DeliveryInfo({ setSlide, totalPrice }) {
 
   const validationForAddress = {
     is: (method) => method !== 'Store pickup',
-    then: Yup.string().required('Обязательное поле'),
+    then: Yup.string().required('Поле должно быть заполнено'),
   }
 
   const validationForStoreAddress = {
     is: (method) => method === 'Store pickup',
-    then: Yup.string().required('Обязательное поле'),
+    then: Yup.string().required('Поле должно быть заполнено'),
   }
 
   return (
@@ -71,13 +71,13 @@ function DeliveryInfo({ setSlide, totalPrice }) {
         validationSchema={Yup.object().shape({
           phone: Yup.string()
             .matches(/(.*\d.*){12}/, 'Введите полный номер')
-            .required('Обязательное поле'),
+            .required('Поле должно быть заполнено'),
           email: Yup.string()
             .matches(
               /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
               'Некорректный email'
             )
-            .required('Обязательное поле'),
+            .required('Поле должно быть заполнено'),
           country: Yup.string().when('deliveryMethod', validationForAddress),
           city: Yup.string().when('deliveryMethod', validationForAddress),
           street: Yup.string().when('deliveryMethod', validationForAddress),
@@ -89,7 +89,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
             is: (method) => method === 'Pickup from post offices',
             then: Yup.string()
               .matches(/(.*\d.*){6}/, 'Введите полный номер')
-              .required('Обязательное поле'),
+              .required('Поле должно быть заполнено'),
           }),
           country2: Yup.string().when(
             'deliveryMethod',
@@ -101,7 +101,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
           ),
           checkbox: Yup.boolean()
             .oneOf([true], 'Необходимо отметить')
-            .required('Обязательное поле'),
+            .required('Поле должно быть заполнено'),
         })}
       >
         {(props) => {
