@@ -100,7 +100,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
             validationForStoreAddress
           ),
           checkbox: Yup.boolean()
-            .oneOf([true], 'Необходимо отметить')
+            .oneOf([true], 'Вы должны согласиться на обработку личной информации')
             .required('Поле должно быть заполнено'),
         })}
       >

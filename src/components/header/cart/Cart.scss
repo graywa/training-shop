@@ -199,9 +199,10 @@
     input {
       cursor: pointer;
       margin-top: 5px;
+      outline: none !important;
     }
     >.error {
-      bottom: -14px;      
+      bottom: -26px;      
     }
   }
 
