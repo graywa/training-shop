@@ -3,6 +3,7 @@ import { goodsApi } from '../api/goods-api'
 import { orderApi } from '../api/order-api'
 import { reviewApi } from '../api/review-api'
 import { subscribeApi } from '../api/subscribe-api'
+import { resetCartGoods } from './cartSlice'
 import { goodsRequestError,
          getGoodsSuccess, 
          getProductSuccess, 
@@ -95,6 +96,7 @@ function* postOrderWorker(action) {
     const order = action.payload.order
     yield call(orderApi.postOrder, order)    
     yield put(postOrderSuccess())
+    yield put(resetCartGoods())
   } catch (error) {
     const message = error.message    
     yield put(postOrderError({message}))

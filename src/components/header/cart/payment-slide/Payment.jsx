@@ -78,8 +78,8 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
             then: Yup.string()
               .matches(/(.*\d.*){4}/, 'Введите дату полностью')
               .test('data', 'Срок карты истек', (value) => {
-                value = value.replace(/\D/g, '')
-                if (value.length === 4) {
+                value = value?.replace(/\D/g, '')
+                if (value?.length === 4) {
                   const currDate = new Date()
                   const [a, b, c, d] = value
                   const cardDate = new Date(`20${c}${d}-${a}${b}`)
@@ -173,7 +173,6 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                       label='CARD'
                       mask='9999 9999 9999 9999'
                       placeholder='____ ____ ____ ____'
-                      handleChange={handleChange}
                     />
 
                     <div className='cart-input-short'>
@@ -193,7 +192,6 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                         hasImg={true}
                         placeholder='CVV'
                         className='cart-input-small'
-                        handleChange={handleChange}
                       >
                         <img src={eye} alt='eye' />
                       </CartInput>

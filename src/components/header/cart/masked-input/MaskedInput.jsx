@@ -11,7 +11,6 @@ function MaskedInput({
   className = 'cart-input',
   mask,
   formatChars,
-  handleChange
 }) {
   const [field, meta] = useField(name)  
 
@@ -24,6 +23,8 @@ function MaskedInput({
     placeholder,
   }
 
+  console.log(field)
+
   return (
     <div
       className={cn(`${className}`, {
@@ -32,7 +33,7 @@ function MaskedInput({
     >
       {label && <label htmlFor={name}>{label}</label>}
 
-      <InputMask {...configInput} onChange={handleChange} />
+      <InputMask {...configInput} />
       {meta.error && meta.touched && <div className='error'>{meta.error}</div>}
     </div>
   )

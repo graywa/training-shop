@@ -243,6 +243,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                       optionValues={storeAddress}
                       isLoading={isLoading}
                       errorMsg={storeAddressError}
+                      setFieldValue={setFieldValue}
                     />
                   </>
                 )}

@@ -10,13 +10,13 @@ import {
 } from '../../../../store/orderSlice'
 import DotsLoader from '../../../dots-loader/DotsLoader'
 
-export function CartSelect(props) {  
+export function CartSelect(props) {
   const {
     name,
     country,
     placeholder,
     label,
-    readOnly,    
+    readOnly,
     disabled = false,
     optionValues,
     setFieldValue,
@@ -36,7 +36,7 @@ export function CartSelect(props) {
     onChange(e)
     const value = e.target.value
 
-    if(name === 'storeAddress') {
+    if (name === 'storeAddress') {
       if (value.length === 3) {
         const city = value
         dispatch(getStoreAddress({ city, country }))
@@ -49,15 +49,17 @@ export function CartSelect(props) {
   }
 
   const optionChange = (e) => {
-    setIsOpen(false)
     onChange(e)
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 100)
     
-    
-    if(name === 'country2') {
+
+    if (name === 'country2') {
       dispatch(resetStoreAddress())
       setTimeout(() => {
-        setFieldValue('storeAddress', '',)
-      }, 100)      
+        setFieldValue('storeAddress', '')
+      }, 100)
     }
   }
 
@@ -65,8 +67,16 @@ export function CartSelect(props) {
     setTimeout(() => {
       setIsOpen(false)
     }, 100)
-      
+
     onBlur(e)
+
+
+    if (
+      name === 'storeAddress' &&
+      !optionValues.some((el) => el.city.toLowerCase() === value.toLowerCase())
+    ) {
+      setFieldValue('storeAddress', '')
+    }
   }
 
   return (
@@ -106,7 +116,11 @@ export function CartSelect(props) {
           <div className='dd-list'>
             {!!optionValues.length &&
               optionValues
-                .filter(el => el.name || el.city.includes(value))
+                .filter(
+                  (el) =>
+                    el.name ||
+                    el.city.toLowerCase().includes(value.toLowerCase())
+                )
                 .map((el) => (
                   <label key={el.name || el.city} className='dd-list__item'>
                     <input
@@ -118,17 +132,27 @@ export function CartSelect(props) {
                     />
                     {el.name || el.city}
                   </label>
-              ))}
-            {name === 'storeAddress' && !optionValues.length && value.length >= 3 
-            && (<label className='dd-list__item'>Совпадений не найдено</label>)}
-            
-            {name === 'storeAddress' && !optionValues.length && value.length < 3 
-            && (<label className='dd-list__item'>Введите хотя бы три буквы</label>)}
+                ))}
+            {name === 'storeAddress' &&
+              !optionValues.length &&
+              value.length >= 3 && (
+                <label className='dd-list__item'>Совпадений не найдено</label>
+              )}
 
-            {errorMsg && <label className='dd-list__item error'>{errorMsg}</label>}
+            {name === 'storeAddress' &&
+              !optionValues.length &&
+              value.length < 3 && (
+                <label className='dd-list__item'>
+                  Введите хотя бы три буквы
+                </label>
+              )}
+
+            {errorMsg && (
+              <label className='dd-list__item error'>{errorMsg}</label>
+            )}
           </div>
         )}
-        
+
         {error && touched && <div className='error-note'>{error}</div>}
       </div>
     </div>

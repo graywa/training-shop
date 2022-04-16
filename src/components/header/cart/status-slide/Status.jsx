@@ -11,7 +11,7 @@ function Status({ setSlide, closeCartModal }) {
       <div className='status__content'>
         {isLoading && (
           <>
-            <h2 className='status__title'>Load data... </h2>
+            <h2 className='status__title'>Processing order... </h2>
             <Preloader />
           </>
         )}
@@ -25,8 +25,14 @@ function Status({ setSlide, closeCartModal }) {
             </div>
           </>
         )} 
+
+        {orderError && (
+          <h2 className='status__title'>
+            Error: {orderError}
+          </h2>
+        )}
         
-        {!orderSuccess && !isLoading &&(
+        {!orderSuccess && !isLoading && !orderError &&(
           <>
             <h2 className='status__title'>
               Sorry, your payment has not been processed.
