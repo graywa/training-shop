@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartGoods: []
+    cartGoods: [],
   },
   reducers: {
     addGoods(state, action) {
@@ -14,30 +15,43 @@ const cartSlice = createSlice({
         color: action.payload.color,
         photo: action.payload.photo,
         price: action.payload.price,
-        quantity: 1
+        quantity: 1,
       })
     },
     removeGoods(state, action) {
-      state.cartGoods = state.cartGoods.filter(el => {
-        return el.id !== action.payload.id
-               || el.size !== action.payload.size 
-               || el.color !== action.payload.color
+      state.cartGoods = state.cartGoods.filter((el) => {
+        return (
+          el.id !== action.payload.id ||
+          el.size !== action.payload.size ||
+          el.color !== action.payload.color
+        )
       })
     },
     changeQuantityGoods(state, action) {
-      const targetGoods = state.cartGoods.find(el => {
-        return el.id === action.payload.id 
-              && el.size === action.payload.size 
-              && el.color === action.payload.color
+      const targetGoods = state.cartGoods.find((el) => {
+        return (
+          el.id === action.payload.id &&
+          el.size === action.payload.size &&
+          el.color === action.payload.color
+        )
       })
       targetGoods.quantity = action.payload.quantity
     },
     setGoodsFromLocalStorage(state, action) {
       state.cartGoods = action.payload.cartGoodsLocal
-    }
-  }
+    },
+    resetCartGoods(state, action) {
+      state.cartGoods = []
+    },
+  },
 })
 
-export const {addGoods, removeGoods, changeQuantityGoods, setGoodsFromLocalStorage} = cartSlice.actions
+export const {
+  addGoods,
+  removeGoods,
+  changeQuantityGoods,
+  setGoodsFromLocalStorage,
+  resetCartGoods,
+} = cartSlice.actions
 
 export default cartSlice.reducer

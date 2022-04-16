@@ -1,19 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Cart.scss'
-import {
-  removeGoods,
-  changeQuantityGoods,
-  setGoodsFromLocalStorage,
-} from '../../../store/cartSlice'
+import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import cross from '../assets/cross.svg'
-import minus from '../assets/minus.svg'
-import plus from '../assets/plus.svg'
-import bin from '../assets/bin.svg'
+import cn from 'classnames'
+import CartItems from './cart-items-slide/CartItems'
+import DeliveryInfo from './delivery-info-slide/DeliveryInfo'
+import Payment from './payment-slide/Payment'
+import Status from './status-slide/Status'
 
-const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
+
+export const cartSlides = {
+  items: 'items',
+  delivery: 'delivery',
+  payment: 'payment',
+  status: 'status',
+}
+
+const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {  
   const dispatch = useDispatch()
+
+  const [slide, setSlide] = useState(cartSlides.items)
+  const totalPrice = cartGoods
+    ?.reduce((acc, el) => acc + el.quantity * el.price, 0)
+    .toFixed(2)
 
   useEffect(() => {
     if (!cartGoods.length && localStorage.getItem('cartGoodsLocal')) {
@@ -22,16 +32,12 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
     }
   }, [])
 
-  const changeQuantityHandler = (quantity, id, color, size) => {
-    if (quantity <= 0) return
-    dispatch(changeQuantityGoods({ quantity, id, color, size }))
-  }
-
+  
   return (
     <>
       <div
-        className={isOpenCart ? 'modal open' : 'modal'}
-        onClick={() => setIsOpenCart(false)}
+        className={cn('modal', {open : isOpenCart2})}
+        onClick={closeCartModal}
       >
         <div
           className='cart__content'
@@ -40,116 +46,63 @@ const Cart = ({ isOpenCart, setIsOpenCart, cartGoods }) => {
         >
           <div className='cart__header'>
             <span className='cart__title'>SHOPPING CART</span>
-            <span onClick={() => setIsOpenCart(false)}>
+            <span onClick={closeCartModal}>
               <img width={16} src={cross} alt='cross' />
             </span>
           </div>
 
-          <div className='cart__links'>
-            <span>Item in Cart </span>
-            <span>/</span>
-            <span> Delivery Info </span>
-            <span>/</span>
-            <span> Payment</span>
-          </div>
-
-          <div className='cart__slides'>
-
-            <div className='cart__items'>
-              <div className='cart__goods'>
-                {cartGoods?.length ? (
-                  cartGoods.map((el) => {
-                    const { id, name, photo, color, size, quantity, price } = el
-                    return (
-                      <div
-                        key={id + color + size}
-                        className='cart__item'
-                        data-test-id='cart-card'
-                      >
-                        <div className='item__photo'>
-                          <img width={85} src={photo} alt='' />
-                        </div>
-                        <div className='item__info'>
-                          <div className='item__name'>{name}</div>
-                          <div className='item__color-size'>
-                            {color}, {size}
-                          </div>
-                          <div className='item__price-block'>
-                            <div className='price__quantity'>
-                              <button
-                                className='quantity__decr'
-                                onClick={() =>
-                                  changeQuantityHandler(
-                                    quantity - 1,
-                                    id,
-                                    color,
-                                    size
-                                  )
-                                }
-                                data-test-id='minus-product'
-                              >
-                                <img src={minus} alt='minus' />
-                              </button>
-                              <span className='quantity__value'>
-                                {quantity}
-                              </span>
-                              <button
-                                className='quantity__incr'
-                                onClick={() =>
-                                  changeQuantityHandler(
-                                    quantity + 1,
-                                    id,
-                                    color,
-                                    size
-                                  )
-                                }
-                                data-test-id='plus-product'
-                              >
-                                <img src={plus} alt='plus' />
-                              </button>
-                            </div>
-                            <div className='item__price'>
-                              ${(price * quantity).toFixed(2)}
-                            </div>
-                            <div
-                              className='cart__bin'
-                              onClick={() =>
-                                dispatch(removeGoods({ id, color, size }))
-                              }
-                              data-test-id='remove-product'
-                            >
-                              <img src={bin} alt='bin' />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })
-                ) : (
-                  <div className='cart__empty'>Your cart is empty</div>
-                )}
-              </div>
-
-              <div className='cart__total'>
-                Total:
-                <span>
-                  $
-                  {cartGoods
-                    .reduce((acc, el) => acc + el.quantity * el.price, 0)
-                    .toFixed(2)}
-                </span>
-              </div>
-              {!!cartGoods.length && (
-                <button className='dark-btn'>FURTHER</button>
-              )}
-              <button
-                className='light-btn'
-                onClick={() => setIsOpenCart(false)}
+          {slide !== cartSlides.status && (
+            <div className='cart__links'>
+              <span
+                className={cn('link', { active: slide === cartSlides.items })}
               >
-                BACK TO SHOPPING
-              </button>
+                Item in Cart
+                {' '}
+              </span>
+              <span>/</span>
+              <span
+                className={cn('link', {
+                  active: slide === cartSlides.delivery,
+                })}
+              >
+                {' '}
+                Delivery Info{' '}
+              </span>
+              <span>/</span>
+              <span
+                className={cn('link', {
+                  active: slide === cartSlides.payment,
+                })}
+              >
+                {' '}
+                Payment
+              </span>
             </div>
-            
+          )}
+
+          <div className={cn('cart__slides', slide)}>
+            <CartItems
+              cartGoods={cartGoods}
+              setSlide={setSlide}
+              totalPrice={totalPrice}
+              closeCartModal={closeCartModal}
+            />
+
+            <DeliveryInfo
+              setSlide={setSlide}
+              totalPrice={totalPrice}
+            />
+
+            <Payment
+              cartGoods={cartGoods}
+              setSlide={setSlide}
+              totalPrice={totalPrice}
+            />
+
+            <Status
+              closeCartModal={closeCartModal}
+              setSlide={setSlide}
+            />
           </div>
         </div>
       </div>
