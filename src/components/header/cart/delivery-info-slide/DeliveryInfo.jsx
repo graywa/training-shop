@@ -197,7 +197,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                     <CartInput
                       name='country'
                       label='ADRESS'
-                      placeholder='Belarus'
+                      placeholder='Country'
                     />
 
                     <CartInput name='city' placeholder='City' />

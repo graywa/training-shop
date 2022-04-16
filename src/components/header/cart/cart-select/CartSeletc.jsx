@@ -70,7 +70,6 @@ export function CartSelect(props) {
 
     onBlur(e)
 
-
     if (
       name === 'storeAddress' &&
       !optionValues.some((el) => el.city.toLowerCase() === value.toLowerCase())
@@ -102,56 +101,63 @@ export function CartSelect(props) {
             readOnly={readOnly}
             disabled={disabled}
             autoComplete='off'
+            tabIndex={0}
+            role="button"
           />
-          {isLoading === 'storeAddress' && name === isLoading && <DotsLoader />}
+          
+          
+          {isLoading === 'storeAddress' && name === isLoading && (
+            <span className="dd-loader">
+              <DotsLoader />
+            </span>
+          )}
+          
           <img
             className={cn('dd-arrow', { open: isOpen })}
-            width={15}
+            width={25}
             src={arrow}
             alt='arrow'
           />
         </div>
 
-        {isOpen && (
-          <div className='dd-list'>
-            {!!optionValues.length &&
-              optionValues
-                .filter(
-                  (el) =>
-                    el.name ||
-                    el.city.toLowerCase().includes(value.toLowerCase())
-                )
-                .map((el) => (
-                  <label key={el.name || el.city} className='dd-list__item'>
-                    <input
-                      type='radio'
-                      name={name}
-                      value={el.name || el.city}
-                      onChange={optionChange}
-                      className='dd-list__radio'
-                    />
-                    {el.name || el.city}
-                  </label>
-                ))}
-            {name === 'storeAddress' &&
-              !optionValues.length &&
-              value.length >= 3 && (
-                <label className='dd-list__item'>Совпадений не найдено</label>
-              )}
-
-            {name === 'storeAddress' &&
-              !optionValues.length &&
-              value.length < 3 && (
-                <label className='dd-list__item'>
-                  Введите хотя бы три буквы
+        <div className={cn('dd-list', {open: isOpen})} >
+          {!!optionValues.length &&
+            optionValues
+              .filter(
+                (el) =>
+                  el.name ||
+                  el.city.toLowerCase().includes(value.toLowerCase())
+              )
+              .map((el) => (
+                <label key={el.name || el.city} className='dd-list__item'>
+                  <input
+                    type='radio'
+                    name={name}
+                    value={el.name || el.city}
+                    onChange={optionChange}
+                    className='dd-list__radio'
+                  />
+                  {el.name || el.city}
                 </label>
-              )}
-
-            {errorMsg && (
-              <label className='dd-list__item error'>{errorMsg}</label>
+              ))}
+          {name === 'storeAddress' &&
+            !optionValues.length &&
+            value.length >= 3 && (
+              <label className='dd-list__item'>Совпадений не найдено</label>
             )}
-          </div>
-        )}
+
+          {name === 'storeAddress' &&
+            !optionValues.length &&
+            value.length < 3 && (
+              <label className='dd-list__item'>
+                Введите хотя бы три буквы
+              </label>
+            )}
+
+          {errorMsg && (
+            <label className='dd-list__item error'>{errorMsg}</label>
+          )}
+        </div>
 
         {error && touched && <div className='error-note'>{error}</div>}
       </div>

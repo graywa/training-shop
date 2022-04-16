@@ -140,6 +140,9 @@
     transform: scale(1.4);
     margin: 0;
   }
+  input:focus {
+    outline: 1px solid #cacaca;    
+  }
 }
 
 .form-content{
