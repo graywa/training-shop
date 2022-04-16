@@ -11,6 +11,7 @@ function MaskedInput({
   className = 'cart-input',
   mask,
   formatChars,
+  handleChange,
 }) {
   const [field, meta] = useField(name)  
 
@@ -21,6 +22,7 @@ function MaskedInput({
     formatChars,
     ...field,
     placeholder,
+    onChange: handleChange || field.onChange
   }
 
   console.log(field)

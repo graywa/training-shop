@@ -115,8 +115,6 @@ function DeliveryInfo({ setSlide, totalPrice }) {
             setFieldValue,
             isValid,
           } = props
-          //console.log(values)
-          //console.log(errors)
 
           const phoneChange = (e) => {
             let value = e.target.value
@@ -255,7 +253,6 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                     label='POSTCODE'
                     mask='BY\ 999999'
                     placeholder='BY ______'
-                    handleChange={handleChange}
                   />
                 )}
 
