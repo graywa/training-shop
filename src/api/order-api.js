@@ -11,7 +11,7 @@ export const orderApi = {
   },
   postOrder(order) {
     return instance
-      .post('car', order)
+      .post('cart', order)
       .then(response => response.data)
   }
 }
