@@ -1,29 +1,26 @@
 import React from 'react'
-import './CartItems.scss'
-import minus from '../../assets/minus.svg'
-import plus from '../../assets/plus.svg'
-import bin from '../../assets/bin.svg'
 import { useDispatch } from 'react-redux'
 import { changeQuantityGoods, removeGoods } from '../../../../store/cartSlice'
 import { cartSlides } from '../Cart'
+import minus from '../../assets/minus.svg'
+import plus from '../../assets/plus.svg'
+import bin from '../../assets/bin.svg'
+import './CartItems.scss'
 
-function CartItems({ cartGoods, setSlide, totalPrice, closeCartModal }) {
+const CartItems = ({ cartGoods, setSlide, totalPrice, closeCartModal }) => {
   const dispatch = useDispatch()
 
   const changeQuantityHandler = (quantity, id, color, size) => {
-    if (quantity <= 0) return
-    dispatch(changeQuantityGoods({ quantity, id, color, size }))
+    if (quantity >= 1) dispatch(changeQuantityGoods({ quantity, id, color, size }))    
   }  
 
   return (
     <div className='cart__items'>
       <div className='cart__goods'>
         {cartGoods?.length ? (
-          cartGoods.map((el) => {
-            const { id, name, photo, color, size, quantity, price } = el
-            return (
+          cartGoods.map(({id, name, photo, color, size, quantity, price}) => (
               <div
-                key={id + color + size}
+                key={`${id}${color}${size}`}
                 className='cart__item'
                 data-test-id='cart-card'
               >
@@ -71,7 +68,7 @@ function CartItems({ cartGoods, setSlide, totalPrice, closeCartModal }) {
                 </div>
               </div>
             )
-          })
+          )
         ) : (
           <div className='cart__empty'>Your cart is empty</div>
         )}

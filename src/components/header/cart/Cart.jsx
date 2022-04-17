@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import './Cart.scss'
-import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
-import { useDispatch } from 'react-redux'
-import cross from '../assets/cross.svg'
 import cn from 'classnames'
+import cross from '../assets/cross.svg'
 import CartItems from './cart-items-slide/CartItems'
 import DeliveryInfo from './delivery-info-slide/DeliveryInfo'
 import Payment from './payment-slide/Payment'
 import Status from './status-slide/Status'
-
+import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
+import { useDispatch } from 'react-redux'
+import './Cart.scss'
 
 export const cartSlides = {
   items: 'items',
@@ -17,7 +16,7 @@ export const cartSlides = {
   status: 'status',
 }
 
-const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {  
+const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
   const dispatch = useDispatch()
 
   const [slide, setSlide] = useState(cartSlides.items)
@@ -32,11 +31,10 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
     }
   }, [])
 
-  
   return (
     <>
       <div
-        className={cn('modal', {open : isOpenCart2})}
+        className={cn('modal', { open: isOpenCart2 })}
         onClick={closeCartModal}
       >
         <div
@@ -56,8 +54,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
               <span
                 className={cn('link', { active: slide === cartSlides.items })}
               >
-                Item in Cart
-                {' '}
+                {'Item in Cart '}
               </span>
               <span>/</span>
               <span
@@ -65,8 +62,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
                   active: slide === cartSlides.delivery,
                 })}
               >
-                {' '}
-                Delivery Info{' '}
+                {' Delivery Info '}
               </span>
               <span>/</span>
               <span
@@ -74,8 +70,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
                   active: slide === cartSlides.payment,
                 })}
               >
-                {' '}
-                Payment
+                {' Payment'}
               </span>
             </div>
           )}
@@ -88,10 +83,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
               closeCartModal={closeCartModal}
             />
 
-            <DeliveryInfo
-              setSlide={setSlide}
-              totalPrice={totalPrice}
-            />
+            <DeliveryInfo setSlide={setSlide} totalPrice={totalPrice} />
 
             <Payment
               cartGoods={cartGoods}
@@ -99,10 +91,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
               totalPrice={totalPrice}
             />
 
-            <Status
-              closeCartModal={closeCartModal}
-              setSlide={setSlide}
-            />
+            <Status closeCartModal={closeCartModal} setSlide={setSlide} />
           </div>
         </div>
       </div>

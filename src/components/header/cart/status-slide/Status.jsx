@@ -26,13 +26,13 @@ function Status({ setSlide, closeCartModal }) {
           </>
         )} 
 
-        {orderError && (
+        {/* {orderError && (
           <h2 className='status__title'>
             Error: {orderError}
           </h2>
-        )}
+        )} */}
         
-        {!orderSuccess && !isLoading && !orderError &&(
+        {!orderSuccess && !isLoading && (
           <>
             <h2 className='status__title'>
               Sorry, your payment has not been processed.

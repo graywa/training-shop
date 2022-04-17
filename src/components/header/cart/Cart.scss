@@ -7,7 +7,7 @@
   height: 18px;
   border-radius: 50%;
   border: 2px solid #fff;
-  background: #121212;
+  background-color: #121212;
   position: absolute;
   top: -5px;
   right: -28px;
@@ -21,7 +21,7 @@
   &__content {
     max-width: 400px;
     width: 100%;    
-    background: #fff;
+    background-color: #fff;
 
     overflow: hidden;
     transform: translateX(150%);
@@ -40,16 +40,16 @@
     .dark-btn {
       position: relative;
       margin-bottom: 16px;
-      background: #121212;
+      background-color: #121212;
       color: #fff;
       &:hover {
-        background: #3b3b3b;
+        background-color: #3b3b3b;
       }
     }
     .light-btn {
-      background: #F8F8F8;
+      background-color: #F8F8F8;
       &:hover {
-        background: #eeeeee;
+        background-color: #eeeeee;
       }
     }
   }
@@ -60,7 +60,7 @@
     padding: 0 30px;
     height: 48px;
 
-    background: #121212;
+    background-color: #121212;
 
     color: #fff;
     font-weight: 600; 
@@ -181,7 +181,7 @@
   }
   input {
     padding: 15px;
-    background: #f8f8f8;
+    background-color: #f8f8f8;
     border: 1px solid transparent;
     outline: none;
   }
@@ -258,7 +258,7 @@
   input {
     width: 100%;
     padding: 15px;
-    background: #f8f8f8;
+    background-color: #f8f8f8;
     border: 1px solid transparent;
     outline: none;
   }
@@ -284,14 +284,14 @@
   }
   select {
     padding: 15px;
-    background: #f8f8f8;
+    background-color: #f8f8f8;
     border: 1px solid transparent;
     outline: none;
     
   }
   option {
     padding: 15px;
-    background: #f8f8f8;
+    background-color: #f8f8f8;
     border: 1px solid transparent;
     outline: none;
   }

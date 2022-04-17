@@ -12,7 +12,7 @@ function CartInput({
   placeholder,
   className = 'cart-input',
 }) {
-  const [field, meta] = useField(name)
+  const [field, {error, touched}] = useField(name)
   const [inputType, setInputType] = useState(type)
 
   const configInput = {
@@ -23,26 +23,26 @@ function CartInput({
     autoComplete: 'off',
   }
 
-  const inputTypeToggle = () => {
+  const changeInputType = () => {
     inputType === 'text' ? setInputType('password') : setInputType('text')
   }
 
   return (
     <div
       className={cn(`${className}`, {
-        error: meta.error && meta.touched,
+        error: error && touched,
       })}
     >
       {label && <label htmlFor={name}>{label}</label>}
       <Field {...configInput} />
-      {meta.error && meta.touched && <div className='error'>{meta.error}</div>}
+      {error && touched && <div className='error'>{error}</div>}
 
       {hasImg && (
         <img
           width={21}
           src={inputType === 'text' ? eye : closeEye}
           alt='eye'
-          onClick={inputTypeToggle}
+          onClick={changeInputType}
         />
       )}
     </div>
