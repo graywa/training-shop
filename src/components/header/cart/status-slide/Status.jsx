@@ -25,12 +25,6 @@ function Status({ setSlide, closeCartModal }) {
             </div>
           </>
         )} 
-
-        {/* {orderError && (
-          <h2 className='status__title'>
-            Error: {orderError}
-          </h2>
-        )} */}
         
         {!orderSuccess && !isLoading && (
           <>
