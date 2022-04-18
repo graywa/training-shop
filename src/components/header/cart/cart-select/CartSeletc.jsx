@@ -9,51 +9,46 @@ import {
   resetStoreAddress,
 } from '../../../../store/orderSlice'
 import DotsLoader from '../../../dots-loader/DotsLoader'
+import { selectNames } from '../constants'
 
-export function CartSelect(props) {
-  const {
-    name,
-    country,
-    placeholder,
-    label,
-    readOnly,
-    disabled = false,
-    optionValues,
-    setFieldValue,
-    isLoading,
-    errorMsg,
-  } = props
 
-  const [field, meta] = useField(name)
+const CartSelect = ({
+  name,
+  country,
+  placeholder,
+  label,
+  readOnly,
+  disabled = false,
+  optionValues,
+  setFieldValue,
+  isLoading,
+  errorMsg,
+}) => {
+  const [{ value, onBlur, onChange }, { error, touched }] = useField(name)
   const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch()
 
-  const { onBlur, value, onChange } = field
-  const { error, touched } = meta
-
-  const inputChange = (e) => {
+  const changeInput = (e) => {
+    const { value: city } = e.target
     setIsOpen(true)
     onChange(e)
-    const value = e.target.value
 
-    if (name === 'storeAddress') {
-      if (value.length === 3) {
-        const city = value
+    if (name === selectNames.storeAddress) {
+      if (city.length === 3) {
         dispatch(getStoreAddress({ city, country }))
       }
 
-      if (!value.length) {
+      if (!city.length) {
         dispatch(resetStoreAddress())
       }
     }
   }
 
-  const optionChange = (e) => {
-    onChange(e)
+  const changeOption = (value) => {
+    setFieldValue(`${name}`, value)
     setTimeout(() => {
       setIsOpen(false)
     }, 100)
-    
 
     if (name === 'country2') {
       dispatch(resetStoreAddress())
@@ -66,13 +61,13 @@ export function CartSelect(props) {
   const onBlurInput = (e) => {
     setTimeout(() => {
       setIsOpen(false)
-    }, 100)
+    },100) 
 
     onBlur(e)
 
     if (
       name === 'storeAddress' &&
-      !optionValues.some((el) => el.city.toLowerCase() === value.toLowerCase())
+      !optionValues.some((el) => el.city === value)
     ) {
       setFieldValue('storeAddress', '')
     }
@@ -97,20 +92,18 @@ export function CartSelect(props) {
             placeholder={placeholder}
             value={value}
             onBlur={onBlurInput}
-            onChange={inputChange}
+            onChange={changeInput}
             readOnly={readOnly}
             disabled={disabled}
             autoComplete='off'
-            tabIndex={0}
-            role="button"
-          />          
-          
+          />
+
           {isLoading === 'storeAddress' && name === isLoading && (
-            <span className="dd-loader">
+            <span className='dd-loader'>
               <DotsLoader />
             </span>
           )}
-          
+
           <img
             className={cn('dd-arrow', { open: isOpen })}
             width={25}
@@ -119,38 +112,33 @@ export function CartSelect(props) {
           />
         </div>
 
-        <div className={cn('dd-list', {open: isOpen})} >
+        <div className={cn('dd-list', { open: isOpen })}>
           {!!optionValues.length &&
             optionValues
               .filter(
-                (el) =>
-                  el.name ||
-                  el.city.toLowerCase().includes(value.toLowerCase())
+                ({ name, city }) =>
+                  name || city.toLowerCase().includes(value.toLowerCase())
               )
-              .map((el) => (
-                <label key={el.name || el.city} className='dd-list__item'>
-                  <input
-                    type='radio'
-                    name={name}
-                    value={el.name || el.city}
-                    onChange={optionChange}
-                    className='dd-list__radio'
-                  />
-                  {el.name || el.city}
-                </label>
+              .map(({ id, name, city }) => (
+                <input
+                  className='dd-list__item'
+                  key={id}
+                  type='text'
+                  value={name || city}
+                  onClick={() => changeOption(name || city)}
+                  readOnly
+                />
               ))}
-          {name === 'storeAddress' &&
+          {name === selectNames.storeAddress &&
             !optionValues.length &&
             value.length >= 3 && (
               <label className='dd-list__item'>Совпадений не найдено</label>
             )}
 
-          {name === 'storeAddress' &&
+          {name === selectNames.storeAddress &&
             !optionValues.length &&
             value.length < 3 && (
-              <label className='dd-list__item'>
-                Введите хотя бы три буквы
-              </label>
+              <label className='dd-list__item'>Введите хотя бы три буквы</label>
             )}
 
           {errorMsg && (

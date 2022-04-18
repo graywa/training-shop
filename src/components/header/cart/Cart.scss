@@ -6,12 +6,11 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid #FFFFFF;
   background-color: #121212;
   position: absolute;
-  top: -5px;
+  top: -6px;
   right: -28px;
-
   font-size: 9px;
   color: #fff;
   text-align: center;
@@ -21,8 +20,7 @@
   &__content {
     max-width: 400px;
     width: 100%;    
-    background-color: #fff;
-
+    background-color: #FFFFFF;
     overflow: hidden;
     transform: translateX(150%);
     transition: 0.2s linear;  
@@ -41,15 +39,15 @@
       position: relative;
       margin-bottom: 16px;
       background-color: #121212;
-      color: #fff;
+      color: #FFFFFF;
       &:hover {
-        background-color: #3b3b3b;
+        background-color: #3B3B3B;
       }
     }
     .light-btn {
       background-color: #F8F8F8;
       &:hover {
-        background-color: #eeeeee;
+        background-color: #EEEEEE;
       }
     }
   }
@@ -59,10 +57,8 @@
     align-items: center;
     padding: 0 30px;
     height: 48px;
-
     background-color: #121212;
-
-    color: #fff;
+    color: #FFFFFF;
     font-weight: 600; 
     img:hover {
       cursor: pointer;
@@ -74,7 +70,6 @@
   }
   &__links {
     padding: 24px 30px 0;
-
     font-size: 15px;
 
     .link {
@@ -108,7 +103,6 @@
 
   &__empty {
     margin: 40px 0;
-
     text-align: center;
     font-size: 26px;
     font-weight: 600;
@@ -129,7 +123,8 @@
   flex-direction: column;
   width: 25%;
   height: 100%;
-  padding: 34px 25px 24px;
+  padding: 34px 26px 24px;
+
   form {
     height: 100%;
   }
@@ -155,16 +150,16 @@
     margin-bottom: 12px;
   }
   &:first-child {
-    border-bottom: 2px solid #f8f8f8;
+    border-bottom: 2px solid #F8F8F8;
   }
   input {
     cursor: pointer;
   }
   label {
     display: flex;
-    gap: 15px;
-    padding: 15px 0;
-    border-top: 2px solid #f8f8f8;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 2px solid #F8F8F8;
     cursor: pointer;
   }
 }
@@ -177,18 +172,18 @@
   label {
     font-size: 12px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
   input {
-    padding: 15px;
-    background-color: #f8f8f8;
+    padding: 14px;
+    background-color: #F8F8F8;
     border: 1px solid transparent;
     outline: none;
   }
 
   &.check {
     flex-direction: row;
-    gap: 15px;
+    gap: 16px;
     margin-bottom: 12px;
     label {
       cursor: pointer;
@@ -196,10 +191,10 @@
       font-weight: 400;
       line-height: 22px;
     }
-    input {
+    .checkbox {
       cursor: pointer;
       margin-top: 5px;
-      outline: none !important;
+      outline: none;
     }
     >.error {
       bottom: -26px;      
@@ -217,13 +212,12 @@
     left: 0;
     bottom: -20px;
     z-index: 5;
-
     font-size: 12px;
     color: #D61313;
   }  
 
   input:focus {
-    outline: 1px solid #cacaca;    
+    outline: 1px solid #CACACA;    
   }
 }
 
@@ -234,7 +228,7 @@
   margin-bottom: 36px;
 
   input:focus {
-    outline: 1px solid #cacaca;    
+    outline: 1px solid #CACACA;    
   }
 }
 .cart-input-small {
@@ -250,21 +244,20 @@
     left: 0;
     top: 52px;
     z-index: 5;
-
     font-size: 12px;
     color: #D61313;
   }  
 
   input {
     width: 100%;
-    padding: 15px;
-    background-color: #f8f8f8;
+    padding: 14px;
+    background-color: #F8F8F8;
     border: 1px solid transparent;
     outline: none;
   }
   img {
     position: absolute;
-    top: 13px;
+    top: 14px;
     right: 14px;
     z-index: 5;
     cursor: pointer;
@@ -280,22 +273,20 @@
   > label {
     font-size: 12px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
   select {
-    padding: 15px;
-    background-color: #f8f8f8;
+    padding: 14px;
+    background-color: #F8F8F8;
     border: 1px solid transparent;
     outline: none;
     
   }
   option {
-    padding: 15px;
-    background-color: #f8f8f8;
+    padding: 14px;
+    background-color: #F8F8F8;
     border: 1px solid transparent;
     outline: none;
-  }
-  &.error {     
   }
   
   >.error {
@@ -303,7 +294,6 @@
     left: 0;
     bottom: -20px;
     z-index: 5;
-
     font-size: 12px;
     color: #D61313;
   }  
@@ -313,7 +303,6 @@
   display: flex;
   gap: 10px;
 }
-
 
 //======== STATUS =========
 
@@ -344,7 +333,7 @@
   &__loader {
     position: absolute;
     right: 20%;
-    top: 7px;
+    top: 8px;
     z-index: 5;
   }
 }

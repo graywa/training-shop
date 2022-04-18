@@ -1,20 +1,19 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
-import './Payment.scss'
 import * as Yup from 'yup'
-import cn from 'classnames'
-import { cartSlides } from '../Cart'
+import MaskedInput from '../masked-input/MaskedInput'
+import CartInput from '../cart-input/CartInput'
+import { startPostOrder, updOrder } from '../../../../store/orderSlice'
+import { paymentValidationShema } from './paymentValidationShema'
+import { cartSlides } from '../constants'
 import PayPal from '../../../../pages/product-page/assets/paypal.svg'
 import Visa from '../../../../pages/product-page/assets/visa.svg'
 import MasterCard from '../../../../pages/product-page/assets/mastercard.svg'
-import MaskedInput from '../masked-input/MaskedInput'
-import CartInput from '../cart-input/CartInput'
 import eye from './assets/eye.svg'
-import { startPostOrder, updOrder } from '../../../../store/orderSlice'
-import { useDispatch, useSelector } from 'react-redux'
 
 
-function Payment({ cartGoods, setSlide, totalPrice }) {
+const Payment = ({ cartGoods, setSlide, totalPrice, isResetForm }) => {
   const [formatChars, setFormatChars] = useState({
     1: '[0-1]',
     2: '[0-9]',
@@ -22,92 +21,65 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
     9: '[0-9]',
   })
 
-  const dispatch = useDispatch()
+  const initialValues = {
+    paymentMethod: 'Visa',
+    cashEmail: '',
+    card: '',
+    cardDate: '',
+    cardCVV: '',
+  }
 
-  let {order} = useSelector(state => state.order)
+  const dispatch = useDispatch()
+  const formRef = useRef()
+
+  let { order } = useSelector((state) => state.order)
+
+  useEffect(() => {
+    if (isResetForm) formRef.current.resetForm()
+  }, [isResetForm])
+
+  const onSubmit = (values) => {
+    const fields = { ...values }
+
+    const products = cartGoods.map((el) => {
+      return {
+        name: el.name,
+        size: el.size,
+        color: el.color,
+        quantity: el.quantity,
+      }
+    })
+
+    fields.products = products
+    fields.totalPrice = totalPrice
+    if (
+      fields.paymentMethod === 'Visa' ||
+      fields.paymentMethod === 'MasterCard'
+    ) {
+      fields.paymentMethod = 'Card'
+    }
+
+    order = { ...order, ...fields }
+
+    dispatch(updOrder({ fields }))
+    dispatch(startPostOrder({ order }))
+
+    setSlide(cartSlides.status)
+  }
 
   return (
     <div className='payment-slide'>
       <Formik
-        initialValues={{
-          paymentMethod: 'Card',
-          cashEmail: '',
-          card: '',
-          cardDate: '',
-          cardCVV: '',
-        }}
-        onSubmit={async(values, props) => {          
-          const fields = {...values}
-
-          const products = cartGoods.map((el) => {
-            return {
-              name: el.name,
-              size: el.size,
-              color: el.color,
-              quantity: el.quantity,
-            }
-          })
-
-          fields.products = products
-          fields.totalPrice = totalPrice
-          order = {...order, ...fields}
-          
-          dispatch(updOrder({ fields }))
-          dispatch(startPostOrder({order}))
-        
-          setSlide(cartSlides.status)
-        }}
-        validationSchema={Yup.object().shape({
-          cashEmail: Yup.string().when('paymentMethod', {
-            is: (method) => method === 'PayPal',
-            then: Yup.string()
-              .matches(
-                /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                'Некорректный email'
-              )
-              .required('Поле должно быть заполнено'),
-          }),
-          card: Yup.string().when('paymentMethod', {
-            is: (method) => method === 'Card',
-            then: Yup.string()
-              .matches(/(.*\d.*){16}/, 'Введите полный номер')
-              .required('Поле должно быть заполнено'),
-          }),
-          cardDate: Yup.string().when('paymentMethod', {
-            is: (method) => method === 'Card',
-            then: Yup.string()
-              .matches(/(.*\d.*){4}/, 'Введите дату полностью')
-              .test('data', 'Срок карты истек', (value) => {
-                value = value?.replace(/\D/g, '')
-                if (value?.length === 4) {
-                  const currDate = new Date()
-                  const [a, b, c, d] = value
-                  const cardDate = new Date(`20${c}${d}-${a}${b}`)
-                  return cardDate > currDate
-                }
-                return true
-              })
-              .required('Поле должно быть заполнено'),
-          }),
-          cardCVV: Yup.string().when('paymentMethod', {
-            is: (method) => method === 'Card',
-            then: Yup.string()
-              .min(3, '3-4 символа')
-              .max(4, '3-4 символа')
-              .required('Поле должно быть заполнено'),
-          }),
-        })}
+        innerRef={formRef}
+        initialValues={initialValues}
+        onSubmit={(values) => onSubmit(values)}
+        validationSchema={Yup.object().shape(paymentValidationShema)}
       >
-        {(props) => {
-          const {
-            values,
-            handleChange,
-            handleSubmit,
-          } = props
+        {({ values: { paymentMethod }, handleChange, handleSubmit }) => {
 
           const cardDateChange = (e) => {
             handleChange(e)
-            let value = e.target.value
+            const { value } = e.target
 
             if (value[0] === '1') setFormatChars({ ...formatChars, 2: '[0-2]' })
             if (value[0] === '0') setFormatChars({ ...formatChars, 2: '[1-9]' })
@@ -123,6 +95,7 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                       type='radio'
                       name='paymentMethod'
                       value='PayPal'
+                      checked={paymentMethod === 'PayPal'}
                       onChange={handleChange}
                     />
                     <img height={22} src={PayPal} alt='PayPal' />
@@ -131,33 +104,35 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                     <input
                       type='radio'
                       name='paymentMethod'
-                      value='Card'
+                      value='Visa'
+                      checked={paymentMethod === 'Visa'}
                       onChange={handleChange}
-                      defaultChecked
                     />
-                    <img height={22} src={Visa} alt='PayPal' />
+                    <img height={22} src={Visa} alt='Card' />
                   </label>
                   <label>
                     <input
                       type='radio'
                       name='paymentMethod'
-                      value='Card'
+                      value='MasterCard'
                       onChange={handleChange}
+                      checked={paymentMethod === 'MasterCard'}
                     />
-                    <img height={22} src={MasterCard} alt='PayPal' />
+                    <img height={22} src={MasterCard} alt='Card' />
                   </label>
                   <label>
                     <input
                       type='radio'
                       name='paymentMethod'
                       value='Cash'
+                      checked={paymentMethod === 'Cash'}
                       onChange={handleChange}
                     />
                     Cash
                   </label>
                 </div>
 
-                {values.paymentMethod === 'PayPal' && (
+                {paymentMethod === 'PayPal' && (
                   <CartInput
                     name='cashEmail'
                     label='E-MAIL'
@@ -165,7 +140,8 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                   />
                 )}
 
-                {values.paymentMethod === 'Card' && (
+                {(paymentMethod === 'Visa' ||
+                  paymentMethod === 'MasterCard') && (
                   <>
                     <MaskedInput
                       name='card'
@@ -204,8 +180,8 @@ function Payment({ cartGoods, setSlide, totalPrice }) {
                 Total:
                 <span>${totalPrice}</span>
               </div>
-              <button className='dark-btn' type='submit' >
-                  {values.paymentMethod === 'Cash' ? 'READY' : 'CHECK OUT'}
+              <button className='dark-btn' type='submit'>
+                {paymentMethod === 'Cash' ? 'READY' : 'CHECK OUT'}
               </button>
               <button
                 type='button'

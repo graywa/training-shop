@@ -17,55 +17,44 @@ function* goodsReqWorker() {
   try {
     const goods = yield call(goodsApi.getGoods)
     yield put(getGoodsSuccess({goods}))
-  } catch (error) {
-    let message = error.message
+  } catch ({message}) {
     yield put(goodsRequestError({message}))
   }
 }
 
-function* goodsByCategoryReqWorker(action) {
+function* goodsByCategoryReqWorker({payload: {goodsType: category}}) {
   try {
-    const category = action.payload.goodsType
     const goods = yield call(goodsApi.getGoodsByCategory, category)
     yield put(getGoodsByCategorySuccess({goods}))
-  } catch (error) {
-    let message = error.message
+  } catch ({message}) {
     yield put(goodsRequestError({message}))
   }
 }
 
-function* productReqWorker(action) {
+function* productReqWorker({payload: {id}}) {
   try {
-    const id = action.payload.id
     const product = yield call(goodsApi.getProduct, id)
     yield put(getProductSuccess({product}))
-  } catch (error) {
-    let message = error.message
+  } catch ({message}) {
     yield put(goodsRequestError({message}))
   }
 }
 
-function* subscribeWorker(action) {
+function* subscribeWorker({payload: {email, description}}) {
   try {
-    const email = action.payload.email
-    const description = action.payload.description
     yield call(subscribeApi.subscribe, email)
     yield put(subscribeSeccess({description}))
-  } catch (error) {
-    const message = error.message
-    const description = action.payload.description
+  } catch ({message}) {
     yield put(subscribeError({message, description}))
   }
 }
 
-function* reviewSendWorker(action) {
+function* reviewSendWorker({payload: {id, name, text, rating}}) {
   try {
-    const {id, name, text, rating} = action.payload
     const product = yield call(reviewApi.review, id, name, text, rating)
     yield put(sendReviewSeccess())
     yield put(getProductSuccess({product}))
-  } catch (error) {
-    const message = error.message
+  } catch ({message}) {
     yield put(sendReviewError({message}))
   }
 }
@@ -74,33 +63,28 @@ function* countriesReqWorker() {
   try {
     const countries = yield call(orderApi.getCountries)
     yield put(respCountriesSeccess({countries}))
-  } catch (error) {
-    let message = error.message
+  } catch ({message}) {
     yield put(reqCountriesError({message}))
   }
 }
 
-function* storeAddressReqWorker(action) {
+function* storeAddressReqWorker({payload: {city, country}}) {
   try {
-    const {city, country} = action.payload
     const storeAddress = yield call(orderApi.getStoreAddress, city, country)
     yield put(respStoreAddressSeccess({storeAddress}))
-  } catch (error) {
-    let message = error.message
+  } catch ({message}) {
     yield put(reqStoreAddressError({message}))
   }
 }
 
-function* postOrderWorker(action) {
+function* postOrderWorker({payload: {order}}) {
   try {    
-    const order = action.payload.order
-    const result = yield call(orderApi.postOrder, order)  
-    if(result.message === 'success') {
+    const {message} = yield call(orderApi.postOrder, order)  
+    if(message === 'success') {
       yield put(postOrderSuccess())
       yield put(resetCartGoods())
     }    
-  } catch (error) {
-    const message = error.message    
+  } catch ({message}) {      
     yield put(postOrderError({message}))
   }
 }

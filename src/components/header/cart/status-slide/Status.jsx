@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { cartSlides } from '../Cart'
+import { cartSlides } from '../constants'
 import Preloader from '../../../preloader/Preloader'
 
-function Status({ setSlide, closeCartModal }) {
-  const { orderSuccess, isLoading, orderError } = useSelector((state) => state.order)
+function Status({ setSlide, closeCartModal, setIsResetForm }) {
+  const { orderSuccess, isLoading } = useSelector((state) => state.order)
 
   return (
     <div className='status-slide'>
@@ -57,7 +57,10 @@ function Status({ setSlide, closeCartModal }) {
         <button
           type='button'
           className='light-btn'
-          onClick={() => {setSlide(cartSlides.items)}}
+          onClick={() => {
+            setIsResetForm(true)
+            setSlide(cartSlides.items)
+          }}
           disabled={isLoading}
         >
           VIEW CART

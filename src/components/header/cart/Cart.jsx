@@ -8,18 +8,14 @@ import Status from './status-slide/Status'
 import { setGoodsFromLocalStorage } from '../../../store/cartSlice'
 import { useDispatch } from 'react-redux'
 import './Cart.scss'
+import { cartSlides } from './constants'
 
-export const cartSlides = {
-  items: 'items',
-  delivery: 'delivery',
-  payment: 'payment',
-  status: 'status',
-}
 
-const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
+const Cart = ({ isAddOpenCart, closeCartModal, cartGoods }) => {
+  const [slide, setSlide] = useState(cartSlides.items)
+  const [isResetForm, setIsResetForm] = useState(false)
   const dispatch = useDispatch()
 
-  const [slide, setSlide] = useState(cartSlides.items)
   const totalPrice = cartGoods
     ?.reduce((acc, el) => acc + el.quantity * el.price, 0)
     .toFixed(2)
@@ -34,7 +30,7 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
   return (
     <>
       <div
-        className={cn('modal', { open: isOpenCart2 })}
+        className={cn('modal', { open: isAddOpenCart })}
         onClick={closeCartModal}
       >
         <div
@@ -83,15 +79,24 @@ const Cart = ({ isOpenCart2, closeCartModal, cartGoods }) => {
               closeCartModal={closeCartModal}
             />
 
-            <DeliveryInfo setSlide={setSlide} totalPrice={totalPrice} />
+            <DeliveryInfo
+              setSlide={setSlide}
+              totalPrice={totalPrice}
+              isResetForm={isResetForm}
+            />
 
             <Payment
               cartGoods={cartGoods}
               setSlide={setSlide}
               totalPrice={totalPrice}
+              isResetForm={isResetForm}
             />
 
-            <Status closeCartModal={closeCartModal} setSlide={setSlide} />
+            <Status
+              closeCartModal={closeCartModal}
+              setSlide={setSlide}
+              setIsResetForm={setIsResetForm}
+            />
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
-import { Field, useField } from 'formik'
 import React from 'react'
+import { Field, useField } from 'formik'
 import cn from 'classnames'
 import InputMask from 'react-input-mask'
 
-function MaskedInput({
+const MaskedInput = ({
   name,
   type,
   placeholder,
@@ -12,8 +12,9 @@ function MaskedInput({
   mask,
   formatChars,
   handleChange,
-}) {
-  const [field, meta] = useField(name)  
+}) => {
+  
+  const [field, {error, touched}] = useField(name)  
 
   const configInput = {
     id: name,
@@ -25,18 +26,16 @@ function MaskedInput({
     onChange: handleChange || field.onChange
   }
 
-  console.log(field)
-
   return (
     <div
       className={cn(`${className}`, {
-        error: meta.error && meta.touched,
+        error: error && touched,
       })}
     >
       {label && <label htmlFor={name}>{label}</label>}
 
       <InputMask {...configInput} />
-      {meta.error && meta.touched && <div className='error'>{meta.error}</div>}
+      {error && touched && <div className='error'>{error}</div>}
     </div>
   )
 }

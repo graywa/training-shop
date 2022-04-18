@@ -1,19 +1,17 @@
+import React, { useEffect, useRef, useState } from 'react'
 import { Formik } from 'formik'
-import React, { useState } from 'react'
-import { cartSlides } from '../Cart'
-import './DeliveryInfo.scss'
 import * as Yup from 'yup'
 import cn from 'classnames'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCountries, updOrder } from '../../../../store/orderSlice'
+import { deliveryValidationShema } from './deliveryValidationShema'
+import { cartSlides } from '../constants'
 import CartInput from '../cart-input/CartInput'
 import MaskedInput from '../masked-input/MaskedInput'
 import CartSelect from '../cart-select/CartSeletc'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  getCountries,
-  updOrder,
-} from '../../../../store/orderSlice'
 
-function DeliveryInfo({ setSlide, totalPrice }) {
+
+const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
   const [formatChars, setFormatChars] = useState({
     1: '[2-4]',
     2: '[3,4,5,9]',
@@ -22,6 +20,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
     '*': '[A-Za-z0-9]',
   })
   const dispatch = useDispatch()
+  const formRef = useRef()
 
   const {
     countries,
@@ -31,93 +30,57 @@ function DeliveryInfo({ setSlide, totalPrice }) {
     storeAddressError,
   } = useSelector((state) => state.order)
 
-  const validationForAddress = {
-    is: (method) => method !== 'Store pickup',
-    then: Yup.string().required('Поле должно быть заполнено'),
+  const initialValues = {
+    deliveryMethod: 'Pickup from post offices',
+    phone: '',
+    email: '',
+    country: '',
+    city: '',
+    street: '',
+    house: '',
+    apartment: '',
+    country2: '',
+    storeAddress: '',
+    postcode: '',
+    checkbox: false,
   }
 
-  const validationForStoreAddress = {
-    is: (method) => method === 'Store pickup',
-    then: Yup.string().required('Поле должно быть заполнено'),
+  useEffect(() => {
+    if (isResetForm) formRef.current.resetForm()
+  }, [isResetForm])
+
+  const onSubmit = (values) => {
+    const fields = { ...values }
+    if (values.country2) fields.country = values.country2
+    delete fields.country2
+    delete fields.checkbox
+
+    dispatch(updOrder({ fields }))
+    setSlide(cartSlides.payment)
   }
 
   return (
     <div className='delivery-info'>
       <Formik
+        innerRef={formRef}
         enableReinitialize
-        initialValues={{
-          deliveryMethod: 'Pickup from post offices',
-          phone: '',
-          email: '',
-          country: '',
-          city: '',
-          street: '',
-          house: '',
-          apartment: '',
-          country2: '',
-          storeAddress: '',
-          postcode: '',
-          checkbox: false,
-        }}
-        onSubmit={(values, props) => {
-          const fields = {...values}
-          if(values.country2) fields.country = values.country2
-          delete fields.country2
-          delete fields.checkbox    
-                
-          dispatch(updOrder({fields}))
-          setSlide(cartSlides.payment)
-        }}
-        validationSchema={Yup.object().shape({
-          phone: Yup.string()
-            .matches(/(.*\d.*){12}/, 'Введите полный номер')
-            .required('Поле должно быть заполнено'),
-          email: Yup.string()
-            .matches(
-              /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              'Некорректный email'
-            )
-            .required('Поле должно быть заполнено'),
-          country: Yup.string().when('deliveryMethod', validationForAddress),
-          city: Yup.string().when('deliveryMethod', validationForAddress),
-          street: Yup.string().when('deliveryMethod', validationForAddress),
-          house: Yup.string().when('deliveryMethod', validationForAddress),
-          apartment: Yup.number('Вводите цифры')
-            .typeError('Вводите цифры')
-            .max(999, 'Слишком длинный номер'),
-          postcode: Yup.string().when('deliveryMethod', {
-            is: (method) => method === 'Pickup from post offices',
-            then: Yup.string()
-              .matches(/(.*\d.*){6}/, 'Введите полный номер')
-              .required('Поле должно быть заполнено'),
-          }),
-          country2: Yup.string().when(
-            'deliveryMethod',
-            validationForStoreAddress
-          ),
-          storeAddress: Yup.string().when(
-            'deliveryMethod',
-            validationForStoreAddress
-          ),
-          checkbox: Yup.boolean()
-            .oneOf([true], 'Вы должны согласиться на обработку личной информации')
-            .required('Поле должно быть заполнено'),
-        })}
+        initialValues={initialValues}
+        onSubmit={(values) => onSubmit(values)}
+        validationSchema={Yup.object().shape(deliveryValidationShema)}
       >
-        {(props) => {
-          const {
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            isValid,
-          } = props
+        {({
+          values: { deliveryMethod, country2, checkbox },
+          touched,
+          errors,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          isValid,
+        }) => {
 
           const phoneChange = (e) => {
-            let value = e.target.value
+            const { value } = e.target
             handleChange(e)
 
             switch (value[7]) {
@@ -155,8 +118,8 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                       type='radio'
                       name='deliveryMethod'
                       value='Pickup from post offices'
+                      checked={deliveryMethod === 'Pickup from post offices'}
                       onChange={handleChange}
-                      defaultChecked
                     />
                     Pickup from post offices
                   </label>
@@ -166,6 +129,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                       name='deliveryMethod'
                       value='Express delivery'
                       onChange={handleChange}
+                      checked={deliveryMethod === 'Express delivery'}
                     />
                     Express delivery
                   </label>
@@ -175,6 +139,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                       name='deliveryMethod'
                       value='Store pickup'
                       onChange={storePickupChange}
+                      checked={deliveryMethod === 'Store pickup'}
                     />
                     Store pickup
                   </label>
@@ -192,7 +157,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
 
                 <CartInput name='email' label='E-MAIL' placeholder='e-mail' />
 
-                {values.deliveryMethod !== 'Store pickup' && (
+                {deliveryMethod !== 'Store pickup' && (
                   <>
                     <CartInput
                       name='country'
@@ -219,7 +184,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                   </>
                 )}
 
-                {values.deliveryMethod === 'Store pickup' && (
+                {deliveryMethod === 'Store pickup' && (
                   <>
                     <CartSelect
                       name='country2'
@@ -236,8 +201,8 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                       name='storeAddress'
                       placeholder='Store adress'
                       readOnly={false}
-                      disabled={!values.country2}
-                      country={values.country2}
+                      disabled={!country2}
+                      country={country2}
                       optionValues={storeAddress}
                       isLoading={isLoading}
                       errorMsg={storeAddressError}
@@ -246,7 +211,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                   </>
                 )}
 
-                {values.deliveryMethod === 'Pickup from post offices' && (
+                {deliveryMethod === 'Pickup from post offices' && (
                   <MaskedInput
                     name='postcode'
                     type='text'
@@ -267,7 +232,8 @@ function DeliveryInfo({ setSlide, totalPrice }) {
                     type='checkbox'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    checked={values.checkbox}
+                    checked={checkbox}
+                    className='checkbox'
                   />
                   <label htmlFor='checkbox'>
                     I agree to the processing of my personal information
@@ -280,9 +246,7 @@ function DeliveryInfo({ setSlide, totalPrice }) {
 
               <div className='cart__total'>
                 Total:
-                <span>
-                  ${totalPrice}
-                </span>
+                <span>${totalPrice}</span>
               </div>
               <button
                 className='dark-btn'

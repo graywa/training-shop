@@ -1,7 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import {Swiper, SwiperSlide} from 'swiper/react'
+import { Navigation} from 'swiper'
 import CategoryIntro from '../../components/category-intro/CategoryIntro'
-import './ProductPage.scss'
+import Card from '../../components/goods/card/Card'
+import Rating from '../../components/rating/Rating'
+import { addGoods, removeGoods } from '../../store/cartSlice'
+import { getGoodsByCategory, getProduct } from '../../store/goodsSlice'
+import Preloader from '../../components/preloader/Preloader'
+import ThumbsSlider from '../../components/thumbs-slider/ThumbsSlider'
+import Error from '../../components/error/Error'
+import ReviewModal from './review-modal/ReviewModal'
 import arrPrev from './assets/arr-prev.svg'
 import arrNext from './assets/arr-next.svg'
 import hanger from './assets/hanger.svg'
@@ -18,19 +28,9 @@ import mastercard from './assets/mastercard.svg'
 import discover  from './assets/discover.svg'
 import americanexpress  from './assets/american-express.svg'
 import message from './assets/message.svg'
-import Card from '../../components/goods/card/Card'
-import {Swiper, SwiperSlide} from 'swiper/react'
-import { Navigation} from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import Rating from '../../components/rating/Rating'
-import { useDispatch, useSelector } from 'react-redux'
-import { addGoods, removeGoods } from '../../store/cartSlice'
-import { getGoodsByCategory, getProduct } from '../../store/goodsSlice'
-import Preloader from '../../components/preloader/Preloader'
-import ThumbsSlider from '../../components/thumbs-slider/ThumbsSlider'
-import Error from '../../components/error/Error'
-import ReviewModal from './review-modal/ReviewModal'
+import './ProductPage.scss'
 
 const ProductPage = ({category}) => {  
   const {id} = useParams()  
@@ -119,8 +119,14 @@ const ProductPage = ({category}) => {
   }
 
   const removeGoodsFromCart = (id, size, color) => {
+    const newCartGoods = cartGoods.filter((el) => (
+        el.id !== id ||
+        el.size !== size ||
+        el.color !== color
+      )
+    )
     setGoodsInCart(false)
-    dispatch(removeGoods({id, size, color}))
+    dispatch(removeGoods({newCartGoods}))
   }
 
   return (

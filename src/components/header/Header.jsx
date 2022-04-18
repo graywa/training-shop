@@ -19,7 +19,7 @@ const Header = () => {
   const {pathname} = useLocation()
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const [isOpenCart, setIsOpenCart] = useState(false)  
-  const [isOpenCart2, setIsOpenCart2] = useState(false)
+  const [isAddOpenCart, setIsAddOpenCart] = useState(false)
 
   let cartGoods = useSelector(state => state.cart.cartGoods)
 
@@ -32,12 +32,12 @@ const Header = () => {
   const openCartModal = () => {
     setIsOpenCart(true)
     setTimeout(() => {
-      setIsOpenCart2(true)
+      setIsAddOpenCart(true)
     },0)
   }
 
   const closeCartModal = () => {
-    setIsOpenCart2(false)
+    setIsAddOpenCart(false)
     setTimeout(() => {
       setIsOpenCart(false)
     },200)
@@ -129,7 +129,7 @@ const Header = () => {
 
               {isOpenCart && (
                 <Cart 
-                  isOpenCart2={isOpenCart2}
+                  isAddOpenCart={isAddOpenCart}
                   closeCartModal={closeCartModal}
                   cartGoods={cartGoods} 
                 />

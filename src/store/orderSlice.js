@@ -16,41 +16,41 @@ const orderSlice = createSlice({
     storeAddressError: '',
   },
   reducers: {
-    getCountries(state, action) {
+    getCountries(state) {
       state.isLoading = 'countries'
     },
-    getStoreAddress(state, action) {
+    getStoreAddress(state) {
       state.isLoading = 'storeAddress'
     },
-    respCountriesSeccess(state, action) {
-      state.countries = action.payload.countries
+    respCountriesSeccess(state, {payload: {countries}}) {
+      state.countries = countries
       state.isLoading = false
       state.countriesError = ''
     },
-    respStoreAddressSeccess(state, action) {
-      state.storeAddress = action.payload.storeAddress
+    respStoreAddressSeccess(state, {payload: {storeAddress}}) {
+      state.storeAddress = storeAddress
       state.isLoading = false
       state.storeAddressError = ''
     },
-    resetStoreAddress(state, action) {
+    resetStoreAddress(state) {
       state.storeAddress = []
     },
-    reqCountriesError(state, action) {
+    reqCountriesError(state, {payload: {message}}) {
       state.isLoading = false
-      state.countriesError = action.payload.message
+      state.countriesError = message
     },
-    reqStoreAddressError(state, action) {
+    reqStoreAddressError(state, {payload: {message}}) {
       state.isLoading = false
-      state.storeAddressError = action.payload.message
+      state.storeAddressError = message
     },
-    updOrder(state, action) {
-      state.order = {...state.order,...action.payload.fields}
+    updOrder(state, {payload: {fields}}) {
+      state.order = {...state.order,...fields}
     },
-    startPostOrder(state, action) {
+    startPostOrder(state) {
       state.isLoading = 'order'   
       state.orderSuccess = false   
     },
-    postOrderSuccess(state, action) {
+    postOrderSuccess(state) {
       state.order = { 
         products: [] 
       }
@@ -58,10 +58,10 @@ const orderSlice = createSlice({
       state.orderSuccess = true
       state.orderError = ''
     },
-    postOrderError(state, action) {
+    postOrderError(state, {payload: {message}}) {
       state.orderSuccess = false
       state.isLoading = false
-      state.orderError = action.payload.message
+      state.orderError = message
     }
   },
 })

@@ -18,29 +18,16 @@ const cartSlice = createSlice({
         quantity: 1,
       })
     },
-    removeGoods(state, action) {
-      state.cartGoods = state.cartGoods.filter((el) => {
-        return (
-          el.id !== action.payload.id ||
-          el.size !== action.payload.size ||
-          el.color !== action.payload.color
-        )
-      })
+    removeGoods(state, {payload: {newCartGoods}}) {
+      state.cartGoods = newCartGoods
     },
-    changeQuantityGoods(state, action) {
-      const targetGoods = state.cartGoods.find((el) => {
-        return (
-          el.id === action.payload.id &&
-          el.size === action.payload.size &&
-          el.color === action.payload.color
-        )
-      })
-      targetGoods.quantity = action.payload.quantity
+    changeQuantityGoods(state, {payload: {newCartGoods}}) {
+      state.cartGoods = newCartGoods
     },
-    setGoodsFromLocalStorage(state, action) {
-      state.cartGoods = action.payload.cartGoodsLocal
+    setGoodsFromLocalStorage(state, {payload: {cartGoodsLocal}}) {
+      state.cartGoods = cartGoodsLocal
     },
-    resetCartGoods(state, action) {
+    resetCartGoods(state) {
       state.cartGoods = []
     },
   },
