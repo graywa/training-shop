@@ -26,8 +26,6 @@ const Payment = ({
     9: '[0-9]',
   })
 
-  console.log(isResetForm)
-
   const initialValues = {
     paymentMethod: 'Visa',
     cashEmail: '',

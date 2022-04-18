@@ -96,6 +96,8 @@ const CartSelect = ({
             readOnly={readOnly}
             disabled={disabled}
             autoComplete='off'
+            tabIndex={0}
+            role="button"
           />
 
           {isLoading === 'storeAddress' && name === isLoading && (
@@ -120,14 +122,24 @@ const CartSelect = ({
                   name || city.toLowerCase().includes(value.toLowerCase())
               )
               .map(({ id, name, city }) => (
-                <input
-                  className='dd-list__item'
-                  key={id}
-                  type='text'
-                  value={name || city}
-                  onClick={() => changeOption(name || city)}
-                  readOnly
-                />
+                <label key={id} className='dd-list__item'>
+                  <input
+                    type='radio'
+                    value={name || city}
+                    onClick={() => changeOption(name || city)}
+                    className='dd-list__radio'
+                  />
+                  {name || city}
+                </label>
+                
+                // <input
+                //   className='dd-list__item'
+                //   key={id}
+                //   type='text'
+                //   value={name || city}
+                //   
+                //   readOnly
+                // />
               ))}
           {name === selectNames.storeAddress &&
             !optionValues.length &&

@@ -11,7 +11,7 @@ import MaskedInput from '../masked-input/MaskedInput'
 import CartSelect from '../cart-select/CartSeletc'
 
 
-const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
+const DeliveryInfo = ({ setSlide, totalPrice, isResetForm, setIsResetForm }) => {
   const [formatChars, setFormatChars] = useState({
     1: '[2-4]',
     2: '[3,4,5,9]',
@@ -21,8 +21,6 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
   })
   const dispatch = useDispatch()
   const formRef = useRef()
-
-  console.log(isResetForm)
 
   const {
     countries,
@@ -48,7 +46,10 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
   }
 
   useEffect(() => {
-    if (isResetForm) formRef.current.resetForm()
+    if (isResetForm) {
+      formRef.current.resetForm()
+      setIsResetForm(false)
+    }
   }, [isResetForm])
 
   const onSubmit = (values) => {
@@ -156,7 +157,7 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
                   formatChars={formatChars}
                   handleChange={phoneChange}
                 />
-
+                
                 <CartInput name='email' label='E-MAIL' placeholder='e-mail' />
 
                 {deliveryMethod !== 'Store pickup' && (

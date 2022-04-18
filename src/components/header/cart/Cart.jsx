@@ -83,6 +83,7 @@ const Cart = ({ isAddOpenCart, closeCartModal, cartGoods }) => {
               setSlide={setSlide}
               totalPrice={totalPrice}
               isResetForm={isResetForm}
+              setIsResetForm={setIsResetForm}
             />
 
             <Payment
