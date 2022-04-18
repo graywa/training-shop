@@ -61,15 +61,14 @@
     top: 50px;
     z-index: 10;
     width: 100%;
+    max-height: 0;
     background-color: white;    
     overflow-y: hidden;
-    visibility: hidden;
     transition: .1s linear;
 
     &.open {
       z-index: 15;
       overflow-y: auto;
-      visibility: visible;
       max-height: 196px;
       box-shadow: 1px 1px 6px 1px rgb(0 0 0 / 15%);
     }

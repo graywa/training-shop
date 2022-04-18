@@ -22,6 +22,8 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm }) => {
   const dispatch = useDispatch()
   const formRef = useRef()
 
+  console.log(isResetForm)
+
   const {
     countries,
     storeAddress,

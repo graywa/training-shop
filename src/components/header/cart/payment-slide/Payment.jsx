@@ -12,14 +12,21 @@ import Visa from '../../../../pages/product-page/assets/visa.svg'
 import MasterCard from '../../../../pages/product-page/assets/mastercard.svg'
 import eye from './assets/eye.svg'
 
-
-const Payment = ({ cartGoods, setSlide, totalPrice, isResetForm }) => {
+const Payment = ({
+  cartGoods,
+  setSlide,
+  totalPrice,
+  isResetForm,
+  setIsResetForm,
+}) => {
   const [formatChars, setFormatChars] = useState({
     1: '[0-1]',
     2: '[0-9]',
     3: '[2]',
     9: '[0-9]',
   })
+
+  console.log(isResetForm)
 
   const initialValues = {
     paymentMethod: 'Visa',
@@ -35,7 +42,10 @@ const Payment = ({ cartGoods, setSlide, totalPrice, isResetForm }) => {
   let { order } = useSelector((state) => state.order)
 
   useEffect(() => {
-    if (isResetForm) formRef.current.resetForm()
+    if (isResetForm) {
+      formRef.current.resetForm()
+      setIsResetForm(false)
+    }
   }, [isResetForm])
 
   const onSubmit = (values) => {
@@ -76,7 +86,6 @@ const Payment = ({ cartGoods, setSlide, totalPrice, isResetForm }) => {
         validationSchema={Yup.object().shape(paymentValidationShema)}
       >
         {({ values: { paymentMethod }, handleChange, handleSubmit }) => {
-
           const cardDateChange = (e) => {
             handleChange(e)
             const { value } = e.target
