@@ -7,18 +7,10 @@ const cartSlice = createSlice({
     cartGoods: [],
   },
   reducers: {
-    addGoods(state, action) {
-      state.cartGoods.push({
-        id: action.payload.id,
-        name: action.payload.name,
-        size: action.payload.size,
-        color: action.payload.color,
-        photo: action.payload.photo,
-        price: action.payload.price,
-        quantity: 1,
-      })
+    addGoods(state, {payload: {oneGoods}}) {
+      state.cartGoods.push(oneGoods)
     },
-    removeGoods(state, {payload: {newCartGoods}}) {
+    updateCartGoods(state, {payload: {newCartGoods}}) {
       state.cartGoods = newCartGoods
     },
     changeQuantityGoods(state, {payload: {newCartGoods}}) {
@@ -35,8 +27,7 @@ const cartSlice = createSlice({
 
 export const {
   addGoods,
-  removeGoods,
-  changeQuantityGoods,
+  updateCartGoods,
   setGoodsFromLocalStorage,
   resetCartGoods,
 } = cartSlice.actions

@@ -1,27 +1,36 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { changeQuantityGoods, removeGoods } from '../../../../store/cartSlice'
+import {  updateCartGoods } from '../../../../store/cartSlice'
+import { removeItemFromArray } from '../../../../helpers.js/helpers'
 import { cartSlides } from '../constants'
 import minus from '../../assets/minus.svg'
 import plus from '../../assets/plus.svg'
 import bin from '../../assets/bin.svg'
 import './CartItems.scss'
 
+
 const CartItems = ({ cartGoods, setSlide, totalPrice, closeCartModal }) => {
   const dispatch = useDispatch()
 
   const changeQuantityHandler = (quantity, id, color, size) => {
-    let newCartGoods = cartGoods.filter(
-      (el) => el.id !== id || el.size !== size || el.color !== color
-    )
+    const newCartGoods = [...cartGoods]
 
-    const target = cartGoods.find(
+    const index = newCartGoods.findIndex(
       (el) => el.id === id && el.size === size && el.color === color
     )
+    const target = {...newCartGoods.find(
+      (el) => el.id === id && el.size === size && el.color === color
+    )}
 
-    newCartGoods.push({ ...target, quantity })
-    
-    if (quantity >= 1) dispatch(changeQuantityGoods({ newCartGoods }))
+    target.quantity = quantity
+    newCartGoods[index] = target
+
+    if (quantity >= 1) dispatch(updateCartGoods({ newCartGoods }))
+  }
+
+  const removeItemFromCart = (cartGoods, id, size, color) => {
+    const newCartGoods = removeItemFromArray(cartGoods, id, size, color)
+    dispatch(updateCartGoods({ newCartGoods }))
   }
 
   return (
@@ -69,7 +78,7 @@ const CartItems = ({ cartGoods, setSlide, totalPrice, closeCartModal }) => {
                   </div>
                   <div
                     className='cart__bin'
-                    onClick={() => dispatch(removeGoods({ id, color, size }))}
+                    onClick={() => removeItemFromCart(cartGoods, id, size, color)}
                     data-test-id='remove-product'
                   >
                     <img src={bin} alt='bin' />

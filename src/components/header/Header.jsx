@@ -119,7 +119,7 @@ const Header = () => {
                         data-test-id='cart-button'
                   >
                     <img  width={24} src={cart} alt="cart" />
-                    {cartGoods.length
+                    {cartGoods?.length
                       ? <span className='cart-quantity'>{cartGoods.length}</span>
                       : ''
                     }

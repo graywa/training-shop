@@ -80,10 +80,9 @@ function* storeAddressReqWorker({payload: {city, country}}) {
 function* postOrderWorker({payload: {order}}) {
   try {    
     const {message} = yield call(orderApi.postOrder, order)  
-    if(message === 'success') {
-      yield put(postOrderSuccess())
-      yield put(resetCartGoods())
-    }    
+    yield put(postOrderSuccess())
+    yield put(resetCartGoods())
+     
   } catch ({message}) {      
     yield put(postOrderError({message}))
   }
