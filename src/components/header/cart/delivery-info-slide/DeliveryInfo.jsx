@@ -100,7 +100,7 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm, setIsResetForm }) => 
             }
           }
 
-          const storePickupChange = (e) => {
+          const changeStorePickup = (e) => {
             handleChange(e)
             if (!countries.length) dispatch(getCountries())
           }
@@ -141,7 +141,7 @@ const DeliveryInfo = ({ setSlide, totalPrice, isResetForm, setIsResetForm }) => 
                       type='radio'
                       name='deliveryMethod'
                       value='Store pickup'
-                      onChange={storePickupChange}
+                      onChange={changeStorePickup}
                       checked={deliveryMethod === 'Store pickup'}
                     />
                     Store pickup

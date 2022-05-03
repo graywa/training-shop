@@ -12,10 +12,7 @@ const cartSlice = createSlice({
     },
     updateCartGoods(state, {payload: {newCartGoods}}) {
       state.cartGoods = newCartGoods
-    },
-    changeQuantityGoods(state, {payload: {newCartGoods}}) {
-      state.cartGoods = newCartGoods
-    },
+    },    
     setGoodsFromLocalStorage(state, {payload: {cartGoodsLocal}}) {
       state.cartGoods = cartGoodsLocal
     },
