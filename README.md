@@ -1,6 +1,6 @@
 # Online shop
 
-![bandicam 2022-06-06 14-36-56-495](https://user-images.githubusercontent.com/74241140/172153477-bfe2607e-cc6e-4dba-9b6a-d87f3f5208a4.jpg)
+![bandicam 2022-06-06 14-41-52-759](https://user-images.githubusercontent.com/74241140/172154173-9bd406b0-0f58-41f9-bff5-315daf5ce8d2.jpg)
 
 ## Demo
 
